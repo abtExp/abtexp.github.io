@@ -73,7 +73,7 @@ body {
     margin: 5px;
     padding: 15px;
     border-radius: 10px;
-    width: 100%;
+    width: 200px;
     background-color: #fff;
 }
 
@@ -94,12 +94,11 @@ body {
 
 a {
     text-decoration: none;
-    color: #333 !important;
 }
 
-.clickable_neon_glow_card {
-    width: 20%;
-    margin: 5px;
+.clickable_neon_glow_card a {
+    width: 25%;
+    color: #333 !important;
 }
 
 .clickable_neon_glow_card a:hover {
@@ -117,19 +116,14 @@ a {
     box-shadow: 0px 0px 100px 0px rgb(141, 241, 154);
 }
 
-#blogs:hover {
+#publications:hover {
     background-color: rgb(94, 137, 255);
     box-shadow: 0px 0px 100px 0px rgb(141, 154, 241);
 }
 
-#research:hover {
-    background-color: rgb(250, 232, 70);
-    box-shadow: 0px 0px 100px 0px rgb(241, 239, 141);
-}
-
 #contact:hover {
-    background-color: rgb(255, 158, 94);
-    box-shadow: 0px 0px 100px 0px rgb(241, 181, 141);
+    background-color: rgb(244, 255, 94);
+    box-shadow: 0px 0px 100px 0px rgb(241, 239, 141);
 }
 
 #heading {
