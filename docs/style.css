@@ -21,9 +21,9 @@ body {
     justify-content: center;
     flex-direction: column;
     border-radius: 0px 0px 10px 10px;
+    background-color: rgba(0, 0, 0, 0.2);
     width: 60%;
-    background-color: #fff;
-    box-shadow: 0px 0px 200px 0px #fff;
+    box-shadow: 0px 0px 400px 0px rgba(255, 255, 255, 0.479);
 }
 
 .sub_banner {
@@ -74,7 +74,7 @@ body {
     padding: 15px;
     border-radius: 10px;
     width: 100%;
-    background-color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 .section_img {
@@ -94,7 +94,7 @@ body {
 
 a {
     text-decoration: none;
-    color: #333 !important;
+    color: #fff !important;
 }
 
 .clickable_neon_glow_card {
@@ -133,12 +133,14 @@ a {
 }
 
 #heading {
-    color: #333;
+    color: #fff;
+    text-shadow: 0px 0px 5px #fff !important;
 }
 
 #tagline {
-    color: #333;
+    color: #fff;
     margin: 15px;
+    text-shadow: 0px 0px 5px #fff !important;
 }
 
 #content {
