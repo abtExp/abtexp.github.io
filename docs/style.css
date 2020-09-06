@@ -12,6 +12,7 @@ body {
     padding: 0px;
     margin: 0px;
     text-shadow: 0px 0px 5px #333;
+    font-family: sans-serif;
 }
 
 #banner {
@@ -45,7 +46,7 @@ body {
     width: 210px;
     height: 210px;
     border-radius: 200px;
-    box-shadow: 0px 0px 5px 0px #888;
+    box-shadow: 0px 0px 5px 0px rgb(0, 0, 0);
     padding: 5px;
     background-color: #fff;
 }
@@ -69,7 +70,7 @@ body {
 .section {
     flex: 1;
     font-weight: bold;
-    box-shadow: 0px 0px 5px 0px #aaa;
+    box-shadow: 0px 0px 5px 0px rgb(27, 24, 24);
     margin: 5px;
     padding: 15px;
     border-radius: 10px;
