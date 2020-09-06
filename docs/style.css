@@ -147,3 +147,19 @@ a {
     display: flex;
     flex-direction: column;
 }
+
+@media (max-width:700px) {
+    body {
+        background-repeat: repeat;
+    }
+    #banner {
+        width: 100%;
+    }
+    #sections {
+        flex-direction: column;
+    }
+    .clickable_neon_glow_card {
+        width: 60%;
+        margin: 10px auto;
+    }
+}
