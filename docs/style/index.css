@@ -1,0 +1,565 @@
+@font-face {
+    font-family: glacial-indifference;
+    src: url(../resources/fonts/glacial-indifference/glacial-indifference-regular.otf);
+}
+
+@font-face {
+    font-family: great-vibes;
+    src: url(../resources/fonts/great-vibes/great-vibes.ttf);
+}
+
+@font-face {
+    font-family: poppins;
+    src: url(../resources/fonts/poppins/poppins.ttf);
+}
+
+@font-face {
+    font-family: american-signature;
+    src: url(../resources/fonts/american-signature/american-signature.ttf);
+}
+
+body {
+    font-family: poppins;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    height: 100%;
+    background: #eee;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.floating {
+    animation-name: floating;
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+.neon {
+    transition: 0.1s;
+    text-shadow: 0px 0px 5px rgb(255, 255, 255, 0.5);
+}
+
+@keyframes floating {
+    0% {
+        transform: translate(0, 0px);
+    }
+    50% {
+        transform: translate(0, 5px);
+    }
+    100% {
+        transform: translate(0, -0px);
+    }
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.material-symbols-rounded {
+    font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 200, 'opsz' 40;
+    margin: auto 0px;
+}
+
+.click-button {
+    max-width: 400px;
+    text-align: center;
+    border-radius: 200px;
+    padding: 5px;
+}
+
+.text-icon-pair {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+    padding: 5px;
+}
+
+.text-icon-pair-text {
+    flex: 1;
+}
+
+.text-icon-pair-icon {
+    flex: 1;
+}
+
+.horizontal-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: auto;
+}
+
+.horizontal-list-item {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+}
+
+.section {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    padding-top: 10px;
+    padding-bottom: 50px;
+}
+
+.subsection {
+    flex: 1;
+}
+
+.small-icon {
+    border-radius: 10px;
+    max-width: 50px;
+    background: rgba(57, 252, 155, 0.1);
+    border-top: 1px solid rgb(255, 255, 255, 0.5);
+    border-bottom: 1px solid rgb(255, 255, 255, 0.5);
+    font-size: 2em;
+    color: #eee;
+    transform: translateY(4px);
+    transition: 0.25s;
+}
+
+.small-icon:hover {
+    background: rgb(57, 252, 155, 0.2);
+    box-shadow: 0px 0px 10px rgb(57, 252, 155, 0.4);
+    transform: translateY(-10px);
+    transition-duration: 0.25s;
+}
+
+#container {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
+#contact-click-button-icon {
+    transform: translate(1px, -4px) rotate(-30deg);
+    color: rgb(241, 255, 246);
+    margin-right: 5px;
+}
+
+#contact-click-button {
+    transition: all 0.4s ease-in-out;
+    cursor: pointer;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    width: 120px;
+    font-size: 1.2em;
+    margin-top: 10%;
+    padding: 0px 0px 0px 20px;
+    background-image: linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673);
+    transition: all .4s ease-in-out;
+    background-size: 300% 100%;
+    box-shadow: 0 0 10px rgba(49, 196, 190, 0.75);
+}
+
+#contact-click-button:hover {
+    background-position: 100% 0;
+    transition: all .4s ease-in-out;
+    box-shadow: 0 4px 15px 0 rgba(49, 196, 190, 0.75);
+}
+
+#contact-click-button:focus {
+    outline: none;
+}
+
+#contact-click-button-text {
+    cursor: pointer;
+}
+
+#navigation {
+    position: fixed;
+    top: 0px;
+    padding: 10px 0px;
+    right: 0px;
+    width: 60%;
+    z-index: 100000;
+    background: none !important;
+}
+
+#link-icons {
+    position: relative;
+    bottom: 50px;
+    width: 85%;
+}
+
+#banner {
+    flex: 1;
+    transition: 0.1s;
+    height: 100%;
+    background: url(../resources/images/banner_img.jpg) no-repeat;
+    background-size: cover;
+    filter: brightness(100%) sepia(1) hue-rotate(132deg) saturate(103.2%) brightness(91.2%);
+    max-width: 40%;
+}
+
+#banner:hover {
+    transition: 0.1s;
+    filter: brightness(100%) sepia(1) hue-rotate(132deg) saturate(103.2%) brightness(100%) drop-shadow(20px -30px 30px rgb(57, 252, 155, 0.3));
+}
+
+#banner .content {
+    flex: 1;
+}
+
+#home-splash-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+}
+
+#home-splash {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin: auto;
+}
+
+#blob {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: auto;
+    fill: none;
+    width: 70%;
+    z-index: -1;
+    padding: 50px;
+    transform: translate(0px, -20%);
+    display: block;
+    overflow: hidden;
+    border-radius: 48% 52% 68% 32% / 42% 28% 72% 58%;
+    /* background: linear-gradient(to right, #19a383, #23d591, #3ce7a5, #52eea3, hsl(137, 100%, 84%)); */
+    animation: blobber 30s 0s linear infinite, cobler 30s 0s linear infinite alternate;
+    box-shadow: 2px 2px 40px rgb(152, 255, 253);
+}
+
+#blob:after {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    bottom: 5px;
+    left: 5px;
+    padding: 0px;
+    background-color: #bcffe414;
+    background-image: url(../resources/images/lotus_pose.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    mix-blend-mode: luminosity;
+    animation: blobber 30s 0s ease-in-out infinite, wobbler 15s 0s linear infinite alternate;
+}
+
+#blob:hover {
+    box-shadow: 10px 10px 100px rgb(100, 227, 255);
+}
+
+@keyframes blobber {
+    0% {
+        border-radius: 48% 52% 68% 32% / 42% 28% 72% 58%;
+    }
+    5% {
+        border-radius: 48% 52% 41% 59% / 66% 37% 63% 34%;
+    }
+    10% {
+        border-radius: 69% 31% 71% 29% / 67% 31% 69% 33%;
+    }
+    15% {
+        border-radius: 60% 40% 71% 29% / 63% 65% 35% 37%;
+    }
+    20% {
+        border-radius: 61% 39% 51% 49% / 57% 58% 42% 43%;
+    }
+    25% {
+        border-radius: 66% 34% 25% 75% / 47% 30% 70% 53%;
+    }
+    30% {
+        border-radius: 32% 68% 38% 62% / 65% 60% 40% 35%;
+    }
+    35% {
+        border-radius: 63% 37% 41% 59% / 35% 38% 62% 65%;
+    }
+    40% {
+        border-radius: 57% 43% 49% 51% / 55% 71% 29% 45%;
+    }
+    45% {
+        border-radius: 47% 53% 34% 66% / 65% 36% 64% 35%;
+    }
+    50% {
+        border-radius: 44% 56% 32% 68% / 69% 26% 74% 31%;
+    }
+    55% {
+        border-radius: 28% 72% 37% 63% / 71% 44% 56% 29%;
+    }
+    60% {
+        border-radius: 38% 62% 35% 65% / 74% 53% 47% 26%;
+    }
+    65% {
+        border-radius: 73% 27% 46% 54% / 54% 47% 53% 46%;
+    }
+    70% {
+        border-radius: 75% 25% 47% 53% / 49% 53% 47% 51%;
+    }
+    75% {
+        border-radius: 62% 38% 43% 57% / 55% 60% 40% 45%;
+    }
+    80% {
+        border-radius: 41% 59% 65% 35% / 73% 50% 50% 27%;
+    }
+    85% {
+        border-radius: 55% 45% 57% 43% / 73% 61% 39% 27%;
+    }
+    90% {
+        border-radius: 74% 26% 33% 67% / 40% 65% 35% 60%;
+    }
+    95% {
+        border-radius: 58% 42% 57% 43% / 53% 45% 55% 47%;
+    }
+    100% {
+        border-radius: 48% 52% 68% 32% / 42% 28% 72% 58%;
+    }
+}
+
+@keyframes cobler {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+@keyframes wobbler {
+    0% {
+        transform: rotateZ(8deg);
+    }
+    100% {
+        transform: rotateZ(-8deg);
+    }
+}
+
+#main-splash-hi {
+    max-width: 50%;
+    margin: auto;
+}
+
+#main-splash {
+    max-width: 60%;
+    opacity: 0;
+}
+
+#name-banner {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+#signature {
+    font-family: american-signature;
+    font-size: 22vh;
+    flex: 1;
+    margin-top: 50%;
+    color: #eee;
+}
+
+#designation {
+    flex: 1;
+    font-family: poppins;
+    margin-bottom: 30%;
+    font-weight: bold;
+    font-size: 30px;
+    color: #eee;
+}
+
+.nav-link {
+    font-weight: bold;
+}
+
+.nav-link:hover {
+    text-shadow: 0px 0px 2px rgb(144, 199, 162);
+    cursor:pointer;
+    color: rgb(52, 147, 82);
+}
+
+.nav-icon {
+    width: 20px;
+}
+
+#filter {
+    position: absolute;
+    z-index: -1000;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 65%;
+}
+
+.active {
+    color: rgb(144, 199, 162);
+}
+
+.social-link {
+    text-decoration: none;
+    color: white;
+}
+
+#home {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0px !important;
+}
+
+#theme-button {
+    background: none !important;
+}
+
+#theme-icon {
+    background: none !important;
+}
+
+.light-theme {
+    background-color: #eee;
+    color: #000;
+}
+
+.dark-theme {
+    background-color: #0c001dad;
+    color: #eee;
+}
+
+#scroll-button {
+    position: fixed;
+    bottom: 10px;
+    left: 50%;
+    margin: auto;
+    max-width: 50px;
+    z-index: 10000;
+    border-radius: 200px;
+    border: 2px solid rgb(158, 216, 177);
+    padding: 5px;
+}
+
+#scroll-arrow {
+    color: rgb(158, 216, 177);
+}
+
+.page-content-container {
+    display: flex;
+    flex-direction: row;
+    padding: 0px;
+}
+
+.page-title {
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 40%;
+    font-family: poppins;
+    font-weight: bold;
+}
+
+
+@media screen and (max-width: 1200px) {
+    #navigation {
+        width: 80%;
+    }
+
+    #banner {
+        max-width: 100%;
+    }
+
+    #home {
+        flex-direction: column;
+    }
+
+    #signature {
+        font-size: 16vh;
+    }
+
+    #designation {
+        font-size: 24px;
+    }
+
+    .page-content-container {
+        flex-direction: column;
+    }
+
+    .page-title {
+        max-width: 80%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #navigation {
+        width: 100%;
+        background: rgba(238, 238, 238, 0.9) !important;
+    }
+
+    .nav-link {
+        font-size: 0.9em;
+    }
+
+    #signature {
+        font-size: 12vh;
+    }
+
+    #designation {
+        font-size: 20px;
+    }
+
+    #main-splash-hi {
+        max-width: 80%;
+    }
+
+    #link-icons {
+        width: 100%;
+    }
+
+    .small-icon {
+        max-width: 40px;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    #navigation {
+        flex-wrap: wrap;
+    }
+
+    .nav-link {
+        font-size: 0.8em;
+    }
+
+    #signature {
+        font-size: 8vh;
+    }
+
+    #designation {
+        font-size: 16px;
+    }
+}
+
+/* Add these styles at the end of your existing index.css file */
