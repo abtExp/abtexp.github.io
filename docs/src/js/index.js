@@ -161,3 +161,107 @@ window.onload = () => {
     attachCheckFocusListener();
     attachToggleNeonListener();
 }
+
+// Smooth scroll function
+function smoothScroll(targetId) {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+
+    const targetPosition = target.offsetTop;
+    const startPosition = window.pageYOffset;
+    const distance = targetPosition - startPosition;
+    const duration = 1000;
+    let start = null;
+
+    function animation(currentTime) {
+        if (start === null) start = currentTime;
+        const timeElapsed = currentTime - start;
+        const progress = Math.min(timeElapsed / duration, 1);
+
+        // Easing function for smooth animation
+        const easeInOutQuad = progress => {
+            return progress < 0.5
+                ? 2 * progress * progress
+                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        };
+
+        window.scrollTo(0, startPosition + (distance * easeInOutQuad(progress)));
+
+        if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+        }
+    }
+
+    requestAnimationFrame(animation);
+}
+
+// Update navigation active state based on scroll position
+function updateActiveNavLink() {
+    const sections = document.querySelectorAll('.section');
+    const navButtons = document.querySelectorAll('.nav-button');
+
+    sections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        const isInView = (rect.top <= 150) && (rect.bottom >= 150);
+
+        if (isInView) {
+            // Remove active class from all buttons
+            navButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to corresponding button
+            navButtons[index].classList.add('active');
+        }
+    });
+}
+
+// Initialize navigation
+function initNavigation() {
+    const navButtons = document.querySelectorAll('.nav-button');
+
+    navButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = button.getAttribute('data-target');
+            smoothScroll(targetId);
+        });
+    });
+
+    // Update active state on scroll
+    window.addEventListener('scroll', updateActiveNavLink);
+    
+    // Initial update of active state
+    updateActiveNavLink();
+}
+
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', initNavigation);
+
+// Contact form handling
+document.addEventListener('DOMContentLoaded', function() {
+    const contactForm = document.getElementById('contactForm');
+    
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(contactForm);
+            const formDataObj = Object.fromEntries(formData.entries());
+            
+            // Here you would typically send the data to your backend
+            // For now, we'll just log it and show a success message
+            console.log('Form submitted:', formDataObj);
+            
+            // Add animation class to button
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Sent!';
+            submitBtn.style.background = 'linear-gradient(45deg, #00c853, #64dd17)';
+            
+            // Reset the form and button after 2 seconds
+            setTimeout(() => {
+                contactForm.reset();
+                submitBtn.innerHTML = 'Send Message <i class="fa-solid fa-paper-plane"></i>';
+                submitBtn.style.background = 'linear-gradient(45deg, rgb(57, 252, 155), rgb(151, 227, 255))';
+            }, 2000);
+        });
+    }
+});

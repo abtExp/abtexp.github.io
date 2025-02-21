@@ -9,6 +9,10 @@
         <link rel="stylesheet" type="text/css" href="./style/index.css">
         <link rel="stylesheet" type="text/css" href="./style/skill.css">
         <link rel="stylesheet" type="text/css" href="./style/about.css">
+        <link rel="stylesheet" type="text/css" href="./style/navigation.css">
+        <link rel="stylesheet" type="text/css" href="./style/experience.css">
+        <link rel="stylesheet" type="text/css" href="./style/contact.css">
+        <link rel="stylesheet" type="text/css" href="./style/portfolio.css">
         <link rel="stylesheet" type="text/css" href="./style/footer.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     </head>
@@ -21,28 +25,29 @@
             </div>
             <!-- End Scroll Icon -->
             <!-- Navigation Bar -->
+            <!-- Navigation Bar -->
             <div id='navigation' class='horizontal-list light-theme'>
-                <div class='horizontal-list-item nav-link active' id='home-link'>
+                <button class='nav-button active' data-target='home'>
                     Home
-                </div>
-                <div class='horizontal-list-item nav-link' id='about-link'>
+                </button>
+                <button class='nav-button' data-target='about'>
                     About
-                </div>
-                <div class='horizontal-list-item nav-link' id='experience-link'>
+                </button>
+                <button class='nav-button' data-target='experience'>
                     Experience
-                </div>
-                <div class='horizontal-list-item nav-link' id='portfolio-link'>
+                </button>
+                <button class='nav-button' data-target='portfolio'>
                     Portfolio
-                </div>
-                <div class='horizontal-list-item nav-link' id='skills-link'>
+                </button>
+                <button class='nav-button' data-target='skills'>
                     Skills
-                </div>
-                <div class='horizontal-list-item nav-link' id='contact-link'>
+                </button>
+                <button class='nav-button' data-target='contact'>
                     Contact
-                </div>
-                <div class='horizontal-list-item' id='theme-button'>
+                </button>
+                <button class='nav-button' id='theme-button'>
                     <img src='./resources/icons/moon.png' alt='theme' id='theme-icon' class='nav-icon light-theme'/>
-                </div>
+                </button>
             </div>
             <!-- End Navigation Bar -->
 
@@ -139,37 +144,51 @@
             <!-- End About Section -->
             <!-- Experience Section -->
             <div id='experience' class='section'>
+                <h1 class='page-title'>Experience</h1>
+                <div class='timeline-container'>
+                    <div class='timeline'>
+                        <div class='timeline-item'>
+                            <div class='timeline-content'>
+                                <div class='timeline-date'>2023 - Present</div>
+                                <h3 class='timeline-title'>ML Research Engineer</h3>
+                                <p class='timeline-description'>Working on cutting-edge ML projects in computer vision and NLP.</p>
+                            </div>
+                        </div>
+                        <div class='timeline-item'>
+                            <div class='timeline-content'>
+                                <div class='timeline-date'>2021 - 2023</div>
+                                <h3 class='timeline-title'>Previous Role</h3>
+                                <p class='timeline-description'>Description of your previous role and achievements.</p>
+                            </div>
+                        </div>
+                        <!-- Add more timeline items as needed -->
+                    </div>
+                </div>
             </div>
             <!-- End Experience Section -->
             <!-- Portfolio Section -->
             <div id='portfolio' class='section'>
                 <h1 class='page-title'>Portfolio</h1>
-                <div class='page-content-container'>
-                    <div id='project-container' class='subsection'>
-                        <div id='project-item-container' class='content'>
-                            <div class='project-item'>
-                                <h2 class='project-name'></h2>
-                                <a href='' class='project-link'></a>
-                                <div class='project-image-bg'></div>
-                                <img src='' class='project-img'/>
+                <div class='project-carousel'>
+                    <div class='project-card'>
+                        <div class='project-card-inner'>
+                            <div class='project-card-front'>
+                                <img src='/api/placeholder/300/200' alt='Project 1' class='project-image'/>
+                                <h3 class='project-title'>Project Name</h3>
+                                <div class='project-tags'>
+                                    <span class='project-tag'>Python</span>
+                                    <span class='project-tag'>Machine Learning</span>
+                                    <span class='project-tag'>Computer Vision</span>
+                                </div>
                             </div>
-                            <div class='project-item'>
-                                <h2 class='project-name'></h2>
-                                <a href='' class='project-link'></a>
-                                <div class='project-image-bg'></div>
-                                <img src='' class='project-img'/>
-                            </div>
-                            <div class='project-item'>
-                                <h2 class='project-name'></h2>
-                                <a href='' class='project-link'></a>
-                                <div class='project-image-bg'></div>
-                                <img src='' class='project-img'/>
-                            </div>
-                            <div class='project-item'>
-                                <h2 class='project-name'></h2>
-                                <a href='' class='project-link'></a>
-                                <div class='project-image-bg'></div>
-                                <img src='' class='project-img'/>
+                            <div class='project-card-back'>
+                                <p class='project-description'>
+                                    Detailed description of the project, its challenges, and outcomes.
+                                </p>
+                                <div class='project-links'>
+                                    <a href='#' class='project-link'>Demo</a>
+                                    <a href='#' class='project-link'>Code</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -370,7 +389,81 @@
             </div>
             <!-- End Skills Section -->
             <!-- Contact Section -->
+            <!-- Contact Section -->
+            <!-- Contact Section -->
             <div id='contact' class='section'>
+                <h1 class='page-title'>Let's Connect</h1>
+                <div class='contact-container'>
+                    <!-- Contact Info -->
+                    <div class='contact-info'>
+                        <div class='contact-info-item'>
+                            <div class='contact-icon'>
+                                <i class="fa-solid fa-location-dot"></i>
+                            </div>
+                            <div class='contact-text'>
+                                <h3>Location</h3>
+                                <p>Bangalore, India</p>
+                            </div>
+                        </div>
+                        <div class='contact-info-item'>
+                            <div class='contact-icon'>
+                                <i class="fa-solid fa-envelope"></i>
+                            </div>
+                            <div class='contact-text'>
+                                <h3>Email</h3>
+                                <p>contact@anubhavtiwari.tech</p>
+                            </div>
+                        </div>
+                        <div class='contact-info-item'>
+                            <div class='contact-icon'>
+                                <i class="fa-brands fa-github"></i>
+                            </div>
+                            <div class='contact-text'>
+                                <h3>GitHub</h3>
+                                <p>github.com/abtExp</p>
+                            </div>
+                        </div>
+                        <div class='contact-info-item'>
+                            <div class='contact-icon'>
+                                <i class="fa-brands fa-linkedin"></i>
+                            </div>
+                            <div class='contact-text'>
+                                <h3>LinkedIn</h3>
+                                <p>linkedin.com/in/abtExp</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class='contact-form'>
+                        <form id="contactForm">
+                            <div class='form-group'>
+                                <label>Your Name</label>
+                                <input type='text' class='form-control' placeholder='Enter your name' required>
+                            </div>
+                            <div class='form-group'>
+                                <label>Your Email</label>
+                                <input type='email' class='form-control' placeholder='Enter your email' required>
+                            </div>
+                            <div class='form-group'>
+                                <label>Subject</label>
+                                <input type='text' class='form-control' placeholder='What is this regarding?' required>
+                            </div>
+                            <div class='form-group'>
+                                <label>Message</label>
+                                <textarea class='form-control' placeholder='Type your message here...' required></textarea>
+                            </div>
+                            <button type='submit' class='submit-btn'>
+                                Send Message
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Background Elements -->
+                <div class='contact-bg-circle circle-1'></div>
+                <div class='contact-bg-circle circle-2'></div>
             </div>
             <!-- End Contact Section -->
             <!-- Footer Section -->

@@ -1,0 +1,72 @@
+.nav-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-family: poppins;
+    font-weight: 500;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #eee;
+    color: #666;
+    position: relative;
+    /* Neomorphic effect */
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1),
+                -5px -5px 10px rgba(255, 255, 255, 0.8);
+}
+
+.nav-button:hover {
+    color: rgb(57, 252, 155);
+    box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.1),
+                inset -4px -4px 8px rgba(255, 255, 255, 0.8);
+}
+
+.nav-button.active {
+    color: rgb(57, 252, 155);
+    box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.1),
+                inset -4px -4px 8px rgba(255, 255, 255, 0.8);
+}
+
+/* Theme button specific styles */
+#theme-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+#theme-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Responsive navigation */
+@media screen and (max-width: 768px) {
+    #navigation {
+        padding: 10px;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .nav-button {
+        padding: 8px 15px;
+        font-size: 0.8em;
+    }
+}
+
+/* Dark theme adjustments */
+.dark-theme .nav-button {
+    background: #1a1a1a;
+    color: #eee;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3),
+                -5px -5px 10px rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme .nav-button:hover,
+.dark-theme .nav-button.active {
+    box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.3),
+                inset -4px -4px 8px rgba(255, 255, 255, 0.05);
+}
