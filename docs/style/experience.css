@@ -1,21 +1,281 @@
-/* Add this to your experience.css file - replacing the previous timeline styles */
+/* Updated timeline+cards CSS with better width and spacing */
+/* Fix for experience timeline section */
 
-/* Experience section container */
-.experience-container {
-    max-width: 1200px;
-    margin: 50px auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
+/* Timeline Container with better spacing */
+.timeline-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    overflow: visible;
+    min-height: 1600px; /* Ensure enough height to contain all content */
 }
 
-/* Experience card styling */
+/* Timeline Line */
+.timeline-line {
+    position: absolute;
+    width: 4px;
+    background: rgb(57, 252, 155);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -2px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(57, 252, 155, 0.3);
+}
+
+/* Timeline Nodes with improved containment */
+.timeline-node {
+    position: relative;
+    margin-bottom: 120px; /* More space between nodes */
+    width: 100%;
+    min-height: 360px; /* Ensure minimum height for content */
+    display: block;
+    clear: both;
+}
+
+/* Timeline Points (circles on the line) */
+.timeline-point {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border: 4px solid rgb(57, 252, 155);
+    border-radius: 50%;
+    left: 50%;
+    top: 30%;
+    transform: translateX(-50%);
+    z-index: 2;
+    box-shadow: 0 0 0 4px rgba(57, 252, 155, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Timeline Content Container - Fixed positioning */
+.timeline-content {
+    position: relative; /* Changed from absolute to relative */
+    width: 45%;          /* Maintain width percentage */
+    float: left;         /* Float instead of absolute positioning */
+    margin-top: 20px;    /* Add some margin at top */
+}
+
+/* Positioning for left/right timeline items */
+.timeline-left {
+    margin-right: 5%;    /* Add margin right for spacing */
+    float: left;         /* Float left */
+    clear: left;         /* Clear left floats */
+}
+
+.timeline-right {
+    margin-left: 5%;     /* Add margin left for spacing */
+    float: right;        /* Float right */
+    clear: right;        /* Clear right floats */
+}
+
+/* Experience Card Styling with fixed dimensions */
 .experience-card {
-    width: 280px;
-    height: 340px;
+    width: 100%;         /* Full width of parent container */
+    height: 360px;       /* Fixed height */
     perspective: 1000px;
-    margin: 15px;
+    margin: 0;           /* Remove margin */
+    box-sizing: border-box;
+}
+
+.experience-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+
+/* Front and back card sides with improved positioning */
+.experience-card-front, .experience-card-back {
+    position: absolute;  /* These need to stay absolute for the flip effect */
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Spacer at the end of timeline for proper section separation */
+.timeline-end-spacer {
+    clear: both;
+    width: 100%;
+    height: 60px;
+}
+
+/* Experience section spacing */
+#experience {
+    padding-bottom: 100px;  /* Add padding at bottom of section */
+    margin-bottom: 60px;    /* Add margin between sections */
+    overflow: visible;
+    position: relative;
+}
+
+/* Portfolio section spacing */
+#portfolio {
+    margin-top: 60px;  /* Add margin at top of section */
+    padding-top: 40px; /* Add padding at top */
+    position: relative;
+    clear: both;       /* Clear all floats */
+}
+
+/* Fix card animations */
+.timeline-left, .timeline-right {
+    opacity: 1;  /* Always visible */
+}
+
+/* Keep the animations for scroll effects */
+.timeline-left.in-view {
+    animation: fadeInLeft 0.6s ease-out forwards;
+}
+
+.timeline-right.in-view {
+    animation: fadeInRight 0.6s ease-out forwards;
+}
+
+/* Responsive Timeline Design */
+@media screen and (max-width: 992px) {
+    .timeline-content {
+        width: 42%;  /* Slightly reduce width */
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .timeline-container {
+        min-height: 1800px;  /* Increase for mobile layout */
+    }
+    
+    .timeline-line {
+        left: 50px;
+    }
+    
+    .timeline-point {
+        left: 50px;
+        transform: translateX(0);
+    }
+    
+    .timeline-content {
+        width: calc(100% - 120px);  /* Full width minus offsets */
+        margin-left: 100px;
+        float: none;
+        clear: both;
+    }
+    
+    .timeline-left, .timeline-right {
+        margin: 0 0 0 100px;  /* Reset margins and apply left margin */
+        float: none;
+    }
+    
+    .timeline-node {
+        margin-bottom: 80px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .timeline-container {
+        min-height: 1900px;  /* Further increase for smallest screens */
+    }
+    
+    .timeline-line {
+        left: 30px;
+    }
+    
+    .timeline-point {
+        left: 30px;
+    }
+    
+    .timeline-content {
+        width: calc(100% - 60px);
+        margin-left: 60px;
+    }
+    
+    .timeline-left, .timeline-right {
+        margin: 0 0 0 60px;
+    }
+}
+
+/* Optional: Add top margin to first node */
+.timeline-node:first-child {
+    margin-top: 30px;
+}
+
+
+/* Timeline Container */
+.timeline-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+}
+
+/* Timeline Line */
+.timeline-line {
+    position: absolute;
+    width: 4px;
+    background: rgb(57, 252, 155);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -2px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(57, 252, 155, 0.3);
+}
+
+/* Timeline Nodes */
+.timeline-node {
+    position: relative;
+    margin-bottom: 100px; /* Increased spacing between nodes */
+    width: 100%;
+    min-height: 380px; /* Increased minimum height */
+}
+
+/* Timeline Points (circles on the line) */
+.timeline-point {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border: 4px solid rgb(57, 252, 155);
+    border-radius: 50%;
+    left: 50%;
+    top: 30%;
+    transform: translateX(-50%);
+    z-index: 2;
+    box-shadow: 0 0 0 4px rgba(57, 252, 155, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Timeline Content Container */
+.timeline-content {
+    position: relative;
+    width: 42%; /* Slightly reduced to ensure no overflow */
+}
+
+/* Positioning for left/right timeline items */
+.timeline-left {
+    left: 0;
+}
+
+.timeline-right {
+    left: 58%; /* Increased to prevent overlap with the timeline */
+}
+
+/* Experience Card Styling */
+.experience-card {
+    width: 100%;
+    height: 380px; /* Increased height */
+    perspective: 1000px;
 }
 
 .experience-card-inner {
@@ -31,7 +291,13 @@
 
 /* Hover effect */
 .experience-card:hover .experience-card-inner {
-    transform: rotateY(180deg) scale(1.05);
+    transform: rotateY(180deg);
+}
+
+/* Card glow effect when hovered */
+.timeline-node:hover .timeline-point {
+    background: rgb(57, 252, 155);
+    box-shadow: 0 0 15px rgb(57, 252, 155);
 }
 
 /* Front and back card sides */
@@ -47,29 +313,122 @@
     justify-content: center;
     padding: 20px;
     box-sizing: border-box;
+    overflow: hidden; /* Prevent content overflow */
+}
+/* Add these styles to fix the card flipping effect */
+
+/* Card hover effect with perspective fix */
+.experience-card:hover .experience-card-inner {
+    transform: rotateY(180deg);
 }
 
-.experience-card-front {
-    background: linear-gradient(145deg, #ffffff, #f0f0f0);
-    color: #333;
-}
-
+/* Better back card styling */
 .experience-card-back {
-    background: linear-gradient(145deg, rgb(57, 252, 155, 0.9), rgb(151, 227, 255, 0.9));
+    background: linear-gradient(145deg, rgba(57, 252, 155, 0.2), rgba(151, 227, 255, 0.2));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(57, 252, 155, 0.2);
     color: #333;
     transform: rotateY(180deg);
     text-align: left;
     justify-content: flex-start;
+    overflow-y: auto;
+}
+
+/* Make the transformed card fill its container */
+.experience-card-inner, 
+.experience-card-front, 
+.experience-card-back {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    max-width: 100%;
+}
+
+/* Create cleaner 3D space */
+.experience-card {
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000px;
+    perspective: 1000px;
+}
+
+/* Force consistent transform origin */
+.experience-card-inner {
+    transform-origin: center center;
+    -webkit-transform-origin: center center;
+}
+
+/* Clear fix for the timeline container */
+.timeline-container::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+/* Fix for card width on mobile */
+@media screen and (max-width: 768px) {
+    .experience-card,
+    .experience-card-inner,
+    .experience-card-front,
+    .experience-card-back {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .timeline-content {
+        width: calc(100% - 100px);
+    }
+}
+
+/* Fix for Safari */
+@media not all and (min-resolution:.001dpcm) { 
+    @supports (-webkit-appearance:none) {
+        .experience-card-inner {
+            -webkit-transform-style: preserve-3d;
+            -webkit-transition: 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .experience-card-front, 
+        .experience-card-back {
+            -webkit-backface-visibility: hidden;
+        }
+    }
+}
+
+
+.experience-card-front {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #333;
+}
+
+.experience-card-back {
+    background: linear-gradient(145deg, rgba(57, 252, 155, 0.2), rgba(151, 227, 255, 0.2));
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(57, 252, 155, 0.2);
+    color: #333;
+    transform: rotateY(180deg);
+    text-align: left;
+    justify-content: flex-start;
+    overflow-y: auto; /* Allow scrolling for overflow content */
 }
 
 /* Card front content */
 .company-logo {
-    font-size: 3em;
+    font-size: 2.8em; /* Slightly reduced */
     margin-bottom: 15px;
     color: rgb(57, 252, 155);
-    width: 80px;
-    height: 80px;
-    line-height: 80px;
+    width: 70px; /* Slightly reduced */
+    height: 70px; /* Slightly reduced */
+    line-height: 70px; /* Adjusted to match height */
     border-radius: 50%;
     background: rgba(57, 252, 155, 0.1);
     margin: 0 auto 15px auto;
@@ -77,10 +436,12 @@
 }
 
 .company-name {
-    font-size: 1.4em;
+    font-size: 1.3em;
     font-weight: 600;
     margin: 10px 0;
     color: #333;
+    padding: 0 10px; /* Added padding */
+    word-wrap: break-word; /* Allow long words to break */
 }
 
 .job-title {
@@ -88,6 +449,8 @@
     font-weight: 500;
     color: #555;
     margin-bottom: 10px;
+    padding: 0 10px; /* Added padding */
+    word-wrap: break-word; /* Allow long words to break */
 }
 
 .job-duration {
@@ -107,167 +470,187 @@
     font-size: 1.2em;
     color: #333;
     font-weight: 600;
-    border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 2px solid rgba(57, 252, 155, 0.3);
     padding-bottom: 8px;
+    padding-right: 10px; /* Added padding */
 }
 
 .experience-points {
     padding-left: 20px;
+    padding-right: 10px; /* Added padding */
     margin: 0;
 }
 
 .experience-points li {
-    margin-bottom: 8px;
+    margin-bottom: 10px; /* Increased spacing */
     font-size: 0.9em;
-    line-height: 1.4;
+    line-height: 1.5;
+    word-wrap: break-word; /* Allow long words to break */
 }
 
-/* Tilt effect on hover */
-.experience-card:hover {
-    z-index: 10;
+/* Fade-in animation for timeline nodes */
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-/* Glowing effect on hover */
-.experience-card:hover .company-logo {
-    box-shadow: 0 0 15px rgb(57, 252, 155);
-    background: rgba(57, 252, 155, 0.2);
-    transform: scale(1.1);
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
 }
 
-/* Responsive design */
+.timeline-left {
+    opacity: 0;
+}
+
+.timeline-right {
+    opacity: 0;
+}
+
+.timeline-left.in-view {
+    animation: fadeInLeft 0.6s ease-out forwards;
+}
+
+.timeline-right.in-view {
+    animation: fadeInRight 0.6s ease-out forwards;
+}
+
+/* Staggered animation delays */
+.timeline-node:nth-child(1) .timeline-content.in-view {
+    animation-delay: 0.1s;
+}
+
+.timeline-node:nth-child(2) .timeline-content.in-view {
+    animation-delay: 0.3s;
+}
+
+.timeline-node:nth-child(3) .timeline-content.in-view {
+    animation-delay: 0.5s;
+}
+
+.timeline-node:nth-child(4) .timeline-content.in-view {
+    animation-delay: 0.7s;
+}
+
+/* Responsive Timeline Design - Adjusted for better scaling */
 @media screen and (max-width: 1200px) {
-    .experience-container {
-        gap: 20px;
+    .timeline-container {
+        max-width: 100%;
+        padding: 20px 40px;
+    }
+    
+    .timeline-content {
+        width: 40%;
+    }
+    
+    .timeline-right {
+        left: 60%;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .timeline-container {
+        padding: 20px 30px;
+    }
+    
+    .timeline-content {
+        width: 38%;
+    }
+    
+    .timeline-right {
+        left: 62%;
     }
 }
 
 @media screen and (max-width: 768px) {
+    .timeline-container {
+        padding: 10px 20px;
+    }
+    
+    .timeline-line {
+        left: 40px;
+    }
+    
+    .timeline-point {
+        left: 40px;
+        transform: translateX(0);
+    }
+    
+    .timeline-content {
+        width: calc(100% - 80px);
+        margin-left: 80px;
+    }
+    
+    .timeline-left, .timeline-right {
+        left: 0;
+    }
+    
+    .timeline-left.in-view, .timeline-right.in-view {
+        animation: fadeInRight 0.6s ease-out forwards;
+    }
+    
+    .timeline-node {
+        margin-bottom: 80px;
+    }
+    
     .experience-card {
-        width: 260px;
-        height: 320px;
+        height: 360px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .timeline-line {
+        left: 20px;
+    }
+    
+    .timeline-point {
+        left: 20px;
+    }
+    
+    .timeline-content {
+        width: calc(100% - 50px);
+        margin-left: 50px;
+    }
+    
+    .timeline-node {
+        margin-bottom: 60px;
+        min-height: 340px;
     }
     
     .company-logo {
-        font-size: 2.5em;
-        width: 70px;
-        height: 70px;
-        line-height: 70px;
+        width: 60px;
+        height: 60px;
+        line-height: 60px;
+        font-size: 2em;
     }
     
     .company-name {
-        font-size: 1.3em;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .experience-container {
-        padding: 0 10px;
+        font-size: 1.1em;
     }
     
-    .experience-card {
-        width: 100%;
-        max-width: 320px;
-        margin: 10px 0;
+    .job-title {
+        font-size: 1em;
     }
-}
-
-
-/* Add these additional effects to experience.css */
-
-/* Animation for cards coming into view */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
+    
+    .job-duration {
+        font-size: 0.8em;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    
+    .experience-points li {
+        font-size: 0.85em;
     }
-}
-
-.experience-card.in-view {
-    animation: fadeInUp 0.6s ease-out forwards;
-}
-
-/* Staggered animation delay for cards */
-.experience-card:nth-child(1).in-view {
-    animation-delay: 0.1s;
-}
-
-.experience-card:nth-child(2).in-view {
-    animation-delay: 0.2s;
-}
-
-.experience-card:nth-child(3).in-view {
-    animation-delay: 0.3s;
-}
-
-.experience-card:nth-child(4).in-view {
-    animation-delay: 0.4s;
-}
-
-/* Enhanced card design with glass morphism */
-.experience-card-front {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.experience-card-back {
-    background: rgba(57, 252, 155, 0.2);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(57, 252, 155, 0.3);
-    box-shadow: 0 8px 32px rgba(57, 252, 155, 0.2);
-}
-
-/* Card expansion effect on hover */
-.experience-card-inner {
-    transition: transform 0.8s, box-shadow 0.5s;
-}
-
-.experience-card:hover .experience-card-inner {
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1), 
-                0 8px 12px rgba(57, 252, 155, 0.15);
-}
-
-/* Shine effect on card hover */
-.experience-card-front::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 200%;
-    height: 100%;
-    background: linear-gradient(
-        to right,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.3) 50%,
-        rgba(255, 255, 255, 0) 100%
-    );
-    transform: translateX(-100%);
-    transition: transform 0.6s;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.experience-card:hover .experience-card-front::before {
-    transform: translateX(100%);
-}
-
-/* Smooth entrance for card content items */
-.company-logo, .company-name, .job-title, .job-duration {
-    transition: all 0.3s ease;
-}
-
-.experience-card:hover .company-logo {
-    transform: scale(1.1);
-}
-
-.experience-card:hover .company-name {
-    color: rgb(57, 252, 155);
 }
 
 /* Dark theme adjustments */
@@ -291,7 +674,8 @@
 }
 
 .dark-theme .experience-card-back {
-    background: rgba(57, 252, 155, 0.3);
+    background: rgba(40, 40, 40, 0.7);
+    border-color: rgba(57, 252, 155, 0.3);
 }
 
 .dark-theme .experience-card-back h3 {
@@ -300,4 +684,13 @@
 
 .dark-theme .experience-points li {
     color: #eee;
+}
+
+.dark-theme .timeline-point {
+    background: #333;
+}
+
+/* Add space at the bottom of the experience section */
+#experience {
+    padding-bottom: 60px;
 }

@@ -1,100 +1,347 @@
-// Add this function to your index.js file to fix viewport sizing issues
-function adjustViewportHeight() {
-    // Set the viewport height for mobile browsers
-    let vh = window.innerHeight * 0.01;
+/**
+ * Portfolio Website JavaScript
+ * Consolidated and optimized version
+ */
+
+// Main initialization when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize everything
+    initNavigation();
+    initThemeToggle();
+    initScrollButton();
+    initSectionAdjustments();
+    initContactForm();
+    initExperienceCards();
+    initPortfolioCards();
+    initBannerEffects();
+    
+    // Check initial hash and set default if none
+    if (window.location.href.indexOf('#') === -1) {
+        window.location.href += '#home';
+    } else {
+        // Make sure home is active if refreshed on another section
+        updateActiveNavLink();
+    }
+    
+    // Force layout recalculation to prevent section overlap
+    setTimeout(function() {
+        window.scrollBy(0, 1);
+        window.scrollBy(0, -1);
+    }, 300);
+});
+
+// ===== Navigation Functions =====
+
+function initNavigation() {
+    const navButtons = document.querySelectorAll('.nav-button');
+    
+    // Set up navigation button clicks
+    navButtons.forEach(button => {
+        if (!button.id.includes('theme-button')) {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Update active button
+                navButtons.forEach(btn => {
+                    if (!btn.id.includes('theme-button')) {
+                        btn.classList.remove('active');
+                    }
+                });
+                this.classList.add('active');
+                
+                // Scroll to target
+                const targetId = this.getAttribute('data-target');
+                smoothScrollToSection(targetId);
+            });
+        }
+    });
+    
+    // Make the contact button work
+    const contactButton = document.getElementById('contact-click-button');
+    if (contactButton) {
+        contactButton.addEventListener('click', function() {
+            const contactNavButton = document.querySelector('.nav-button[data-target="contact"]');
+            if (contactNavButton) {
+                contactNavButton.click();
+            } else {
+                smoothScrollToSection('contact');
+            }
+        });
+    }
+    
+    // Update active link on scroll
+    window.addEventListener('scroll', updateActiveNavLink);
+    updateActiveNavLink(); // Initial call
+}
+
+// Update active nav button based on visible section
+function updateActiveNavLink() {
+    const sections = document.querySelectorAll('.section');
+    const navButtons = document.querySelectorAll('.nav-button');
+    
+    sections.forEach((section, index) => {
+        const rect = section.getBoundingClientRect();
+        // Consider a section in view if its top is near the top of viewport
+        const isInView = (rect.top <= 150) && (rect.bottom >= 150);
+        
+        if (isInView && index < navButtons.length && !navButtons[index].id.includes('theme-button')) {
+            navButtons.forEach(btn => {
+                if (!btn.id.includes('theme-button')) {
+                    btn.classList.remove('active');
+                }
+            });
+            navButtons[index].classList.add('active');
+        }
+    });
+}
+
+// Smooth scroll to section
+function smoothScrollToSection(targetId) {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    
+    const headerOffset = 80;
+    const elementPosition = target.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+    console.log(offsetPosition);
+    
+    window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+    });
+    
+    // Update URL hash without jumping
+    history.pushState(null, null, `#${targetId}`);
+}
+
+// ===== Theme Toggle =====
+
+function initThemeToggle() {
+    const themeButton = document.getElementById('theme-button');
+    if (themeButton) {
+        themeButton.addEventListener('click', toggleTheme);
+    }
+}
+
+function toggleTheme() {
+    const sections = document.getElementsByClassName('section');
+    const themeButtonIcon = document.getElementById('theme-icon');
+    const activeTheme = themeButtonIcon.classList[1];
+    const navbar = document.getElementById('navigation');
+    
+    for (let i = 0; i < sections.length; i++) {
+        if (activeTheme === 'dark-theme') {
+            sections[i].classList.remove('dark-theme');
+            sections[i].classList.add('light-theme');
+            themeButtonIcon.classList.remove('dark-theme');
+            themeButtonIcon.classList.add('light-theme');
+            navbar.classList.remove('dark-theme');
+            navbar.classList.add('light-theme');
+            themeButtonIcon.setAttribute('src', './resources/icons/moon.png');
+        } else {
+            sections[i].classList.remove('light-theme');
+            sections[i].classList.add('dark-theme');
+            themeButtonIcon.classList.remove('light-theme');
+            themeButtonIcon.classList.add('dark-theme');
+            navbar.classList.remove('light-theme');
+            navbar.classList.add('dark-theme');
+            themeButtonIcon.setAttribute('src', './resources/icons/sun.png');
+        }
+    }
+}
+
+// ===== Scroll Button =====
+
+function initScrollButton() {
+    const scrollButton = document.getElementById('scroll-button');
+    if (scrollButton) {
+        scrollButton.addEventListener('click', scrollToNextSection);
+    }
+}
+
+function scrollToNextSection() {
+    const currentLocation = window.location.href;
+    const scrollIcon = document.getElementById('scroll-arrow');
+    const currentSection = currentLocation.substring(currentLocation.lastIndexOf('#') + 1);
+    const allSections = ['home', 'about', 'experience', 'portfolio', 'skills', 'contact'];
+    
+    const currentIndex = allSections.indexOf(currentSection);
+    let nextIndex = currentIndex + 1;
+    
+    if (nextIndex >= allSections.length) {
+        nextIndex = 0;
+    }
+    
+    // Update icon direction
+    if (nextIndex === allSections.length - 1) {
+        scrollIcon.classList.remove('fa-arrow-down');
+        scrollIcon.classList.add('fa-arrow-up');
+    } else {
+        scrollIcon.classList.remove('fa-arrow-up');
+        scrollIcon.classList.add('fa-arrow-down');
+    }
+    
+    // Scroll to next section
+    smoothScrollToSection(allSections[nextIndex]);
+    
+    // Update active nav button
+    const navButton = document.querySelector(`.nav-button[data-target="${allSections[nextIndex]}"]`);
+    if (navButton) {
+        const buttons = document.querySelectorAll('.nav-button');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        navButton.classList.add('active');
+    }
+}
+
+// ===== Section Size Adjustments =====
+
+function initSectionAdjustments() {
+    adjustViewportSizes();
+    window.addEventListener('resize', adjustViewportSizes);
+}
+
+// Fix viewport sizing issues
+function adjustViewportSizes() {
+    // Set the viewport height variable for mobile browsers
+    const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
     
-    // Make sure footer doesn't cause overflow
+    // Adjust section heights
+    const sections = document.querySelectorAll('.section');
+    const windowHeight = window.innerHeight;
+    
+    sections.forEach(section => {
+        // Ensure minimum height
+        section.style.minHeight = `${windowHeight}px`;
+        
+        // Special handling for specific sections
+        if (section.id === 'experience') {
+            section.style.marginBottom = '40px';
+            adjustExperienceSection(section);
+        } else if (section.id === 'portfolio') {
+            section.style.marginTop = '40px';
+        } else if (section.id === 'contact') {
+            // Adjust contact section height to avoid footer overlap
+            const footer = document.getElementById('footer');
+            const footerHeight = footer ? footer.offsetHeight : 0;
+            section.style.marginBottom = `${footerHeight}px`;
+            
+            // Limit contact form height
+            const contactContainer = section.querySelector('.contact-container');
+            if (contactContainer) {
+                const availableHeight = windowHeight - 200;
+                contactContainer.style.maxHeight = `${availableHeight}px`;
+            }
+        }
+    });
+    
+    // Fix footer width
     const footer = document.getElementById('footer');
     if (footer) {
         footer.style.maxWidth = `${document.body.clientWidth}px`;
     }
     
-    // Check for any elements extending beyond viewport width
-    const allElements = document.querySelectorAll('*');
+    // Check for elements wider than viewport
     const bodyWidth = document.body.clientWidth;
-    
-    allElements.forEach(el => {
+    document.querySelectorAll('*').forEach(el => {
         const rect = el.getBoundingClientRect();
         if (rect.width > bodyWidth) {
-            // Apply fix to overly wide elements
             el.style.maxWidth = '100%';
             el.style.boxSizing = 'border-box';
         }
     });
 }
 
-// Run on page load and whenever the window is resized
-window.addEventListener('load', adjustViewportHeight);
-window.addEventListener('resize', adjustViewportHeight);
+// Special adjustments for experience section
+// Add this function to your index.js file or replace the existing adjustExperienceSection function
 
-// Improved scroll behavior function
-function smoothScrollToSection(targetId) {
-    const target = document.getElementById(targetId);
-    if (!target) return;
+// Fix experience section spacing and layout
+function adjustExperienceSection(section) {
+    // Ensure we have a section to work with
+    if (!section) {
+        section = document.getElementById('experience');
+        if (!section) return;
+    }
     
-    // Prevent default anchor click behavior
-    event.preventDefault();
+    // Set minimum height for the timeline container
+    const timelineContainer = section.querySelector('.timeline-container');
+    if (timelineContainer) {
+        // Make sure the timeline container has enough height
+        const lastNode = timelineContainer.querySelector('.timeline-node:last-of-type');
+        if (lastNode) {
+            const lastNodePosition = lastNode.offsetTop + lastNode.offsetHeight;
+            // Add some buffer space
+            timelineContainer.style.minHeight = `${lastNodePosition + 100}px`;
+        }
+    }
     
-    const headerOffset = 80; // Adjust based on your header height
-    const elementPosition = target.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    // Fix spacing between sections
+    const portfolioSection = document.getElementById('portfolio');
+    if (portfolioSection) {
+        // Calculate distance between sections
+        const experienceRect = section.getBoundingClientRect();
+        const portfolioRect = portfolioSection.getBoundingClientRect();
+        
+        // If sections are overlapping or too close
+        if (portfolioRect.top < experienceRect.bottom + 50) {
+            // Add spacer if it doesn't exist
+            if (!document.getElementById('experience-portfolio-spacer')) {
+                const spacer = document.createElement('div');
+                spacer.id = 'experience-portfolio-spacer';
+                spacer.style.height = '150px';  // Taller spacer
+                spacer.style.width = '100%';
+                spacer.style.clear = 'both';
+                spacer.style.display = 'block';
+                spacer.style.position = 'relative';
+                section.appendChild(spacer);
+            }
+            
+            // Set explicit margin on portfolio section
+            portfolioSection.style.marginTop = '60px';
+        }
+    }
     
-    window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
+    // Fix mobile timeline point positioning
+    const timelinePoints = section.querySelectorAll('.timeline-point');
+    if (window.innerWidth <= 768) {
+        timelinePoints.forEach(point => {
+            point.style.transform = 'translateX(0)';
+        });
+    } else {
+        timelinePoints.forEach(point => {
+            point.style.transform = 'translateX(-50%)';
+        });
+    }
+    
+    // Force opacity to 1 on all timeline content
+    const timelineContents = section.querySelectorAll('.timeline-content');
+    timelineContents.forEach(content => {
+        content.style.opacity = '1';
     });
 }
 
-// Better contact button functionality
+// Run this function immediately
 document.addEventListener('DOMContentLoaded', function() {
-    const contactButton = document.getElementById('contact-click-button');
-    if (contactButton) {
-        contactButton.addEventListener('click', function() {
-            smoothScrollToSection('contact');
-        });
-    }
+    adjustExperienceSection();
+    
+    // Also run on window resize
+    window.addEventListener('resize', adjustExperienceSection);
+    
+    // And run again after a delay to handle dynamic content
+    setTimeout(adjustExperienceSection, 500);
+    setTimeout(adjustExperienceSection, 2000);
 });
 
+// ===== Contact Form =====
 
-
-// Add this code to your index.js file to improve navigation
-document.addEventListener('DOMContentLoaded', function() {
-    // Properly initialize all navigation buttons
-    const navButtons = document.querySelectorAll('.nav-button');
-    
-    navButtons.forEach(button => {
-        if (!button.id.includes('theme-button')) { // Skip the theme toggle button
-            button.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                // Remove active class from all buttons
-                navButtons.forEach(btn => {
-                    if (!btn.id.includes('theme-button')) {
-                        btn.classList.remove('active');
-                    }
-                });
-                
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                // Scroll to target section
-                const targetId = this.getAttribute('data-target');
-                document.getElementById(targetId).scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            });
-        }
-    });
-    
-    // Improve contact form submission
+function initContactForm() {
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Simple form validation
+            // Validate form
             const formElements = contactForm.elements;
             let isValid = true;
             
@@ -107,23 +354,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
             
-            if (!isValid) {
-                return;
-            }
+            if (!isValid) return;
             
-            // Form is valid - handle submission
+            // Handle submission
             const submitBtn = contactForm.querySelector('.submit-btn');
-            
-            // Disable button during "submission"
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
             
-            // Simulate form submission (replace with actual form handling)
+            // Simulate submission (replace with actual form handling)
             setTimeout(() => {
                 submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
                 submitBtn.style.background = 'linear-gradient(to right, #00c853, #64dd17)';
                 
-                // Reset the form after success
+                // Reset form after success
                 setTimeout(() => {
                     contactForm.reset();
                     submitBtn.disabled = false;
@@ -133,437 +376,164 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 1500);
         });
     }
-    
-    // Make contact button in home section work
-    const contactClickButton = document.getElementById('contact-click-button');
-    if (contactClickButton) {
-        contactClickButton.addEventListener('click', function() {
-            // Activate contact nav button
-            const contactNavButton = document.querySelector('.nav-button[data-target="contact"]');
-            if (contactNavButton) {
-                contactNavButton.click();
-            } else {
-                // Fallback if button not found
-                document.getElementById('contact').scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    }
-});
+}
 
-// Add this to your index.js file to fix section positioning issues
+// ===== Experience Cards =====
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Fix section heights and positioning
-    function adjustSectionHeights() {
-        const sections = document.querySelectorAll('.section');
-        const windowHeight = window.innerHeight;
-        
-        // Adjust each section
-        sections.forEach(section => {
-            // Ensure minimum height but allow content to expand it
-            section.style.minHeight = `${windowHeight}px`;
-            
-            // Special handling for specific sections
-            if (section.id === 'experience' || section.id === 'portfolio') {
-                // Add extra spacing between these problematic sections
-                if (section.id === 'experience') {
-                    section.style.marginBottom = '40px';
-                } else {
-                    section.style.marginTop = '40px';
-                }
-            }
-            
-            // Special handling for contact section
-            if (section.id === 'contact') {
-                // Calculate appropriate height for contact to avoid footer overlap
-                const footer = document.getElementById('footer');
-                const footerHeight = footer ? footer.offsetHeight : 0;
-                section.style.marginBottom = `${footerHeight}px`;
-                
-                // Limit contact form height if needed
-                const contactContainer = section.querySelector('.contact-container');
-                if (contactContainer) {
-                    const availableHeight = windowHeight - 200; // Account for padding and margins
-                    contactContainer.style.maxHeight = `${availableHeight}px`;
-                }
-            }
-        });
-    }
-    
-    // Fix portfolio card hover behavior
-    function fixPortfolioCardHover() {
-        const cards = document.querySelectorAll('.project-card');
-        
-        cards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                // Increase z-index when hovering
-                this.style.zIndex = '10';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                // Reset z-index when not hovering
-                this.style.zIndex = '1';
-            });
-        });
-    }
-    
-    // Run fixes on load and resize
-    adjustSectionHeights();
-    fixPortfolioCardHover();
-    window.addEventListener('resize', adjustSectionHeights);
-    
-    // Fix initial scroll position to avoid section overlap
-    setTimeout(function() {
-        // Slight scroll adjustment to force recalculation of positions
-        window.scrollBy(0, 1);
-        window.scrollBy(0, -1);
-    }, 200);
-});
-
-// Add this to your index.js file or create a new experience-tilt.js file
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Get all experience cards
+function initExperienceCards() {
+    // Get all experience cards and timeline elements
     const experienceCards = document.querySelectorAll('.experience-card');
+    const timelineContents = document.querySelectorAll('.timeline-content');
+    const timelineNodes = document.querySelectorAll('.timeline-node');
     
-    // Add tilt effect to each card
+    // Set initial visible state for cards
+    timelineContents.forEach(content => {
+        content.style.opacity = '1'; // Make cards visible by default
+    });
+    
+    // Add event listeners for card interactions
     experienceCards.forEach(card => {
-        card.addEventListener('mousemove', tiltCard);
-        card.addEventListener('mouseleave', resetTilt);
-        card.addEventListener('mouseenter', enterCard);
+        card.addEventListener('mousemove', tiltExperienceCard);
+        card.addEventListener('mouseleave', resetExperienceCard);
+        card.addEventListener('click', toggleCardFlip);
     });
     
-    // Function to create the tilt effect
-    function tiltCard(e) {
-        const card = this;
-        const cardInner = card.querySelector('.experience-card-inner');
-        const cardRect = card.getBoundingClientRect();
+    // Add timeline point animations
+    animateTimelinePoints();
+    
+    // Check for visible cards on scroll
+    window.addEventListener('scroll', checkTimelineVisibility);
+    
+    // Initial check for visible cards
+    setTimeout(checkTimelineVisibility, 300);
+    
+    // Trigger initial timeline point animation when section is visible
+    window.addEventListener('scroll', function scrollTrigger() {
+        const experienceSection = document.getElementById('experience');
+        if (!experienceSection) return;
         
-        // Calculate mouse position relative to card center
-        const cardWidth = cardRect.width;
-        const cardHeight = cardRect.height;
-        const centerX = cardRect.left + cardWidth / 2;
-        const centerY = cardRect.top + cardHeight / 2;
-        const mouseX = e.clientX - centerX;
-        const mouseY = e.clientY - centerY;
-        
-        // Calculate rotation values (reduced intensity for smoother effect)
-        const rotateY = (mouseX / (cardWidth / 2)) * 8; // Horizontal tilt
-        const rotateX = -(mouseY / (cardHeight / 2)) * 8; // Vertical tilt
-        
-        // Apply transformation
-        cardInner.style.transition = 'transform 0.1s ease-out';
-        
-        // Only apply tilt, not flip (the flip happens on hover via CSS)
-        if (!card.classList.contains('hovered')) {
-            cardInner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        const rect = experienceSection.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+            animateTimelinePoints();
+            window.removeEventListener('scroll', scrollTrigger);
         }
-    }
-    
-    // Function to reset tilt when mouse leaves
-    function resetTilt() {
-        const cardInner = this.querySelector('.experience-card-inner');
-        cardInner.style.transition = 'transform 0.5s ease-out';
-        
-        // Reset to normal state
-        if (!this.classList.contains('hovered')) {
-            cardInner.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-        }
-        
-        // Remove hovered class
-        this.classList.remove('hovered');
-    }
-    
-    // Function for card flip on hover
-    function enterCard() {
-        // Add hovered class to manage state
-        this.classList.add('hovered');
-    }
-    
-    // Add highlight effect when scrolling
-    window.addEventListener('scroll', () => {
-        experienceCards.forEach(card => {
-            const rect = card.getBoundingClientRect();
-            const isInView = 
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <= (window.innerWidth || document.documentElement.clientWidth);
-                
-            if (isInView) {
-                card.classList.add('in-view');
-            } else {
-                card.classList.remove('in-view');
-            }
-        });
     });
+}
+
+// Tilt effect for experience cards
+function tiltExperienceCard(e) {
+    const card = this;
+    const cardInner = card.querySelector('.experience-card-inner');
+    if (!cardInner) return;
     
-    // Trigger initial check for cards in view
-    setTimeout(() => {
-        window.dispatchEvent(new Event('scroll'));
-    }, 300);
-});
-
-function redirectToSection(redirectLocation) {
-    let currentLocation = window.location.href;
-    let redirectTo = currentLocation.substring(0, currentLocation.indexOf('#'));
-    window.location.href = redirectTo + '#' + redirectLocation;
-}
-
-
-function classActivate(element) {
-    let allActives = document.getElementsByClassName('active');
-    for (let i = 0; i < allActives.length; i++) {
-        allActives[i].classList.remove('active');
-    }
-    let redirectLocation = element.getAttribute('id');
-    if (redirectLocation.indexOf('-') !== -1) {
-        redirectLocation = redirectLocation.substring(0, redirectLocation.lastIndexOf('-'));
-    }
-    redirectToSection(redirectLocation);
-    element.classList.add('active');
-}
-
-function classActivateListener() {
-    classActivate(this);
-}
-
-function attachClassActivateListener() {
-    links = document.getElementsByClassName('nav-link');
-    for (var i = 0; i < links.length; i++) {
-        links[i].onclick = classActivateListener;
-    }
-}
-
-function changeTheme() {
-    let sections = document.getElementsByClassName('section');
-
-    let themeButtonIcon = document.getElementById('theme-icon');
-
-    let activeTheme = themeButtonIcon.classList[1];
-
-    let navbar = document.getElementById('navigation');
-
-    for (var i = 0; i < sections.length; i++) {
-        if (activeTheme === 'dark-theme') {
-            sections[i].classList.remove('dark-theme');
-            sections[i].classList.add('light-theme');
-            themeButtonIcon.classList.remove('dark-theme');
-            themeButtonIcon.classList.add('light-theme');
-            navbar.classList.remove('dark-theme');
-            navbar.classList.add('light-theme');
-            themeButtonIcon.setAttribute('src', '../../resources/icons/moon.png');
-        } else {
-            sections[i].classList.remove('light-theme');
-            sections[i].classList.add('dark-theme');
-            themeButtonIcon.classList.remove('light-theme');
-            themeButtonIcon.classList.add('dark-theme');
-            navbar.classList.remove('light-theme');
-            navbar.classList.add('dark-theme');
-            themeButtonIcon.setAttribute('src', '../../resources/icons/sun.png');
-        }
-    }
-}
-
-function attachChangeThemeListener() {
-    let themeButton = document.getElementById('theme-button');
-    themeButton.onclick = changeTheme;
-}
-
-function scrollListener() {
-    let currentLocation = window.location.href;
-    let scrollIcon = document.getElementById('scroll-arrow');
-
-    currentLocation = currentLocation.substring(currentLocation.lastIndexOf('#') + 1);
-
-    let allSections = ['home', 'about', 'experience', 'portfolio', 'skills', 'contact'];
-
-    let currentPageLocationIndex = allSections.indexOf(currentLocation);
-    
-    if (currentPageLocationIndex === allSections.length - 1) {
-        scrollIcon.classList.remove('fa-arrow-up');
-        scrollIcon.classList.add('fa-arrow-down');
+    // Skip tilt if card is flipped
+    if (cardInner.style.transform && cardInner.style.transform.includes('rotateY(180deg)')) {
+        return;
     }
     
-    let nextIndex = currentPageLocationIndex + 1;
-
-    if (nextIndex >= allSections.length && nextIndex !== -1) {
-        nextIndex = 0;
-    }
-
-
-    if (nextIndex == allSections.length - 1) {
-        scrollIcon.classList.remove('fa-arrow-down');
-        scrollIcon.classList.add('fa-arrow-up');
-    }
-
-
-    scrollToSectionElement = document.getElementById(allSections[nextIndex] + '-link');
-    classActivate(scrollToSectionElement);
+    const cardRect = card.getBoundingClientRect();
+    
+    // Calculate mouse position relative to card center
+    const cardWidth = cardRect.width;
+    const cardHeight = cardRect.height;
+    const centerX = cardRect.left + cardWidth / 2;
+    const centerY = cardRect.top + cardHeight / 2;
+    const mouseX = e.clientX - centerX;
+    const mouseY = e.clientY - centerY;
+    
+    // Calculate rotation values
+    const rotateY = (mouseX / (cardWidth / 2)) * 5;
+    const rotateX = -(mouseY / (cardHeight / 2)) * 5;
+    
+    // Apply transformation
+    cardInner.style.transition = 'transform 0.1s ease-out';
+    cardInner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 }
 
-function attachScrollButtonListener() {
-    let scrollButton = document.getElementById('scroll-button');
-    scrollButton.onclick = scrollListener;
+// Reset tilt on mouse leave
+function resetExperienceCard() {
+    const cardInner = this.querySelector('.experience-card-inner');
+    if (!cardInner) return;
+    
+    cardInner.style.transition = 'transform 0.5s ease-out';
+    cardInner.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
 }
 
-function getBoundingRectangle(element) {
-    const rect = element.getBoundingClientRect();
-    return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-    );
-}
-
-function checkFocus(element) {
-    let allSections = document.getElementsByClassName('section');
-    for (let i = 0; i < allSections.length; i++) {
-        if (getBoundingRectangle(allSections[i])) {
-            classActivate(allSections[i]);
-        }
-    }
-}
-
-function attachCheckFocusListener() {
-    window.onscroll = checkFocus;
-}
-
-function toggleNeon() {
-    let lightsourceElements = document.getElementsByClassName('lightsource');
-    for (let i = 0; i < lightsourceElements.length; i++) {
-        if (lightsourceElements[i].classList.contains('neon')) {
-            lightsourceElements[i].classList.remove('neon');
-        } else {
-            lightsourceElements[i].classList.add('neon');
-        }
-    }
-}
-
-function attachToggleNeonListener() {
-    let nameBanner = document.getElementById('banner');
-    nameBanner.onmouseover = toggleNeon;
-    nameBanner.onmouseout = toggleNeon;
-}
-
-
-window.onload = () => {
-    if (window.location.href.indexOf('#') === -1) {
-        window.location.href += '#home';
+// Toggle card flip on click
+function toggleCardFlip() {
+    const cardInner = this.querySelector('.experience-card-inner');
+    if (!cardInner) return;
+    
+    if (cardInner.style.transform && cardInner.style.transform.includes('rotateY(180deg)')) {
+        cardInner.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
     } else {
-        window.location.href = window.location.href.replace(window.location.href.substring(window.location.href.indexOf('#')), '#home');
+        cardInner.style.transform = 'perspective(1000px) rotateX(0) rotateY(180deg)';
     }
-    attachClassActivateListener();
-    attachChangeThemeListener();
-    attachScrollButtonListener();
-    attachCheckFocusListener();
-    attachToggleNeonListener();
 }
 
-// Smooth scroll function
-function smoothScroll(targetId) {
-    const target = document.getElementById(targetId);
-    if (!target) return;
-
-    const targetPosition = target.offsetTop;
-    const startPosition = window.pageYOffset;
-    const distance = targetPosition - startPosition;
-    const duration = 1000;
-    let start = null;
-
-    function animation(currentTime) {
-        if (start === null) start = currentTime;
-        const timeElapsed = currentTime - start;
-        const progress = Math.min(timeElapsed / duration, 1);
-
-        // Easing function for smooth animation
-        const easeInOutQuad = progress => {
-            return progress < 0.5
-                ? 2 * progress * progress
-                : 1 - Math.pow(-2 * progress + 2, 2) / 2;
-        };
-
-        window.scrollTo(0, startPosition + (distance * easeInOutQuad(progress)));
-
-        if (timeElapsed < duration) {
-            requestAnimationFrame(animation);
-        }
-    }
-
-    requestAnimationFrame(animation);
-}
-
-// Update navigation active state based on scroll position
-function updateActiveNavLink() {
-    const sections = document.querySelectorAll('.section');
-    const navButtons = document.querySelectorAll('.nav-button');
-
-    sections.forEach((section, index) => {
-        const rect = section.getBoundingClientRect();
-        const isInView = (rect.top <= 150) && (rect.bottom >= 150);
-
-        if (isInView) {
-            // Remove active class from all buttons
-            navButtons.forEach(btn => btn.classList.remove('active'));
-            // Add active class to corresponding button
-            navButtons[index].classList.add('active');
-        }
-    });
-}
-
-// Initialize navigation
-function initNavigation() {
-    const navButtons = document.querySelectorAll('.nav-button');
-
-    navButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = button.getAttribute('data-target');
-            smoothScroll(targetId);
-        });
-    });
-
-    // Update active state on scroll
-    window.addEventListener('scroll', updateActiveNavLink);
+// Animate timeline points
+function animateTimelinePoints() {
+    const timelinePoints = document.querySelectorAll('.timeline-point');
     
-    // Initial update of active state
-    updateActiveNavLink();
-}
-
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', initNavigation);
-
-// Contact form handling
-document.addEventListener('DOMContentLoaded', function() {
-    const contactForm = document.getElementById('contactForm');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
+    timelinePoints.forEach((point, index) => {
+        setTimeout(() => {
+            point.style.transform = 'translateX(-50%) scale(1.2)';
+            point.style.boxShadow = '0 0 15px rgb(57, 252, 155)';
             
-            // Get form data
-            const formData = new FormData(contactForm);
-            const formDataObj = Object.fromEntries(formData.entries());
-            
-            // Here you would typically send the data to your backend
-            // For now, we'll just log it and show a success message
-            console.log('Form submitted:', formDataObj);
-            
-            // Add animation class to button
-            const submitBtn = contactForm.querySelector('.submit-btn');
-            submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Sent!';
-            submitBtn.style.background = 'linear-gradient(45deg, #00c853, #64dd17)';
-            
-            // Reset the form and button after 2 seconds
             setTimeout(() => {
-                contactForm.reset();
-                submitBtn.innerHTML = 'Send Message <i class="fa-solid fa-paper-plane"></i>';
-                submitBtn.style.background = 'linear-gradient(45deg, rgb(57, 252, 155), rgb(151, 227, 255))';
-            }, 2000);
+                point.style.transform = 'translateX(-50%) scale(1)';
+                point.style.boxShadow = '0 0 0 4px rgba(57, 252, 155, 0.2)';
+            }, 500);
+        }, index * 300);
+    });
+}
+
+// Check which timeline nodes are in view
+function checkTimelineVisibility() {
+    const timelineNodes = document.querySelectorAll('.timeline-node');
+    
+    timelineNodes.forEach(node => {
+        const rect = node.getBoundingClientRect();
+        const contentEl = node.querySelector('.timeline-content');
+        
+        // Consider a node in view if its top is in the bottom 80% of viewport
+        const isInView = rect.top <= (window.innerHeight * 0.8) && rect.bottom >= 0;
+        
+        if (isInView && contentEl) {
+            contentEl.classList.add('in-view');
+        }
+    });
+}
+
+// ===== Portfolio Cards =====
+
+function initPortfolioCards() {
+    const portfolioCards = document.querySelectorAll('.project-card');
+    
+    portfolioCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.zIndex = '10';
         });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.zIndex = '1';
+        });
+    });
+}
+
+// ===== Banner Effects =====
+
+function initBannerEffects() {
+    const banner = document.getElementById('banner');
+    if (banner) {
+        banner.addEventListener('mouseover', toggleNeonEffect);
+        banner.addEventListener('mouseout', toggleNeonEffect);
     }
-});
+}
+
+function toggleNeonEffect() {
+    const lightsources = document.getElementsByClassName('lightsource');
+    for (let i = 0; i < lightsources.length; i++) {
+        lightsources[i].classList.toggle('neon');
+    }
+}
