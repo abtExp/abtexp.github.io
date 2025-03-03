@@ -15,6 +15,7 @@
         <link rel="stylesheet" type="text/css" href="./style/portfolio.css">
         <link rel="stylesheet" type="text/css" href="./style/footer.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     </head>
     <body>
         <!-- Container For All Pages -->
@@ -145,45 +146,194 @@
             <!-- Experience Section -->
             <div id='experience' class='section'>
                 <h1 class='page-title'>Experience</h1>
-                <div class='timeline-container'>
-                    <div class='timeline'>
-                        <div class='timeline-item'>
-                            <div class='timeline-content'>
-                                <div class='timeline-date'>2023 - Present</div>
-                                <h3 class='timeline-title'>ML Research Engineer</h3>
-                                <p class='timeline-description'>Working on cutting-edge ML projects in computer vision and NLP.</p>
+                <div class='experience-container'>
+                    <!-- Experience Card 1 -->
+                    <div class='experience-card'>
+                        <div class='experience-card-inner'>
+                            <div class='experience-card-front'>
+                                <div class='company-logo'>
+                                    <i class="fa-solid fa-building"></i>
+                                </div>
+                                <h3 class='company-name'>Machine Learning Corp</h3>
+                                <div class='job-title'>ML Research Engineer</div>
+                                <div class='job-duration'>2023 - Present</div>
+                            </div>
+                            <div class='experience-card-back'>
+                                <h3>Key Responsibilities</h3>
+                                <ul class='experience-points'>
+                                    <li>Developed cutting-edge computer vision models for crowd density estimation</li>
+                                    <li>Implemented ML pipelines for license plate recognition with 98% accuracy</li>
+                                    <li>Created voice activity detection systems for noisy environments</li>
+                                    <li>Designed and deployed speaker diarization models on cloud infrastructure</li>
+                                </ul>
                             </div>
                         </div>
-                        <div class='timeline-item'>
-                            <div class='timeline-content'>
-                                <div class='timeline-date'>2021 - 2023</div>
-                                <h3 class='timeline-title'>Previous Role</h3>
-                                <p class='timeline-description'>Description of your previous role and achievements.</p>
+                    </div>
+                    
+                    <!-- Experience Card 2 -->
+                    <div class='experience-card'>
+                        <div class='experience-card-inner'>
+                            <div class='experience-card-front'>
+                                <div class='company-logo'>
+                                    <i class="fa-solid fa-laptop-code"></i>
+                                </div>
+                                <h3 class='company-name'>AI Solutions Inc</h3>
+                                <div class='job-title'>ML Engineer</div>
+                                <div class='job-duration'>2021 - 2023</div>
+                            </div>
+                            <div class='experience-card-back'>
+                                <h3>Key Responsibilities</h3>
+                                <ul class='experience-points'>
+                                    <li>Led multiple machine learning initiatives from POC to production</li>
+                                    <li>Established new capabilities in face recognition systems</li>
+                                    <li>Created object detection models with high precision and recall</li>
+                                    <li>Deployed ML solutions on AWS and GCP with high scalability</li>
+                                </ul>
                             </div>
                         </div>
-                        <!-- Add more timeline items as needed -->
+                    </div>
+                    
+                    <!-- Experience Card 3 -->
+                    <div class='experience-card'>
+                        <div class='experience-card-inner'>
+                            <div class='experience-card-front'>
+                                <div class='company-logo'>
+                                    <i class="fa-solid fa-chart-line"></i>
+                                </div>
+                                <h3 class='company-name'>Data Insights Co</h3>
+                                <div class='job-title'>Data Scientist</div>
+                                <div class='job-duration'>2020 - 2021</div>
+                            </div>
+                            <div class='experience-card-back'>
+                                <h3>Key Responsibilities</h3>
+                                <ul class='experience-points'>
+                                    <li>Designed machine learning models for various business problems</li>
+                                    <li>Analyzed large datasets to extract actionable insights</li>
+                                    <li>Built prediction models with high accuracy for business forecasting</li>
+                                    <li>Collaborated with cross-functional teams to deliver data-driven solutions</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Experience Card 4 -->
+                    <div class='experience-card'>
+                        <div class='experience-card-inner'>
+                            <div class='experience-card-front'>
+                                <div class='company-logo'>
+                                    <i class="fa-solid fa-graduation-cap"></i>
+                                </div>
+                                <h3 class='company-name'>Research University</h3>
+                                <div class='job-title'>Research Assistant</div>
+                                <div class='job-duration'>2019 - 2020</div>
+                            </div>
+                            <div class='experience-card-back'>
+                                <h3>Key Responsibilities</h3>
+                                <ul class='experience-points'>
+                                    <li>Conducted research in natural language processing</li>
+                                    <li>Published papers on innovative deep learning models</li>
+                                    <li>Implemented prototype solutions for academic research</li>
+                                    <li>Mentored junior researchers in ML methodologies</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <!-- End Experience Section -->
+            <div class="section-divider" id="experience-portfolio-divider"></div>
             <!-- Portfolio Section -->
+            <!-- Replace your current Portfolio Section with this improved version -->
             <div id='portfolio' class='section'>
                 <h1 class='page-title'>Portfolio</h1>
                 <div class='project-carousel'>
                     <div class='project-card'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
-                                <img src='/api/placeholder/300/200' alt='Project 1' class='project-image'/>
-                                <h3 class='project-title'>Project Name</h3>
+                                <img src='/api/placeholder/300/200' alt='Computer Vision Project' class='project-image'/>
+                                <h3 class='project-title'>Crowd Density Estimation</h3>
                                 <div class='project-tags'>
                                     <span class='project-tag'>Python</span>
-                                    <span class='project-tag'>Machine Learning</span>
+                                    <span class='project-tag'>PyTorch</span>
                                     <span class='project-tag'>Computer Vision</span>
                                 </div>
                             </div>
                             <div class='project-card-back'>
                                 <p class='project-description'>
-                                    Detailed description of the project, its challenges, and outcomes.
+                                    Developed a deep learning model for estimating crowd density in public spaces with over 95% accuracy.
+                                    The solution works in varied lighting conditions and can process real-time video streams.
+                                </p>
+                                <div class='project-links'>
+                                    <a href='#' class='project-link'>Demo</a>
+                                    <a href='#' class='project-link'>Code</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class='project-card'>
+                        <div class='project-card-inner'>
+                            <div class='project-card-front'>
+                                <img src='/api/placeholder/300/200' alt='NLP Project' class='project-image'/>
+                                <h3 class='project-title'>Code Generation NLP</h3>
+                                <div class='project-tags'>
+                                    <span class='project-tag'>Python</span>
+                                    <span class='project-tag'>TensorFlow</span>
+                                    <span class='project-tag'>NLP</span>
+                                </div>
+                            </div>
+                            <div class='project-card-back'>
+                                <p class='project-description'>
+                                    Built a natural language to Python code generator that converts text descriptions into 
+                                    executable code snippets with high accuracy and proper formatting.
+                                </p>
+                                <div class='project-links'>
+                                    <a href='#' class='project-link'>Demo</a>
+                                    <a href='#' class='project-link'>Code</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class='project-card'>
+                        <div class='project-card-inner'>
+                            <div class='project-card-front'>
+                                <img src='/api/placeholder/300/200' alt='Audio Project' class='project-image'/>
+                                <h3 class='project-title'>Speaker Diarization</h3>
+                                <div class='project-tags'>
+                                    <span class='project-tag'>Python</span>
+                                    <span class='project-tag'>Signal Processing</span>
+                                    <span class='project-tag'>ML</span>
+                                </div>
+                            </div>
+                            <div class='project-card-back'>
+                                <p class='project-description'>
+                                    Created an audio processing system that can identify and separate different speakers 
+                                    in a conversation, even in noisy environments.
+                                </p>
+                                <div class='project-links'>
+                                    <a href='#' class='project-link'>Demo</a>
+                                    <a href='#' class='project-link'>Code</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class='project-card'>
+                        <div class='project-card-inner'>
+                            <div class='project-card-front'>
+                                <img src='/api/placeholder/300/200' alt='Cloud Project' class='project-image'/>
+                                <h3 class='project-title'>ML Pipeline Automation</h3>
+                                <div class='project-tags'>
+                                    <span class='project-tag'>AWS</span>
+                                    <span class='project-tag'>Docker</span>
+                                    <span class='project-tag'>MLOps</span>
+                                </div>
+                            </div>
+                            <div class='project-card-back'>
+                                <p class='project-description'>
+                                    Designed and implemented an end-to-end ML pipeline on AWS that automates 
+                                    training, evaluation, and deployment of models with CI/CD integration.
                                 </p>
                                 <div class='project-links'>
                                     <a href='#' class='project-link'>Demo</a>
@@ -195,6 +345,7 @@
                 </div>
             </div>
             <!-- End Portfolio Section -->
+            <div class="section-divider" id="portfolio-skills-divider"></div>
             <!-- Skills Section -->
             <div id='skills' class='section'>
                 <h1 class='page-title'>Technical Skills</h1>
@@ -391,10 +542,11 @@
             <!-- Contact Section -->
             <!-- Contact Section -->
             <!-- Contact Section -->
+            <div class="section-divider" id="skills-contact-divider"></div>
             <div id='contact' class='section'>
                 <h1 class='page-title'>Let's Connect</h1>
                 <div class='contact-container'>
-                    <!-- Contact Info -->
+                    <!-- Contact Info (more compact) -->
                     <div class='contact-info'>
                         <div class='contact-info-item'>
                             <div class='contact-icon'>
@@ -433,8 +585,8 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Contact Form -->
+            
+                    <!-- Contact Form (more compact) -->
                     <div class='contact-form'>
                         <form id="contactForm">
                             <div class='form-group'>
@@ -460,7 +612,7 @@
                         </form>
                     </div>
                 </div>
-
+            
                 <!-- Background Elements -->
                 <div class='contact-bg-circle circle-1'></div>
                 <div class='contact-bg-circle circle-2'></div>
@@ -491,6 +643,14 @@
             <!-- End Footer Section -->
         </div>
         <!-- End Container -->
+    <style>
+        .section-divider {
+            height: 30px;
+            width: 100%;
+            clear: both;
+            visibility: hidden;
+        }
+    </style>
     </body>
     <script src='./src/js/index.js'></script>
     <script src="./src/js/tilt.js"></script>

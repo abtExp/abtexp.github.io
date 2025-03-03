@@ -1,3 +1,312 @@
+// Add this function to your index.js file to fix viewport sizing issues
+function adjustViewportHeight() {
+    // Set the viewport height for mobile browsers
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    
+    // Make sure footer doesn't cause overflow
+    const footer = document.getElementById('footer');
+    if (footer) {
+        footer.style.maxWidth = `${document.body.clientWidth}px`;
+    }
+    
+    // Check for any elements extending beyond viewport width
+    const allElements = document.querySelectorAll('*');
+    const bodyWidth = document.body.clientWidth;
+    
+    allElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.width > bodyWidth) {
+            // Apply fix to overly wide elements
+            el.style.maxWidth = '100%';
+            el.style.boxSizing = 'border-box';
+        }
+    });
+}
+
+// Run on page load and whenever the window is resized
+window.addEventListener('load', adjustViewportHeight);
+window.addEventListener('resize', adjustViewportHeight);
+
+// Improved scroll behavior function
+function smoothScrollToSection(targetId) {
+    const target = document.getElementById(targetId);
+    if (!target) return;
+    
+    // Prevent default anchor click behavior
+    event.preventDefault();
+    
+    const headerOffset = 80; // Adjust based on your header height
+    const elementPosition = target.getBoundingClientRect().top;
+    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    
+    window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+    });
+}
+
+// Better contact button functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const contactButton = document.getElementById('contact-click-button');
+    if (contactButton) {
+        contactButton.addEventListener('click', function() {
+            smoothScrollToSection('contact');
+        });
+    }
+});
+
+
+
+// Add this code to your index.js file to improve navigation
+document.addEventListener('DOMContentLoaded', function() {
+    // Properly initialize all navigation buttons
+    const navButtons = document.querySelectorAll('.nav-button');
+    
+    navButtons.forEach(button => {
+        if (!button.id.includes('theme-button')) { // Skip the theme toggle button
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Remove active class from all buttons
+                navButtons.forEach(btn => {
+                    if (!btn.id.includes('theme-button')) {
+                        btn.classList.remove('active');
+                    }
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Scroll to target section
+                const targetId = this.getAttribute('data-target');
+                document.getElementById(targetId).scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        }
+    });
+    
+    // Improve contact form submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simple form validation
+            const formElements = contactForm.elements;
+            let isValid = true;
+            
+            for (let i = 0; i < formElements.length; i++) {
+                if (formElements[i].hasAttribute('required') && !formElements[i].value.trim()) {
+                    formElements[i].style.borderColor = 'red';
+                    isValid = false;
+                } else if (formElements[i].type !== 'submit') {
+                    formElements[i].style.borderColor = '';
+                }
+            }
+            
+            if (!isValid) {
+                return;
+            }
+            
+            // Form is valid - handle submission
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            
+            // Disable button during "submission"
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+            
+            // Simulate form submission (replace with actual form handling)
+            setTimeout(() => {
+                submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
+                submitBtn.style.background = 'linear-gradient(to right, #00c853, #64dd17)';
+                
+                // Reset the form after success
+                setTimeout(() => {
+                    contactForm.reset();
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = 'Send Message <i class="fa-solid fa-paper-plane"></i>';
+                    submitBtn.style.background = 'linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673)';
+                }, 2000);
+            }, 1500);
+        });
+    }
+    
+    // Make contact button in home section work
+    const contactClickButton = document.getElementById('contact-click-button');
+    if (contactClickButton) {
+        contactClickButton.addEventListener('click', function() {
+            // Activate contact nav button
+            const contactNavButton = document.querySelector('.nav-button[data-target="contact"]');
+            if (contactNavButton) {
+                contactNavButton.click();
+            } else {
+                // Fallback if button not found
+                document.getElementById('contact').scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    }
+});
+
+// Add this to your index.js file to fix section positioning issues
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Fix section heights and positioning
+    function adjustSectionHeights() {
+        const sections = document.querySelectorAll('.section');
+        const windowHeight = window.innerHeight;
+        
+        // Adjust each section
+        sections.forEach(section => {
+            // Ensure minimum height but allow content to expand it
+            section.style.minHeight = `${windowHeight}px`;
+            
+            // Special handling for specific sections
+            if (section.id === 'experience' || section.id === 'portfolio') {
+                // Add extra spacing between these problematic sections
+                if (section.id === 'experience') {
+                    section.style.marginBottom = '40px';
+                } else {
+                    section.style.marginTop = '40px';
+                }
+            }
+            
+            // Special handling for contact section
+            if (section.id === 'contact') {
+                // Calculate appropriate height for contact to avoid footer overlap
+                const footer = document.getElementById('footer');
+                const footerHeight = footer ? footer.offsetHeight : 0;
+                section.style.marginBottom = `${footerHeight}px`;
+                
+                // Limit contact form height if needed
+                const contactContainer = section.querySelector('.contact-container');
+                if (contactContainer) {
+                    const availableHeight = windowHeight - 200; // Account for padding and margins
+                    contactContainer.style.maxHeight = `${availableHeight}px`;
+                }
+            }
+        });
+    }
+    
+    // Fix portfolio card hover behavior
+    function fixPortfolioCardHover() {
+        const cards = document.querySelectorAll('.project-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                // Increase z-index when hovering
+                this.style.zIndex = '10';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                // Reset z-index when not hovering
+                this.style.zIndex = '1';
+            });
+        });
+    }
+    
+    // Run fixes on load and resize
+    adjustSectionHeights();
+    fixPortfolioCardHover();
+    window.addEventListener('resize', adjustSectionHeights);
+    
+    // Fix initial scroll position to avoid section overlap
+    setTimeout(function() {
+        // Slight scroll adjustment to force recalculation of positions
+        window.scrollBy(0, 1);
+        window.scrollBy(0, -1);
+    }, 200);
+});
+
+// Add this to your index.js file or create a new experience-tilt.js file
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all experience cards
+    const experienceCards = document.querySelectorAll('.experience-card');
+    
+    // Add tilt effect to each card
+    experienceCards.forEach(card => {
+        card.addEventListener('mousemove', tiltCard);
+        card.addEventListener('mouseleave', resetTilt);
+        card.addEventListener('mouseenter', enterCard);
+    });
+    
+    // Function to create the tilt effect
+    function tiltCard(e) {
+        const card = this;
+        const cardInner = card.querySelector('.experience-card-inner');
+        const cardRect = card.getBoundingClientRect();
+        
+        // Calculate mouse position relative to card center
+        const cardWidth = cardRect.width;
+        const cardHeight = cardRect.height;
+        const centerX = cardRect.left + cardWidth / 2;
+        const centerY = cardRect.top + cardHeight / 2;
+        const mouseX = e.clientX - centerX;
+        const mouseY = e.clientY - centerY;
+        
+        // Calculate rotation values (reduced intensity for smoother effect)
+        const rotateY = (mouseX / (cardWidth / 2)) * 8; // Horizontal tilt
+        const rotateX = -(mouseY / (cardHeight / 2)) * 8; // Vertical tilt
+        
+        // Apply transformation
+        cardInner.style.transition = 'transform 0.1s ease-out';
+        
+        // Only apply tilt, not flip (the flip happens on hover via CSS)
+        if (!card.classList.contains('hovered')) {
+            cardInner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        }
+    }
+    
+    // Function to reset tilt when mouse leaves
+    function resetTilt() {
+        const cardInner = this.querySelector('.experience-card-inner');
+        cardInner.style.transition = 'transform 0.5s ease-out';
+        
+        // Reset to normal state
+        if (!this.classList.contains('hovered')) {
+            cardInner.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+        }
+        
+        // Remove hovered class
+        this.classList.remove('hovered');
+    }
+    
+    // Function for card flip on hover
+    function enterCard() {
+        // Add hovered class to manage state
+        this.classList.add('hovered');
+    }
+    
+    // Add highlight effect when scrolling
+    window.addEventListener('scroll', () => {
+        experienceCards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const isInView = 
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+                
+            if (isInView) {
+                card.classList.add('in-view');
+            } else {
+                card.classList.remove('in-view');
+            }
+        });
+    });
+    
+    // Trigger initial check for cards in view
+    setTimeout(() => {
+        window.dispatchEvent(new Event('scroll'));
+    }, 300);
+});
+
 function redirectToSection(redirectLocation) {
     let currentLocation = window.location.href;
     let redirectTo = currentLocation.substring(0, currentLocation.indexOf('#'));
@@ -73,9 +382,6 @@ function scrollListener() {
     let allSections = ['home', 'about', 'experience', 'portfolio', 'skills', 'contact'];
 
     let currentPageLocationIndex = allSections.indexOf(currentLocation);
-    console.log(currentLocation);
-    console.log(currentPageLocationIndex);
-    console.log(allSections[currentPageLocationIndex]);
     
     if (currentPageLocationIndex === allSections.length - 1) {
         scrollIcon.classList.remove('fa-arrow-up');
@@ -83,7 +389,6 @@ function scrollListener() {
     }
     
     let nextIndex = currentPageLocationIndex + 1;
-    console.log(allSections[nextIndex]);
 
     if (nextIndex >= allSections.length && nextIndex !== -1) {
         nextIndex = 0;
@@ -107,7 +412,6 @@ function attachScrollButtonListener() {
 
 function getBoundingRectangle(element) {
     const rect = element.getBoundingClientRect();
-    console.log(`${element.getAttribute("id")} : `, rect);
     return (
         rect.top >= 0 &&
         rect.left >= 0 &&
@@ -121,7 +425,6 @@ function checkFocus(element) {
     for (let i = 0; i < allSections.length; i++) {
         if (getBoundingRectangle(allSections[i])) {
             classActivate(allSections[i]);
-            console.log('Focused On : ', allSections[i].getAttribute('id'));
         }
     }
 }
@@ -132,7 +435,6 @@ function attachCheckFocusListener() {
 
 function toggleNeon() {
     let lightsourceElements = document.getElementsByClassName('lightsource');
-    console.log(lightsourceElements);
     for (let i = 0; i < lightsourceElements.length; i++) {
         if (lightsourceElements[i].classList.contains('neon')) {
             lightsourceElements[i].classList.remove('neon');

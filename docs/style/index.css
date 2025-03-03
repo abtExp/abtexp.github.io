@@ -1,3 +1,177 @@
+/* Add these to your index.css file at the beginning */
+html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container adjustments */
+#container {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Fix footer overflow */
+#footer {
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    left: 0;
+    right: 0;
+}
+
+/* Adjust skill containers to be more responsive */
+@media screen and (max-width: 1200px) {
+    .skill-container {
+        max-width: 45%;
+        margin: 10px auto;
+    }
+    
+    #skills .page-content-container {
+        padding: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .skill-container {
+        max-width: 90%;
+        margin: 10px auto;
+    }
+    
+    .page-content-container {
+        padding: 10px;
+    }
+    
+    #home {
+        flex-direction: column;
+    }
+    
+    #banner {
+        max-width: 100%;
+        height: 40vh;
+    }
+}
+
+/* Fix contact section spacing */
+.contact-container {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+/* Make sure images don't overflow */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Add these to your index.css file to fix section overlapping */
+
+/* Ensure proper section separation */
+.section {
+    min-height: 100vh;
+    padding: 60px 0;
+    margin: 0;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Specifically fix experience and portfolio sections */
+#experience {
+    margin-bottom: 30px;
+    padding-bottom: 80px;
+}
+
+#portfolio {
+    padding-top: 80px;
+}
+
+/* Fix portfolio card hover behavior */
+.project-carousel {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px; /* Increased gap between cards */
+    padding: 50px 0;
+    position: relative;
+}
+
+.project-card {
+    width: 300px;
+    height: 400px;
+    perspective: 1000px;
+    margin: 10px;
+    position: relative;
+    z-index: 1; /* Default z-index */
+    transition: z-index 0.01s step-end; /* Prevent z-index animation */
+}
+
+.project-card:hover {
+    z-index: 10; /* Higher z-index on hover */
+    transition: z-index 0.01s step-start; /* Immediately apply z-index change */
+}
+
+/* Fix contact form sizing */
+.contact-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    display: flex;
+    gap: 40px;
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+    max-height: 70vh; /* Limit height to prevent overflow */
+    overflow: visible;
+}
+
+.contact-form, .contact-info {
+    max-height: 100%;
+    overflow-y: auto; /* Allow scrolling if content overflows */
+    flex: 1;
+}
+
+/* Fix contact section spacing */
+#contact {
+    margin-bottom: 150px; /* Ensure space for footer */
+    min-height: auto; /* Override min-height for this section */
+    padding-bottom: 30px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;
+        max-height: none;
+    }
+    
+    .contact-form, .contact-info {
+        width: 100%;
+        max-height: none;
+    }
+    
+    #contact {
+        margin-bottom: 100px;
+        padding-bottom: 20px;
+    }
+    
+    .project-card {
+        width: 280px;
+        height: 380px;
+    }
+}
+
+
 @font-face {
     font-family: glacial-indifference;
     src: url(../resources/fonts/glacial-indifference/glacial-indifference-regular.otf);

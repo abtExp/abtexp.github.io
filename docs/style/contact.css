@@ -1,3 +1,108 @@
+/* Add these styles to your contact.css file */
+
+/* Adjust contact form container */
+.contact-container {
+    max-width: 1000px; /* Reduced from 1200px */
+    margin: 20px auto; /* Reduced from 40px */
+}
+
+/* Make form elements more compact */
+.form-group {
+    margin-bottom: 15px; /* Reduced from 25px */
+}
+
+.form-control {
+    padding: 12px 15px; /* Reduced from 15px 20px */
+}
+
+textarea.form-control {
+    min-height: 100px; /* Reduced from 150px */
+}
+
+/* Make contact info items more compact */
+.contact-info-item {
+    padding: 15px; /* Reduced from 20px */
+    gap: 15px; /* Reduced from 20px */
+}
+
+.contact-icon {
+    min-width: 40px; /* Reduced from 50px */
+    width: 40px; /* Reduced from 50px */
+    height: 40px; /* Reduced from 50px */
+}
+
+/* Fix footer positioning */
+#footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    z-index: 1;
+    padding-top: 30px; /* Reduced from 50px */
+    margin-top: 0;
+    border-radius: 40px 40px 0 0; /* Reduced from 60px */
+}
+
+/* Adjust footer image size */
+#footer-banner-floating img {
+    max-width: 10%; /* Reduced from 15% */
+    padding: 15px; /* Reduced from 20px */
+}
+
+/* Fix quote positioning */
+#quote {
+    font-size: 2.5em; /* Reduced from 3em */
+    margin-top: -100px; /* Adjusted from -120px */
+}
+
+/* Additional responsive adjustments */
+@media screen and (max-width: 992px) {
+    .contact-container {
+        flex-direction: column;
+        gap: 20px; /* Reduced from 40px */
+    }
+    
+    .contact-info, .contact-form {
+        padding: 25px; /* Reduced from 40px */
+    }
+    
+    #footer {
+        padding-top: 20px;
+    }
+    
+    #quote {
+        font-size: 2em;
+        margin-top: -80px;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .contact-info, .contact-form {
+        padding: 15px; /* Further reduced */
+    }
+    
+    .form-control {
+        padding: 10px;
+    }
+    
+    .submit-btn {
+        padding: 12px 30px; /* Reduced from 15px 40px */
+    }
+    
+    #footer-banner-floating img {
+        max-width: 15%;
+    }
+    
+    #quote {
+        font-size: 1.5em;
+        margin-top: -60px;
+    }
+}
+
+
+
 #contact {
     padding: 50px 20px;
     position: relative;
