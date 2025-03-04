@@ -96,23 +96,43 @@ function updateActiveNavLink() {
 }
 
 // Smooth scroll to section
-function smoothScrollToSection(targetId) {
+function smoothScrollToSection(targetId, event) {
+    // Prevent default if an event was passed
+    if (event) {
+        event.preventDefault();
+    }
+    
+    // Get the target element
     const target = document.getElementById(targetId);
-    if (!target) return;
+    if (!target) {
+        console.warn(`Target element with ID "${targetId}" not found`);
+        return;
+    }
     
-    const headerOffset = 80;
+    // Calculate position
+    const headerOffset = 80; // Adjust based on your fixed header height
     const elementPosition = target.getBoundingClientRect().top;
-    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-    console.log(offsetPosition);
+    const offsetPosition = window.pageYOffset + elementPosition - headerOffset;
     
+    // Perform the smooth scroll
     window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth'
     });
     
-    // Update URL hash without jumping
-    history.pushState(null, null, `#${targetId}`);
+    // Update URL hash without scrolling (optional)
+    setTimeout(() => {
+        history.pushState(null, null, `#${targetId}`);
+    }, 10);
+    
+    // Update the active navigation button
+    const navButtons = document.querySelectorAll('.nav-button');
+    navButtons.forEach(btn => {
+        if (btn.getAttribute('data-target') === targetId) {
+            navButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+    });
 }
 
 // ===== Theme Toggle =====
