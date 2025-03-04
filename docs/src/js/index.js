@@ -51,6 +51,7 @@ function initNavigation() {
                 
                 // Scroll to target
                 const targetId = this.getAttribute('data-target');
+                console.log(targetId);
                 smoothScrollToSection(targetId);
             });
         }
@@ -112,10 +113,10 @@ function smoothScrollToSection(targetId, event) {
     // Calculate position
     const headerOffset = 80; // Adjust based on your fixed header height
     const elementPosition = target.getBoundingClientRect().top;
-    const offsetPosition = window.pageYOffset + elementPosition - headerOffset;
+    const offsetPosition = elementPosition - headerOffset;
     
     // Perform the smooth scroll
-    window.scrollTo({
+    window.scroll({
         top: offsetPosition,
         behavior: 'smooth'
     });
@@ -248,7 +249,7 @@ function adjustViewportSizes() {
             section.style.marginBottom = `${footerHeight}px`;
             
             // Limit contact form height
-            const contactContainer = section.querySelector('.contact-container');
+            const contactContainer = document.querySelector('.contact-container');
             if (contactContainer) {
                 const availableHeight = windowHeight - 200;
                 contactContainer.style.maxHeight = `${availableHeight}px`;
@@ -285,7 +286,7 @@ function adjustExperienceSection(section) {
     }
     
     // Set minimum height for the timeline container
-    const timelineContainer = section.querySelector('.timeline-container');
+    const timelineContainer = document.querySelector('.timeline-container');
     if (timelineContainer) {
         // Make sure the timeline container has enough height
         const lastNode = timelineContainer.querySelector('.timeline-node:last-of-type');
@@ -323,7 +324,7 @@ function adjustExperienceSection(section) {
     }
     
     // Fix mobile timeline point positioning
-    const timelinePoints = section.querySelectorAll('.timeline-point');
+    const timelinePoints = document.querySelectorAll('.timeline-point');
     if (window.innerWidth <= 768) {
         timelinePoints.forEach(point => {
             point.style.transform = 'translateX(0)';
@@ -335,7 +336,7 @@ function adjustExperienceSection(section) {
     }
     
     // Force opacity to 1 on all timeline content
-    const timelineContents = section.querySelectorAll('.timeline-content');
+    const timelineContents = document.querySelectorAll('.timeline-content');
     timelineContents.forEach(content => {
         content.style.opacity = '1';
     });
