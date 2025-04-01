@@ -51,7 +51,6 @@ function initNavigation() {
                 
                 // Scroll to target
                 const targetId = this.getAttribute('data-target');
-                console.log(targetId);
                 smoothScrollToSection(targetId);
             });
         }
@@ -116,10 +115,6 @@ function smoothScrollToSection(targetId, event) {
     const offsetPosition = elementPosition - headerOffset;
     
     // Perform the smooth scroll
-    window.scroll({
-        top: offsetPosition,
-        behavior: 'smooth'
-    });
     
     // Update URL hash without scrolling (optional)
     setTimeout(() => {
@@ -133,6 +128,11 @@ function smoothScrollToSection(targetId, event) {
             navButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
         }
+    });
+
+    window.scroll({
+        top: window.pageYOffset + offsetPosition,
+        behavior: 'smooth'
     });
 }
 
