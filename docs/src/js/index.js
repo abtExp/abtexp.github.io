@@ -1,6 +1,6 @@
 /**
  * Portfolio Website JavaScript
- * Consolidated and optimized version
+ * Fixed version with proper layout management
  */
 
 // Main initialization when DOM is ready
@@ -14,20 +14,22 @@ document.addEventListener('DOMContentLoaded', function() {
     initExperienceCards();
     initPortfolioCards();
     initBannerEffects();
+    initAboutSection();
+    initAboutCardEffects();
+    initAboutParallax();
     
     // Check initial hash and set default if none
     if (window.location.href.indexOf('#') === -1) {
         window.location.href += '#home';
     } else {
-        // Make sure home is active if refreshed on another section
         updateActiveNavLink();
     }
     
-    // Force layout recalculation to prevent section overlap
+    // Force layout recalculation after everything loads
     setTimeout(function() {
-        window.scrollBy(0, 1);
-        window.scrollBy(0, -1);
-    }, 300);
+        adjustViewportSizes();
+        adjustExperienceSection();
+    }, 100);
 });
 
 // ===== Navigation Functions =====
@@ -47,11 +49,11 @@ function initNavigation() {
                         btn.classList.remove('active');
                     }
                 });
-                this.classList.add('active');
+
+                button.classList.add('active');
                 
                 // Scroll to target
-                const targetId = this.getAttribute('data-target');
-                console.log(targetId);
+                const targetId = button.getAttribute('data-target');
                 smoothScrollToSection(targetId);
             });
         }
@@ -71,69 +73,76 @@ function initNavigation() {
     }
     
     // Update active link on scroll
-    window.addEventListener('scroll', updateActiveNavLink);
+    window.addEventListener('scroll', throttle(updateActiveNavLink, 100));
     updateActiveNavLink(); // Initial call
+}
+
+// Throttle function for better performance
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
 }
 
 // Update active nav button based on visible section
 function updateActiveNavLink() {
     const sections = document.querySelectorAll('.section');
     const navButtons = document.querySelectorAll('.nav-button');
+    const scrollPosition = window.scrollY + 200; // Offset for better detection
     
-    sections.forEach((section, index) => {
-        const rect = section.getBoundingClientRect();
-        // Consider a section in view if its top is near the top of viewport
-        const isInView = (rect.top <= 150) && (rect.bottom >= 150);
+    let currentSection = '';
+    
+    sections.forEach((section) => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
         
-        if (isInView && index < navButtons.length && !navButtons[index].id.includes('theme-button')) {
-            navButtons.forEach(btn => {
-                if (!btn.id.includes('theme-button')) {
-                    btn.classList.remove('active');
-                }
-            });
-            navButtons[index].classList.add('active');
+        if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+            currentSection = section.id;
+        }
+    });
+    
+    // Update active button
+    navButtons.forEach((btn, index) => {
+        if (!btn.id.includes('theme-button')) {
+            const targetId = btn.getAttribute('data-target');
+            if (targetId === currentSection) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
         }
     });
 }
 
-// Smooth scroll to section
+// Smooth scroll to section with proper offset
 function smoothScrollToSection(targetId, event) {
-    // Prevent default if an event was passed
     if (event) {
         event.preventDefault();
     }
-    
-    // Get the target element
+
     const target = document.getElementById(targetId);
     if (!target) {
         console.warn(`Target element with ID "${targetId}" not found`);
         return;
     }
-    
-    // Calculate position
-    const headerOffset = 80; // Adjust based on your fixed header height
-    const elementPosition = target.getBoundingClientRect().top;
-    const offsetPosition = elementPosition - headerOffset;
-    
-    // Perform the smooth scroll
-    window.scroll({
-        top: offsetPosition,
+
+    const headerOffset = 100; // Increased offset for better positioning
+    const offsetPosition = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+
+    window.scrollTo({
+        top: Math.max(0, offsetPosition), // Ensure we don't scroll to negative position
         behavior: 'smooth'
     });
-    
-    // Update URL hash without scrolling (optional)
-    setTimeout(() => {
-        history.pushState(null, null, `#${targetId}`);
-    }, 10);
-    
-    // Update the active navigation button
-    const navButtons = document.querySelectorAll('.nav-button');
-    navButtons.forEach(btn => {
-        if (btn.getAttribute('data-target') === targetId) {
-            navButtons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-        }
-    });
+
+    // Update URL without causing scroll
+    history.replaceState(null, null, `#${targetId}`);
 }
 
 // ===== Theme Toggle =====
@@ -146,29 +155,46 @@ function initThemeToggle() {
 }
 
 function toggleTheme() {
+    const container = document.getElementById('container');
     const sections = document.getElementsByClassName('section');
     const themeButtonIcon = document.getElementById('theme-icon');
-    const activeTheme = themeButtonIcon.classList[1];
     const navbar = document.getElementById('navigation');
     
+    const isDark = container.classList.contains('dark-theme');
+    
+    // Toggle container theme
+    if (isDark) {
+        container.classList.remove('dark-theme');
+        container.classList.add('light-theme');
+        themeButtonIcon.setAttribute('src', './resources/icons/moon.png');
+    } else {
+        container.classList.remove('light-theme');
+        container.classList.add('dark-theme');
+        themeButtonIcon.setAttribute('src', './resources/icons/sun.png');
+    }
+    
+    // Toggle all sections
     for (let i = 0; i < sections.length; i++) {
-        if (activeTheme === 'dark-theme') {
+        if (isDark) {
             sections[i].classList.remove('dark-theme');
             sections[i].classList.add('light-theme');
-            themeButtonIcon.classList.remove('dark-theme');
-            themeButtonIcon.classList.add('light-theme');
-            navbar.classList.remove('dark-theme');
-            navbar.classList.add('light-theme');
-            themeButtonIcon.setAttribute('src', './resources/icons/moon.png');
         } else {
             sections[i].classList.remove('light-theme');
             sections[i].classList.add('dark-theme');
-            themeButtonIcon.classList.remove('light-theme');
-            themeButtonIcon.classList.add('dark-theme');
-            navbar.classList.remove('light-theme');
-            navbar.classList.add('dark-theme');
-            themeButtonIcon.setAttribute('src', './resources/icons/sun.png');
         }
+    }
+    
+    // Toggle navbar
+    if (isDark) {
+        navbar.classList.remove('dark-theme');
+        navbar.classList.add('light-theme');
+        themeButtonIcon.classList.remove('dark-theme');
+        themeButtonIcon.classList.add('light-theme');
+    } else {
+        navbar.classList.remove('light-theme');
+        navbar.classList.add('dark-theme');
+        themeButtonIcon.classList.remove('light-theme');
+        themeButtonIcon.classList.add('dark-theme');
     }
 }
 
@@ -195,7 +221,7 @@ function scrollToNextSection() {
     }
     
     // Update icon direction
-    if (nextIndex === allSections.length - 1) {
+    if (nextIndex === 0) {
         scrollIcon.classList.remove('fa-arrow-down');
         scrollIcon.classList.add('fa-arrow-up');
     } else {
@@ -205,273 +231,311 @@ function scrollToNextSection() {
     
     // Scroll to next section
     smoothScrollToSection(allSections[nextIndex]);
-    
-    // Update active nav button
-    const navButton = document.querySelector(`.nav-button[data-target="${allSections[nextIndex]}"]`);
-    if (navButton) {
-        const buttons = document.querySelectorAll('.nav-button');
-        buttons.forEach(btn => btn.classList.remove('active'));
-        navButton.classList.add('active');
-    }
 }
 
 // ===== Section Size Adjustments =====
 
 function initSectionAdjustments() {
     adjustViewportSizes();
-    window.addEventListener('resize', adjustViewportSizes);
+    window.addEventListener('resize', debounce(adjustViewportSizes, 250));
+    window.addEventListener('orientationchange', function() {
+        setTimeout(adjustViewportSizes, 500);
+    });
+}
+
+// Debounce function for resize events
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
 // Fix viewport sizing issues
 function adjustViewportSizes() {
-    // Set the viewport height variable for mobile browsers
+    // Set CSS custom property for viewport height
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
     
-    // Adjust section heights
-    const sections = document.querySelectorAll('.section');
-    const windowHeight = window.innerHeight;
+    // Ensure sections don't overlap
+    ensureSectionSeparation();
     
-    sections.forEach(section => {
-        // Ensure minimum height
-        section.style.minHeight = `${windowHeight}px`;
+    // Fix any layout issues
+    fixLayoutIssues();
+}
+
+// Ensure proper section separation
+function ensureSectionSeparation() {
+    const sections = ['experience', 'portfolio', 'skills', 'contact'];
+    
+    sections.forEach((sectionId, index) => {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
         
-        // Special handling for specific sections
-        if (section.id === 'experience') {
-            section.style.marginBottom = '40px';
-            adjustExperienceSection(section);
-        } else if (section.id === 'portfolio') {
-            section.style.marginTop = '40px';
-        } else if (section.id === 'contact') {
-            // Adjust contact section height to avoid footer overlap
-            const footer = document.getElementById('footer');
-            const footerHeight = footer ? footer.offsetHeight : 0;
-            section.style.marginBottom = `${footerHeight}px`;
-            
-            // Limit contact form height
-            const contactContainer = document.querySelector('.contact-container');
-            if (contactContainer) {
-                const availableHeight = windowHeight - 200;
-                contactContainer.style.maxHeight = `${availableHeight}px`;
-            }
+        // Clear any transforms that might affect positioning
+        section.style.transform = '';
+        
+        // Ensure section is properly positioned
+        section.style.position = 'relative';
+        section.style.zIndex = index + 1;
+        
+        // Add proper margins based on section
+        switch(sectionId) {
+            case 'experience':
+                section.style.marginBottom = '0';
+                section.style.paddingBottom = '60px';
+                break;
+            case 'portfolio':
+                section.style.marginTop = '80px';
+                section.style.paddingTop = '60px';
+                break;
+            case 'skills':
+                section.style.marginTop = '60px';
+                section.style.paddingTop = '60px';
+                break;
+            case 'contact':
+                section.style.marginTop = '60px';
+                section.style.marginBottom = '150px';
+                break;
         }
     });
     
-    // Fix footer width
+    // Force clear any floated elements
+    const timelineContainer = document.querySelector('.timeline-container');
+    if (timelineContainer) {
+        timelineContainer.style.overflow = 'visible';
+        // Add clearfix
+        if (!timelineContainer.querySelector('.clearfix-after')) {
+            const clearDiv = document.createElement('div');
+            clearDiv.className = 'clearfix-after';
+            clearDiv.style.clear = 'both';
+            clearDiv.style.height = '1px';
+            clearDiv.style.width = '100%';
+            timelineContainer.appendChild(clearDiv);
+        }
+    }
+}
+
+// Fix general layout issues
+function fixLayoutIssues() {
+    // Fix footer positioning
     const footer = document.getElementById('footer');
     if (footer) {
-        footer.style.maxWidth = `${document.body.clientWidth}px`;
+        footer.style.maxWidth = '100%';
+        footer.style.width = '100%';
+        footer.style.position = 'relative';
+        footer.style.clear = 'both';
     }
     
-    // Check for elements wider than viewport
-    const bodyWidth = document.body.clientWidth;
-    document.querySelectorAll('*').forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.width > bodyWidth) {
-            el.style.maxWidth = '100%';
-            el.style.boxSizing = 'border-box';
-        }
+    // Fix navigation background on scroll
+    const navigation = document.getElementById('navigation');
+    if (navigation && window.scrollY > 50) {
+        navigation.style.background = 'rgba(238, 238, 238, 0.95)';
+        navigation.style.backdropFilter = 'blur(10px)';
+    }
+    
+    // Ensure images don't overflow
+    document.querySelectorAll('img').forEach(img => {
+        img.style.maxWidth = '100%';
+        img.style.height = 'auto';
     });
 }
 
 // Special adjustments for experience section
-// Add this function to your index.js file or replace the existing adjustExperienceSection function
-
-// Fix experience section spacing and layout
-function adjustExperienceSection(section) {
-    // Ensure we have a section to work with
-    if (!section) {
-        section = document.getElementById('experience');
-        if (!section) return;
-    }
+function adjustExperienceSection() {
+    const section = document.getElementById('experience');
+    if (!section) return;
     
-    // Set minimum height for the timeline container
     const timelineContainer = document.querySelector('.timeline-container');
-    if (timelineContainer) {
-        // Make sure the timeline container has enough height
-        const lastNode = timelineContainer.querySelector('.timeline-node:last-of-type');
-        if (lastNode) {
-            const lastNodePosition = lastNode.offsetTop + lastNode.offsetHeight;
-            // Add some buffer space
-            timelineContainer.style.minHeight = `${lastNodePosition + 100}px`;
-        }
-    }
+    if (!timelineContainer) return;
     
-    // Fix spacing between sections
-    const portfolioSection = document.getElementById('portfolio');
-    if (portfolioSection) {
-        // Calculate distance between sections
-        const experienceRect = section.getBoundingClientRect();
-        const portfolioRect = portfolioSection.getBoundingClientRect();
-        
-        // If sections are overlapping or too close
-        if (portfolioRect.top < experienceRect.bottom + 50) {
-            // Add spacer if it doesn't exist
-            if (!document.getElementById('experience-portfolio-spacer')) {
-                const spacer = document.createElement('div');
-                spacer.id = 'experience-portfolio-spacer';
-                spacer.style.height = '150px';  // Taller spacer
-                spacer.style.width = '100%';
-                spacer.style.clear = 'both';
-                spacer.style.display = 'block';
-                spacer.style.position = 'relative';
-                section.appendChild(spacer);
-            }
-            
-            // Set explicit margin on portfolio section
-            portfolioSection.style.marginTop = '60px';
-        }
-    }
+    // Get all timeline nodes
+    const timelineNodes = document.querySelectorAll('.timeline-node');
     
-    // Fix mobile timeline point positioning
-    const timelinePoints = document.querySelectorAll('.timeline-point');
-    if (window.innerWidth <= 768) {
-        timelinePoints.forEach(point => {
-            point.style.transform = 'translateX(0)';
-        });
-    } else {
-        timelinePoints.forEach(point => {
-            point.style.transform = 'translateX(-50%)';
-        });
-    }
+    // Calculate required height
+    let maxHeight = 0;
+    timelineNodes.forEach(node => {
+        const nodeBottom = node.offsetTop + node.offsetHeight;
+        maxHeight = Math.max(maxHeight, nodeBottom);
+    });
     
-    // Force opacity to 1 on all timeline content
+    // Set minimum height with buffer
+    timelineContainer.style.minHeight = `${maxHeight + 100}px`;
+    
+    // Ensure timeline content is visible
     const timelineContents = document.querySelectorAll('.timeline-content');
     timelineContents.forEach(content => {
         content.style.opacity = '1';
+        content.style.position = 'relative';
     });
+    
+    // Fix mobile timeline positioning
+    if (window.innerWidth <= 768) {
+        const timelinePoints = document.querySelectorAll('.timeline-point');
+        timelinePoints.forEach(point => {
+            point.style.transform = 'translateX(0)';
+        });
+    }
+    
+    // Add spacer between experience and portfolio if needed
+    const portfolioSection = document.getElementById('portfolio');
+    if (portfolioSection) {
+        const experienceRect = section.getBoundingClientRect();
+        const portfolioRect = portfolioSection.getBoundingClientRect();
+        
+        // If sections are too close, adjust spacing
+        if (Math.abs(portfolioRect.top - experienceRect.bottom) < 100) {
+            portfolioSection.style.marginTop = '120px';
+        }
+    }
 }
-
-// Run this function immediately
-document.addEventListener('DOMContentLoaded', function() {
-    adjustExperienceSection();
-    
-    // Also run on window resize
-    window.addEventListener('resize', adjustExperienceSection);
-    
-    // And run again after a delay to handle dynamic content
-    setTimeout(adjustExperienceSection, 500);
-    setTimeout(adjustExperienceSection, 2000);
-});
 
 // ===== Contact Form =====
 
 function initContactForm() {
     const contactForm = document.getElementById('contactForm');
     if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Validate form
-            const formElements = contactForm.elements;
-            let isValid = true;
-            
-            for (let i = 0; i < formElements.length; i++) {
-                if (formElements[i].hasAttribute('required') && !formElements[i].value.trim()) {
-                    formElements[i].style.borderColor = 'red';
-                    isValid = false;
-                } else if (formElements[i].type !== 'submit') {
-                    formElements[i].style.borderColor = '';
-                }
-            }
-            
-            if (!isValid) return;
-            
-            // Handle submission
-            const submitBtn = contactForm.querySelector('.submit-btn');
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
-            
-            // Simulate submission (replace with actual form handling)
-            setTimeout(() => {
-                submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
-                submitBtn.style.background = 'linear-gradient(to right, #00c853, #64dd17)';
-                
-                // Reset form after success
-                setTimeout(() => {
-                    contactForm.reset();
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = 'Send Message <i class="fa-solid fa-paper-plane"></i>';
-                    submitBtn.style.background = 'linear-gradient(to right, #25aae1, #40e495, #30dd8a, #2bb673)';
-                }, 2000);
-            }, 1500);
-        });
+        contactForm.addEventListener('submit', handleFormSubmission);
     }
+}
+
+function handleFormSubmission(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const formElements = form.elements;
+    let isValid = true;
+    
+    // Validate form
+    for (let i = 0; i < formElements.length; i++) {
+        const element = formElements[i];
+        if (element.hasAttribute('required') && !element.value.trim()) {
+            element.style.borderColor = '#ff4757';
+            element.style.boxShadow = '0 0 5px rgba(255, 71, 87, 0.5)';
+            isValid = false;
+        } else if (element.type !== 'submit') {
+            element.style.borderColor = '';
+            element.style.boxShadow = '';
+        }
+    }
+    
+    if (!isValid) {
+        // Show error message
+        showNotification('Please fill in all required fields', 'error');
+        return;
+    }
+    
+    // Handle submission
+    const submitBtn = form.querySelector('.submit-btn');
+    const originalText = submitBtn.innerHTML;
+    
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+    
+    // Simulate submission
+    setTimeout(() => {
+        submitBtn.innerHTML = '<i class="fa-solid fa-check"></i> Message Sent!';
+        submitBtn.style.background = 'linear-gradient(135deg, #00c853, #64dd17)';
+        
+        showNotification('Message sent successfully!', 'success');
+        
+        // Reset form
+        setTimeout(() => {
+            form.reset();
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalText;
+            submitBtn.style.background = '';
+        }, 2000);
+    }, 1500);
+}
+
+// Show notification
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 5px;
+        color: white;
+        font-weight: 500;
+        z-index: 10000;
+        opacity: 0;
+        transform: translateX(100%);
+        transition: all 0.3s ease;
+        background: ${type === 'error' ? '#ff4757' : '#2ed573'};
+    `;
+    
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.opacity = '1';
+        notification.style.transform = 'translateX(0)';
+    }, 10);
+    
+    // Remove after delay
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => document.body.removeChild(notification), 300);
+    }, 3000);
 }
 
 // ===== Experience Cards =====
 
 function initExperienceCards() {
-    // Get all experience cards and timeline elements
     const experienceCards = document.querySelectorAll('.experience-card');
     const timelineContents = document.querySelectorAll('.timeline-content');
-    const timelineNodes = document.querySelectorAll('.timeline-node');
     
-    // Set initial visible state for cards
+    // Ensure cards are visible
     timelineContents.forEach(content => {
-        content.style.opacity = '1'; // Make cards visible by default
+        content.style.opacity = '1';
     });
     
-    // Add event listeners for card interactions
+    // Add interaction handlers
     experienceCards.forEach(card => {
         card.addEventListener('mousemove', tiltExperienceCard);
         card.addEventListener('mouseleave', resetExperienceCard);
         card.addEventListener('click', toggleCardFlip);
     });
     
-    // Add timeline point animations
-    animateTimelinePoints();
+    // Initialize timeline animations
+    setTimeout(() => {
+        checkTimelineVisibility();
+        animateTimelinePoints();
+    }, 500);
     
-    // Check for visible cards on scroll
-    window.addEventListener('scroll', checkTimelineVisibility);
-    
-    // Initial check for visible cards
-    setTimeout(checkTimelineVisibility, 300);
-    
-    // Trigger initial timeline point animation when section is visible
-    window.addEventListener('scroll', function scrollTrigger() {
-        const experienceSection = document.getElementById('experience');
-        if (!experienceSection) return;
-        
-        const rect = experienceSection.getBoundingClientRect();
-        if (rect.top < window.innerHeight && rect.bottom > 0) {
-            animateTimelinePoints();
-            window.removeEventListener('scroll', scrollTrigger);
-        }
-    });
+    window.addEventListener('scroll', throttle(checkTimelineVisibility, 100));
 }
 
-// Tilt effect for experience cards
 function tiltExperienceCard(e) {
     const card = this;
     const cardInner = card.querySelector('.experience-card-inner');
-    if (!cardInner) return;
+    if (!cardInner || cardInner.style.transform.includes('rotateY(180deg)')) return;
     
-    // Skip tilt if card is flipped
-    if (cardInner.style.transform && cardInner.style.transform.includes('rotateY(180deg)')) {
-        return;
-    }
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
     
-    const cardRect = card.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
     
-    // Calculate mouse position relative to card center
-    const cardWidth = cardRect.width;
-    const cardHeight = cardRect.height;
-    const centerX = cardRect.left + cardWidth / 2;
-    const centerY = cardRect.top + cardHeight / 2;
-    const mouseX = e.clientX - centerX;
-    const mouseY = e.clientY - centerY;
+    const rotateX = (y - centerY) / centerY * -10;
+    const rotateY = (x - centerX) / centerX * 10;
     
-    // Calculate rotation values
-    const rotateY = (mouseX / (cardWidth / 2)) * 5;
-    const rotateX = -(mouseY / (cardHeight / 2)) * 5;
-    
-    // Apply transformation
     cardInner.style.transition = 'transform 0.1s ease-out';
     cardInner.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
 }
 
-// Reset tilt on mouse leave
 function resetExperienceCard() {
     const cardInner = this.querySelector('.experience-card-inner');
     if (!cardInner) return;
@@ -480,47 +544,43 @@ function resetExperienceCard() {
     cardInner.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
 }
 
-// Toggle card flip on click
 function toggleCardFlip() {
     const cardInner = this.querySelector('.experience-card-inner');
     if (!cardInner) return;
     
-    if (cardInner.style.transform && cardInner.style.transform.includes('rotateY(180deg)')) {
-        cardInner.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-    } else {
-        cardInner.style.transform = 'perspective(1000px) rotateX(0) rotateY(180deg)';
-    }
+    const isFlipped = cardInner.style.transform.includes('rotateY(180deg)');
+    cardInner.style.transition = 'transform 0.6s ease';
+    cardInner.style.transform = isFlipped 
+        ? 'perspective(1000px) rotateX(0) rotateY(0)' 
+        : 'perspective(1000px) rotateX(0) rotateY(180deg)';
 }
 
-// Animate timeline points
 function animateTimelinePoints() {
     const timelinePoints = document.querySelectorAll('.timeline-point');
     
     timelinePoints.forEach((point, index) => {
         setTimeout(() => {
-            point.style.transform = 'translateX(-50%) scale(1.2)';
-            point.style.boxShadow = '0 0 15px rgb(57, 252, 155)';
+            point.style.transition = 'all 0.5s ease';
+            point.style.transform = 'translateX(-50%) scale(1.3)';
+            point.style.boxShadow = '0 0 20px rgb(57, 252, 155)';
             
             setTimeout(() => {
                 point.style.transform = 'translateX(-50%) scale(1)';
                 point.style.boxShadow = '0 0 0 4px rgba(57, 252, 155, 0.2)';
-            }, 500);
-        }, index * 300);
+            }, 300);
+        }, index * 200);
     });
 }
 
-// Check which timeline nodes are in view
 function checkTimelineVisibility() {
     const timelineNodes = document.querySelectorAll('.timeline-node');
     
     timelineNodes.forEach(node => {
         const rect = node.getBoundingClientRect();
+        const isInView = rect.top <= window.innerHeight * 0.75 && rect.bottom >= 0;
+        
         const contentEl = node.querySelector('.timeline-content');
-        
-        // Consider a node in view if its top is in the bottom 80% of viewport
-        const isInView = rect.top <= (window.innerHeight * 0.8) && rect.bottom >= 0;
-        
-        if (isInView && contentEl) {
+        if (isInView && contentEl && !contentEl.classList.contains('in-view')) {
             contentEl.classList.add('in-view');
         }
     });
@@ -558,3 +618,106 @@ function toggleNeonEffect() {
         lightsources[i].classList.toggle('neon');
     }
 }
+
+// Run adjustments periodically to ensure layout stability
+setInterval(() => {
+    if (document.visibilityState === 'visible') {
+        adjustExperienceSection();
+    }
+}, 5000);
+
+
+// About Section Animation JavaScript
+// Add this to your existing index.js file
+
+// Initialize about section animations
+function initAboutSection() {
+    // Check for about cards visibility on scroll
+    window.addEventListener('scroll', throttle(checkAboutCardsVisibility, 100));
+    
+    // Initial check when page loads
+    setTimeout(checkAboutCardsVisibility, 500);
+}
+
+// Check which about cards are in view
+function checkAboutCardsVisibility() {
+    const aboutCards = document.querySelectorAll('.about-card');
+    
+    aboutCards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        const isInView = rect.top <= window.innerHeight * 0.8 && rect.bottom >= 0;
+        
+        if (isInView && !card.classList.contains('in-view')) {
+            // Add a small delay for staggered animation
+            setTimeout(() => {
+                card.classList.add('in-view');
+            }, index * 100);
+        }
+    });
+}
+
+// Add hover effects for about cards
+function initAboutCardEffects() {
+    const aboutCards = document.querySelectorAll('.about-card');
+    
+    aboutCards.forEach(card => {
+        // Add tilt effect on mouse move
+        card.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / centerY * -5;
+            const rotateY = (x - centerX) / centerX * 5;
+            
+            this.style.transform = `translateY(-10px) scale(1.02) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        
+        // Reset transform on mouse leave
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+        });
+        
+        // Add click effect
+        card.addEventListener('click', function() {
+            this.style.transform = 'scale(0.98)';
+            setTimeout(() => {
+                this.style.transform = '';
+            }, 150);
+        });
+    });
+}
+
+// Parallax effect for about avatar
+function initAboutParallax() {
+    const aboutAvatar = document.querySelector('.about-avatar');
+    if (!aboutAvatar) return;
+    
+    window.addEventListener('scroll', function() {
+        const scrolled = window.pageYOffset;
+        const aboutSection = document.getElementById('about');
+        
+        if (aboutSection) {
+            const aboutTop = aboutSection.offsetTop;
+            const aboutHeight = aboutSection.offsetHeight;
+            const windowHeight = window.innerHeight;
+            
+            // Check if about section is in view
+            if (scrolled + windowHeight > aboutTop && scrolled < aboutTop + aboutHeight) {
+                const parallaxSpeed = (scrolled - aboutTop) * 0.1;
+                aboutAvatar.style.transform = `translateY(${parallaxSpeed}px)`;
+            }
+        }
+    });
+}
+// Add this to your existing main initialization function
+// Add these lines to your existing initNavigation() or main init function:
+/*
+// Add this inside your main DOMContentLoaded event listener:
+initAboutSection();
+initAboutCardEffects();
+initAboutParallax();
+*/

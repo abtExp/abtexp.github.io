@@ -6,14 +6,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Anubhav Tiwari🌏</title>
         <script src="https://kit.fontawesome.com/25c4625338.js" crossorigin="anonymous"></script>
+        
+        <!-- Updated CSS imports with proper order -->
         <link rel="stylesheet" type="text/css" href="./style/index.css">
-        <link rel="stylesheet" type="text/css" href="./style/skill.css">
-        <link rel="stylesheet" type="text/css" href="./style/about.css">
         <link rel="stylesheet" type="text/css" href="./style/navigation.css">
+        <link rel="stylesheet" type="text/css" href="./style/about.css">
         <link rel="stylesheet" type="text/css" href="./style/experience.css">
-        <link rel="stylesheet" type="text/css" href="./style/contact.css">
         <link rel="stylesheet" type="text/css" href="./style/portfolio.css">
+        <link rel="stylesheet" type="text/css" href="./style/skill.css">
+        <link rel="stylesheet" type="text/css" href="./style/contact.css">
         <link rel="stylesheet" type="text/css" href="./style/footer.css">
+        
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     </head>
@@ -25,7 +28,7 @@
                 <i class='fa-solid fa-arrow-down' id='scroll-arrow'></i>
             </div>
             <!-- End Scroll Icon -->
-            <!-- Navigation Bar -->
+            
             <!-- Navigation Bar -->
             <div id='navigation' class='horizontal-list light-theme'>
                 <button class='nav-button active' data-target='home'>
@@ -90,58 +93,74 @@
                 <!-- End Right Splash Image With Contact Button -->
             </div>
             <!-- End Home Page -->
+            
             <!-- About Section -->
+            <!-- About Section - Using Original Content -->
             <div id='about' class='section'>
-                <h1 class='page-title'>About Me</h1>
-                <div class='page-content-container'>
-                    <div id='about-left-image' class='content-img-div about-section-content'>
-                        <img src='./resources/images/hear_me_out.png' alt='hear-me-out' id='about-left-image-img' class='content-img-image'/>
+                <div class='about-title-container'>
+                    <div class='about-avatar'></div>
+                    <h1 class='page-title'>About Me</h1>
+                </div>
+                
+                <div class='about-cards-container'>
+                    <!-- ML Passion Card -->
+                    <div class='about-card ml-passion'>
+                        <div class='about-card-icon'>🤖</div>
+                        <h3 class='about-card-title'>ML Research Engineer</h3>
+                        <p class='about-card-description'>
+                            I am Anubhav Tiwari, a highly skilled ML Research Engineer with a passion for advancing the field of Machine Learning and creating innovative AI solutions.
+                        </p>
                     </div>
-                    <div id='stat-container' class='about-section-content'>
-                        <div id='about-text-container' class='stat-content-container'>
-                            <div id='about-text-bg-filter'></div>
-                            <div id='about-text'>
-                                I am Anubhav Tiwari, a highly skilled ML Research Engineer with a passion for advancing the field of Machine Learning. 
-                                My expertise lies in taking projects from ideation through research and development to successful deployment on various cloud infrastructures and architectures. 
-                                Throughout my experience, I have spearheaded numerous ML initiatives, ranging from proof of concepts for client initiation calls to establishing new capabilities and deploying solutions on AWS and GCP clouds.
-
-                                My technical proficiency spans across multiple facets of ML, including Computer Vision, Audio Signal Processing, and Natural Language Processing. 
-                                Specifically, I have delivered successful projects in crowd density estimation, vehicle license plate detection and recognition, object detection and recognition, face detection and recognition, face swapping, voice activity detection, 
-                                audio source separation, speaker diarization, and natural language to python code generation.
-
-                                One of my key strengths lies in my ability to write developer-friendly code that not only reduces redundancies and increases code understandability but also enhances code reusability. With a keen eye for detail and a dedication to delivering high-quality results, I am confident in my ability to drive impactful solutions that make a difference.
-                            </div>
-                        </div>
-                        <div id='about-stats' class='stat-container-content'>
-                            <div class='stat-instance'>
-                                <div class='stat-top-circle'></div>
-                                <div class='stat-number'>5+</div>
-                                <div class='stat-bottom-circle'></div>
-                                <div class='stat-text'>YOE</div>
-                            </div>
-                            <div class='stat-instance'>
-                                <div class='stat-top-circle'></div>
-                                <div class='stat-number'>4</div>
-                                <div class='stat-bottom-circle'></div>
-                                <div class='stat-text'>Orgs</div>
-                            </div>
-                            <div class='stat-instance'>
-                                <div class='stat-top-circle'></div>
-                                <div class='stat-number'>10+</div>
-                                <div class='stat-bottom-circle'></div>
-                                <div class='stat-text'>Projects</div>
-                            </div>
-                        </div>
+                    
+                    <!-- Expertise Card -->
+                    <div class='about-card expertise'>
+                        <div class='about-card-icon'>🚀</div>
+                        <h3 class='about-card-title'>End-to-End Expertise</h3>
+                        <p class='about-card-description'>
+                            My expertise lies in taking projects from ideation through research and development to successful deployment on various cloud infrastructures and architectures.
+                        </p>
                     </div>
-                    <div id='about-right-image' class='content-img-div about-section-content'>
-                        <img src='./resources/images/mic_drop.png' alt='mic_drop' id='about-right-image-img' class='content-img-image' />
+                    
+                    <!-- Experience Card -->
+                    <div class='about-card experience'>
+                        <div class='about-card-icon'>☁️</div>
+                        <h3 class='about-card-title'>Cloud & ML Initiatives</h3>
+                        <p class='about-card-description'>
+                            I have spearheaded numerous ML initiatives, from proof of concepts for client calls to establishing new capabilities and deploying solutions on AWS and GCP clouds.
+                        </p>
+                    </div>
+                    
+                    <!-- Technical Skills Card -->
+                    <div class='about-card technical-skills'>
+                        <div class='about-card-icon'>🧠</div>
+                        <h3 class='about-card-title'>Technical Proficiency</h3>
+                        <p class='about-card-description'>
+                            My technical proficiency spans across Computer Vision, Audio Signal Processing, and Natural Language Processing with hands-on experience in each domain.
+                        </p>
+                    </div>
+                    
+                    <!-- Projects Card -->
+                    <div class='about-card projects'>
+                        <div class='about-card-icon'>📊</div>
+                        <h3 class='about-card-title'>Delivered Projects</h3>
+                        <p class='about-card-description'>
+                            Successfully delivered projects in crowd density estimation, license plate recognition, object detection, face recognition, voice activity detection, and speaker diarization.
+                        </p>
+                    </div>
+                    
+                    <!-- Coding Philosophy Card -->
+                    <div class='about-card coding-philosophy'>
+                        <div class='about-card-icon'>💻</div>
+                        <h3 class='about-card-title'>Code Quality Focus</h3>
+                        <p class='about-card-description'>
+                            I write developer-friendly code that reduces redundancies, increases understandability, and enhances reusability. Dedicated to delivering high-quality, impactful solutions.
+                        </p>
                     </div>
                 </div>
             </div>
             <!-- End About Section -->
+            
             <!-- Experience Section -->
-            <!-- Replace your Experience Section with this timeline+cards hybrid -->
-            <!-- Updated Experience Section with better structure -->
             <div id='experience' class='section'>
                 <h1 class='page-title'>Experience</h1>
                 <div class='timeline-container'>
@@ -149,7 +168,7 @@
                     
                     <!-- Timeline Node 1 -->
                     <div class='timeline-node'>
-                        <div class='timeline-point'></div>
+                        <div class='timeline-point timeline-point-right'></div>
                         <div class='timeline-content timeline-right'>
                             <div class='experience-card'>
                                 <div class='experience-card-inner'>
@@ -177,7 +196,7 @@
                     
                     <!-- Timeline Node 2 -->
                     <div class='timeline-node'>
-                        <div class='timeline-point'></div>
+                        <div class='timeline-point timeline-point-left'></div>
                         <div class='timeline-content timeline-left'>
                             <div class='experience-card'>
                                 <div class='experience-card-inner'>
@@ -205,7 +224,7 @@
                     
                     <!-- Timeline Node 3 -->
                     <div class='timeline-node'>
-                        <div class='timeline-point'></div>
+                        <div class='timeline-point timeline-point-right'></div>
                         <div class='timeline-content timeline-right'>
                             <div class='experience-card'>
                                 <div class='experience-card-inner'>
@@ -233,7 +252,7 @@
                     
                     <!-- Timeline Node 4 -->
                     <div class='timeline-node'>
-                        <div class='timeline-point'></div>
+                        <div class='timeline-point timeline-point-left'></div>
                         <div class='timeline-content timeline-left'>
                             <div class='experience-card'>
                                 <div class='experience-card-inner'>
@@ -259,21 +278,23 @@
                         </div>
                     </div>
                     
-                    <!-- Extra spacing element to ensure proper section separation -->
+                    <!-- Timeline end spacer -->
                     <div class="timeline-end-spacer"></div>
                 </div>
             </div>
             <!-- End Experience Section -->
+            
+            <!-- Section divider -->
             <div class="section-divider" id="experience-portfolio-divider"></div>
+            
             <!-- Portfolio Section -->
-            <!-- Replace your current Portfolio Section with this improved version -->
             <div id='portfolio' class='section'>
                 <h1 class='page-title'>Portfolio</h1>
                 <div class='project-carousel'>
                     <div class='project-card'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
-                                <img src='/api/placeholder/300/200' alt='Computer Vision Project' class='project-image'/>
+                                <div class='project-image'></div>
                                 <h3 class='project-title'>Crowd Density Estimation</h3>
                                 <div class='project-tags'>
                                     <span class='project-tag'>Python</span>
@@ -297,7 +318,7 @@
                     <div class='project-card'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
-                                <img src='/api/placeholder/300/200' alt='NLP Project' class='project-image'/>
+                                <div class='project-image'></div>
                                 <h3 class='project-title'>Code Generation NLP</h3>
                                 <div class='project-tags'>
                                     <span class='project-tag'>Python</span>
@@ -321,7 +342,7 @@
                     <div class='project-card'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
-                                <img src='/api/placeholder/300/200' alt='Audio Project' class='project-image'/>
+                                <div class='project-image'></div>
                                 <h3 class='project-title'>Speaker Diarization</h3>
                                 <div class='project-tags'>
                                     <span class='project-tag'>Python</span>
@@ -345,7 +366,7 @@
                     <div class='project-card'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
-                                <img src='/api/placeholder/300/200' alt='Cloud Project' class='project-image'/>
+                                <div class='project-image'></div>
                                 <h3 class='project-title'>ML Pipeline Automation</h3>
                                 <div class='project-tags'>
                                     <span class='project-tag'>AWS</span>
@@ -368,7 +389,10 @@
                 </div>
             </div>
             <!-- End Portfolio Section -->
+            
+            <!-- Section divider -->
             <div class="section-divider" id="portfolio-skills-divider"></div>
+            
             <!-- Skills Section -->
             <div id='skills' class='section'>
                 <h1 class='page-title'>Technical Skills</h1>
@@ -388,32 +412,26 @@
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-python"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>Python</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-c"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>C++</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-js"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>JavaScript</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-t"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>TensorFlow</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-fire"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>PyTorch</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-html5"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>HTML & CSS</div>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -441,27 +459,22 @@
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-eye"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>Computer Vision</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-language"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>NLP</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-wave-square"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>Signal Processing</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-dice"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>Probability</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-chart-simple"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>Statistics</div>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -489,22 +502,18 @@
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-google"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>GCP</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-aws"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>AWS</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-microsoft"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>Azure</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-docker"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>Docker</div>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -532,22 +541,18 @@
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-git"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>Git</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-osi"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>OpenCV</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-cube"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>Numpy</div>
-                                    
                                 </div>
                                 <div class='skilllist-item'>
                                     <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-database"></i></div>
                                     <div class='skilllist-item-name skilllist-item-content'>MySQL</div>
-                                    
                                 </div>
                             </div>
                         </div>
@@ -562,14 +567,15 @@
                 </div>
             </div>
             <!-- End Skills Section -->
-            <!-- Contact Section -->
-            <!-- Contact Section -->
-            <!-- Contact Section -->
+            
+            <!-- Section divider -->
             <div class="section-divider" id="skills-contact-divider"></div>
+            
+            <!-- Contact Section -->
             <div id='contact' class='section'>
                 <h1 class='page-title'>Let's Connect</h1>
                 <div class='contact-container'>
-                    <!-- Contact Info (more compact) -->
+                    <!-- Contact Info -->
                     <div class='contact-info'>
                         <div class='contact-info-item'>
                             <div class='contact-icon'>
@@ -609,7 +615,7 @@
                         </div>
                     </div>
             
-                    <!-- Contact Form (more compact) -->
+                    <!-- Contact Form -->
                     <div class='contact-form'>
                         <form id="contactForm">
                             <div class='form-group'>
@@ -641,6 +647,7 @@
                 <div class='contact-bg-circle circle-2'></div>
             </div>
             <!-- End Contact Section -->
+            
             <!-- Footer Section -->
             <div id='footer' class='section'>
                 <div id='footer-banner' class='subsection'>
@@ -654,11 +661,11 @@
                         <div id='footer-last-image'>
                             <img src='./resources/images/have_a_good_one.png' alt='haveagoodone' />
                         </div>
-                        <div id='copyright'>
-                            &#169;Anubhav
-                        </div>
                         <div id='last-statement'>
                             <span>Made with </span><span><i class="fa fa-heart"></i></span><span> by Anubhav Tiwari</span>
+                        </div>
+                        <div id='copyright'>
+                            &#169;Anubhav
                         </div>
                     </div>
                 </div>
@@ -666,15 +673,10 @@
             <!-- End Footer Section -->
         </div>
         <!-- End Container -->
-    <style>
-        .section-divider {
-            height: 30px;
-            width: 100%;
-            clear: both;
-            visibility: hidden;
-        }
-    </style>
+        
+        <!-- Scripts -->
+        <script src='./src/js/index.js'></script>
+        <script src="./src/js/tilt.js"></script>
+        <script src="./src/js/about.js"></script>
     </body>
-    <script src='./src/js/index.js'></script>
-    <script src="./src/js/tilt.js"></script>
 </html>
