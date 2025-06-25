@@ -1525,10 +1525,6 @@ body {
     } */
 }
 
-/* Dark theme mobile adjustments */
-.dark-theme #home-splash-container {
-    background: rgba(40, 40, 40, 0.9) !important;
-}
 
 /* Additional mobile optimizations */
 @media screen and (max-width: 768px) {
