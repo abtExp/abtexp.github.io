@@ -1352,3 +1352,249 @@ body {
         scroll-behavior: auto;
     }
 }
+
+/* Simple Mobile Home Fix - Add this to your index.css */
+
+/* Mobile Layout Fix */
+@media screen and (max-width: 768px) {
+    #home {
+        flex-direction: column !important;
+        height: auto !important;
+        min-height: 200vh !important; /* Allow space for both sections */
+    }
+
+    #banner {
+        max-width: 100% !important;
+        width: 100% !important;
+        height: 100vh !important; /* Full screen height */
+        order: 1;
+        position: relative;
+        background-position: center center !important; /* Center the banner image */
+        background-size: cover !important;
+    }
+
+    #home-splash-container {
+        width: 100% !important;
+        height: 100vh !important; /* Full screen height */
+        order: 2;
+        position: relative;
+        background: #f8f9fa;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    /* Ensure banner content is properly positioned */
+    #name-banner {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px;
+        font-size: 22vh !important;
+    }
+
+    /* Responsive text sizing - SCALED UP for mobile */
+    #signature {
+        /* font-size: clamp(0.5em, 3vh, 1.5em) !important; */
+        line-height: 0.9;
+        font-weight: bold;
+        z-index: 5;
+    }
+
+    #designation {
+        /* font-size: clamp(0.25em, 1vh, 0.5em) !important; */
+        margin-top: 20px;
+        font-weight: 600;
+        z-index: 5;
+    }
+
+    /* Position social links at bottom of banner - SCALED UP */
+    #link-icons {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        z-index: 5;
+    }
+
+    /* Scale up social icons for mobile */
+    .small-icon {
+        max-width: 55px !important;
+        min-width: 55px !important;
+        height: 55px !important;
+        font-size: 1.8em !important;
+        padding: 12px !important;
+        margin: 0 8px !important;
+        border-radius: 15px !important;
+    }
+
+    /* Style the splash container content */
+    #home-splash {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #main-splash-hi {
+        max-width: 50% !important; /* Reduced from 75% to make blob smaller */
+        margin-bottom: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Scale down the main splash image */
+    #main-splash {
+        max-width: 100%;
+        width: 100%;
+        height: auto;
+        transform: scale(0.8); /* Make the blob image smaller */
+    }
+
+    /* Adjust blob size for mobile */
+    .blob {
+        width: 250px !important; /* Reduced from default */
+        height: 200px !important; /* Reduced from default */
+        top: -15px !important;
+        left: 0px !important;
+    }
+
+    #contact-click-button {
+        margin-top: 30px !important;
+        width: 220px;
+        height: 60px;
+        font-size: 1.4em;
+        font-weight: bold;
+        padding: 15px 25px;
+        border-radius: 30px;
+    }
+}
+
+/* Smaller mobile devices - SCALED UP */
+@media screen and (max-width: 576px) {
+    #signature {
+        /* font-size: clamp(0.5em, 3vh, 1.5rem) !important; */
+        font-weight: bold;
+        z-index: 5;
+    }
+
+    #designation {
+        /* font-size: clamp(0.25em, 1vh, 0.5em) !important; */
+        font-weight: 600;
+        z-index: 5;
+    }
+
+    #main-splash-hi {
+        max-width: 45%; /* Reduced for smaller screens */
+        transform: scale(0.9); /* Slightly larger than larger mobile screens */
+    }
+
+    /* Adjust blob for smaller screens */
+    .blob {
+        width: 220px !important;
+        height: 180px !important;
+    }
+
+    #contact-click-button {
+        width: 200px;
+        height: 55px;
+        font-size: 1.2em;
+        font-weight: bold;
+        padding: 12px 20px;
+    }
+
+    .small-icon {
+        max-width: 50px !important;
+        min-width: 50px !important;
+        height: 50px !important;
+        font-size: 1.6em !important;
+        padding: 10px !important;
+        margin: 0 6px !important;
+    }
+
+    /* Make banner text more prominent on small screens
+    #name-banner {
+        padding: 30px 20px;
+        font-size: 3em;
+    } */
+}
+
+/* Dark theme mobile adjustments */
+.dark-theme #home-splash-container {
+    background: rgba(40, 40, 40, 0.9) !important;
+}
+
+/* Additional mobile optimizations */
+@media screen and (max-width: 768px) {
+    /* Ensure banner image is centered and covers properly */
+    #banner {
+        background-attachment: scroll !important; /* Better performance on mobile */
+    }
+
+    /* Center the filter overlay */
+    #filter {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.3);
+        z-index: 1;
+    }
+
+    /* Improve blob animation performance on mobile */
+    #main-splash-hi:hover > .blob {
+        width: 270px !important;
+        height: 220px !important;
+        transition: all 0.3s ease;
+    }
+}
+
+/* Extra small devices (iPhone SE, etc.) */
+@media screen and (max-width: 400px) {
+    #signature {
+        /* font-size: clamp(0.5em, 4vh, 1.5em) !important; */
+        z-index: 5;
+    }
+
+    #designation {
+        /* font-size: clamp(0.25em, 1vh, 0.5em) !important; */
+        z-index: 5;
+    }
+
+    #contact-click-button {
+        width: 180px;
+        height: 50px;
+        font-size: 1.1em;
+    }
+
+    .small-icon {
+        max-width: 45px !important;
+        min-width: 45px !important;
+        height: 45px !important;
+        font-size: 1.4em !important;
+        margin: 0 4px !important;
+    }
+
+    #link-icons {
+        bottom: 30px;
+        z-index: 5;
+    }
+
+    /* Optimize blob for very small screens */
+    #main-splash-hi {
+        max-width: 50%;
+        transform: scale(0.85);
+    }
+
+    .blob {
+        width: 200px !important;
+        height: 160px !important;
+    }
+}

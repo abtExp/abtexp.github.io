@@ -30,6 +30,30 @@
             <!-- End Scroll Icon -->
             
             <!-- Navigation Bar -->
+            <!-- <div id='navigation' class='horizontal-list light-theme'>
+                <button class='nav-button active' data-target='home'>
+                    Home
+                </button>
+                <button class='nav-button' data-target='about'>
+                    About
+                </button>
+                <button class='nav-button' data-target='experience'>
+                    Experience
+                </button>
+                <button class='nav-button' data-target='portfolio'>
+                    Portfolio
+                </button>
+                <button class='nav-button' data-target='skills'>
+                    Skills
+                </button>
+                <button class='nav-button' data-target='contact'>
+                    Contact
+                </button>
+                <button class='nav-button' id='theme-button'>
+                    <img src='./resources/icons/moon.png' alt='theme' id='theme-icon' class='nav-icon light-theme'/>
+                </button>
+            </div> -->
+
             <div id='navigation' class='horizontal-list light-theme'>
                 <button class='nav-button active' data-target='home'>
                     Home
@@ -51,6 +75,45 @@
                 </button>
                 <button class='nav-button' id='theme-button'>
                     <img src='./resources/icons/moon.png' alt='theme' id='theme-icon' class='nav-icon light-theme'/>
+                </button>
+            </div>
+
+        <!-- Mobile Hamburger Menu Button -->
+            <button class='hamburger-menu' id='hamburger-menu'>
+                <div class='hamburger-icon'>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+
+            <!-- Mobile Menu Overlay -->
+            <div class='mobile-menu-overlay' id='mobile-menu-overlay'></div>
+
+            <!-- Mobile Menu -->
+            <div class='mobile-menu' id='mobile-menu'>
+                <button class='mobile-nav-item active' data-target='home'>
+                    🏠 Home
+                </button>
+                <button class='mobile-nav-item' data-target='about'>
+                    👨‍💻 About
+                </button>
+                <button class='mobile-nav-item' data-target='experience'>
+                    💼 Experience
+                </button>
+                <button class='mobile-nav-item' data-target='portfolio'>
+                    📁 Portfolio
+                </button>
+                <button class='mobile-nav-item' data-target='skills'>
+                    ⚡ Skills
+                </button>
+                <button class='mobile-nav-item' data-target='contact'>
+                    📞 Contact
+                </button>
+                
+                <!-- Mobile Theme Toggle -->
+                <button class='mobile-theme-button' id='mobile-theme-button'>
+                    <img src='./resources/icons/moon.png' alt='theme' id='mobile-theme-icon' class='mobile-theme-img'/>
                 </button>
             </div>
             <!-- End Navigation Bar -->
@@ -672,6 +735,7 @@
         
         <!-- Scripts -->
         <script src='./src/js/index.js'></script>
+        <script src="./src/js/navigation.js"></script>
         <script src="./src/js/tilt.js"></script>
         <script src="./src/js/about.js"></script>
     </body>
