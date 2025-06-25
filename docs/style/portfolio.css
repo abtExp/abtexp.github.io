@@ -74,7 +74,7 @@
 }
 
 .project-card-back {
-    background: linear-gradient(145deg, rgba(57, 252, 155, 0.9), rgba(57, 252, 155, 0.8));
+    background: linear-gradient(145deg, rgba(43, 179, 111, 0.7), rgba(43, 179, 111, 0.7));
     color: white;
     transform: rotateY(180deg);
     padding: 30px;
@@ -162,7 +162,7 @@
 
 .project-link:hover {
     background: rgba(255, 255, 255, 0.9);
-    color: rgb(57, 252, 155);
+    color: rgb(29, 193, 111);
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3);
 }

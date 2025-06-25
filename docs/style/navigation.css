@@ -17,12 +17,14 @@
 
 .nav-button:hover {
     color: rgb(57, 252, 155);
+    font-weight: bold;
     box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.1),
                 inset -4px -4px 8px rgba(255, 255, 255, 0.8);
 }
 
 .nav-button.active {
-    color: rgb(57, 252, 155);
+    color: rgb(56, 165, 110);
+    font-weight: bold;
     box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.1),
                 inset -4px -4px 8px rgba(255, 255, 255, 0.8);
 }

@@ -9,13 +9,15 @@
     min-height: 100vh;
 }
 
-#about .page-title {
+.page-title {
     font-size: 3em;
     text-align: center;
-    margin: 0 auto 20px;
-    color: #333;
+    margin: 0 auto 40px;
+    max-width: 80%;
+    padding-top: 0;
+    font-family: poppins, sans-serif;
     font-weight: bold;
-    position: relative;
+    /* color: inherit; */
 }
 
 /* About Title with Avatar */

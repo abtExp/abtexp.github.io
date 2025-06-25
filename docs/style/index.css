@@ -171,7 +171,7 @@ body::-webkit-scrollbar {
 }
 
 .nav-button:hover {
-    color: rgb(57, 252, 155);
+    color: rgb(20, 129, 75);
     background: rgba(255, 255, 255, 0.9);
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(57, 252, 155, 0.2);
@@ -384,7 +384,7 @@ body::-webkit-scrollbar {
     cursor: pointer;
     color: rgb(255, 255, 255);
     font-weight: bold;
-    width: 120px;
+    width: 150px;
     font-size: 1.2em;
     margin-top: 10%;
     padding: 0px 0px 0px 20px;
