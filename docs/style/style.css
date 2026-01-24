@@ -225,7 +225,7 @@ img { max-width: 100%; height: auto; display: block; }
 }
 #banner {
     flex: 1; height: 100vh;
-    background: url(../resources/images/banner_img.jpg) no-repeat;
+    background: url(../resources/images/banner_img.jpg) no-repeat center center;
     background-size: cover;
     filter: brightness(100%) sepia(1) hue-rotate(132deg) saturate(103.2%) brightness(91.2%);
     max-width: 40%; position: relative; transition: 0.3s;
@@ -488,7 +488,7 @@ img { max-width: 100%; height: auto; display: block; }
     border-radius: 50px 50px 0 0; padding: 50px 20px 20px;
     color: white; text-align: center;
 }
-#footer-banner-floating img { width: 150px; margin-bottom: 20px; }
+#footer-banner-floating img { width: clamp(150px, 40vw, 250px); margin-bottom: 20px; }
 #quote { font-size: 2em; margin-bottom: 30px; }
 
 /* =========================================
@@ -521,7 +521,7 @@ img { max-width: 100%; height: auto; display: block; }
         min-height: 50vh;
         flex: none;
         padding: 40px 10px;
-        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(../resources/images/banner_img.jpg) no-repeat;
+        background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(../resources/images/banner_img.jpg) no-repeat center center;
         background-size: cover;
         filter: brightness(100%) sepia(1) hue-rotate(132deg) saturate(103.2%);
     }
