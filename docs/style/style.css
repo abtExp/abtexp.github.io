@@ -18,7 +18,7 @@ html, body {
     margin: 0;
     padding: 0;
     scroll-behavior: smooth;
-    height: 100%;
+    min-height: 100%;
 }
 
 body {
@@ -518,7 +518,7 @@ img { max-width: 100%; height: auto; display: block; }
     #banner {
         max-width: 100%;
         height: auto;
-        min-height: 40vh;
+        min-height: 50vh;
         flex: none;
         padding: 40px 10px;
         background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(../resources/images/banner_img.jpg) no-repeat;
@@ -537,15 +537,21 @@ img { max-width: 100%; height: auto; display: block; }
     }
 
     #signature {
-        font-size: 5em;
+        font-size: 4em;
         margin-top: 0;
         flex: none;
         margin-bottom: 10px;
     }
 
+    .small-icon {
+        font-size: 1.5em;
+        padding: 8px;
+        max-width: 45px;
+    }
+
     #designation {
         margin-bottom: 20px;
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         padding: 0 10px;
         flex: none;
         white-space: normal;
@@ -581,13 +587,23 @@ img { max-width: 100%; height: auto; display: block; }
     #home-splash-container {
         padding-top: 20px;
     }
+
+    #scroll-button {
+        left: auto;
+        right: 20px;
+        transform: none;
+        bottom: 20px;
+    }
+    #scroll-button:hover {
+        transform: translateY(-5px);
+    }
 }
 
 @media screen and (max-width: 576px) {
     .page-title { font-size: 2em; }
-    #banner { min-height: 35vh; }
-    #signature { font-size: 3em; }
-    #designation { font-size: 1.1rem; }
+    #banner { min-height: 50vh; }
+    #signature { font-size: 2.5em; }
+    #designation { font-size: 0.95rem; }
     .project-card { width: 100%; }
 
     #home-splash-container {
