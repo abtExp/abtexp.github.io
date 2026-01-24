@@ -3,16 +3,28 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Anubhav Tiwari🌏</title>
         <script src="https://kit.fontawesome.com/25c4625338.js" crossorigin="anonymous"></script>
         
         <!-- Consolidated Styles -->
         <link rel="stylesheet" href="./style/style.css">
         
+        <noscript>
+            <style>
+                .reveal-on-scroll {
+                    opacity: 1 !important;
+                    transform: none !important;
+                }
+            </style>
+        </noscript>
+
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     </head>
     <body>
+        <!-- Particle Background -->
+        <canvas id="particles-canvas"></canvas>
+
         <!-- Container For All Pages -->
         <div id='container' class='light-theme'>
             <!-- Scroll Icon -->
@@ -92,11 +104,12 @@
                 <div class='subsection lightsource' id='banner'>
                     <div id='filter' class='subsection'></div>
                     <div id='name-banner' class='content'>
-                        <div id='signature' class='content lightsource'>Anubhav Tiwari</div>
-                        <div id='designation' class='content lightsource'>Senior Machine Learning Engineer</div>
+                        <div id='signature' class='content lightsource reveal-on-scroll'>Anubhav Tiwari</div>
+                        <!-- Designation targets the typing effect -->
+                        <div id='designation' class='content lightsource reveal-on-scroll'>Senior Machine Learning Engineer</div>
                     </div>
-                    <div id='link-icons' class='horizontal-list content'>
-                        <a href='abt.exp@gmail.com' id='email' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-solid fa-envelope"></i></a>
+                    <div id='link-icons' class='horizontal-list content reveal-on-scroll'>
+                        <a href='mailto:abt.exp@gmail.com' id='email' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-solid fa-envelope"></i></a>
                         <a href='https://github.com/abtExp' id='github' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-brands fa-github"></i></a>
                         <a href='https://x.com/overfitowl' id='twitter' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-brands fa-twitter"></i></a>
                         <a href='https://www.linkedin.com/in/abtExp' id='linkedin' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-brands fa-linkedin"></i></a>
@@ -107,13 +120,13 @@
                 <!-- Right Splash Image With Contact Button -->
                 <div class='subsection' id='home-splash-container'>
                     <div class='content' id='home-splash'>
-                        <div class='bitmoji-image floating' id='main-splash-hi'>
+                        <div class='bitmoji-image floating reveal-on-scroll' id='main-splash-hi'>
                             <img src='./resources/images/main_splash.png' alt='main-splash' id='main-splash' />
                             <div class="blob"></div>
                         </div>
-                        <div id='contact-click-button' class='text-icon-pair click-button'>
+                        <div id='contact-click-button' class='text-icon-pair click-button reveal-on-scroll'>
                             <p id='contact-click-button-text' class='text-icon-pair-text'>
-                                Contact
+                                Contact Me
                             </p>
                             <span class="material-symbols-rounded text-icon-pair-icon" id='contact-click-button-icon'>
                                 send
@@ -127,14 +140,14 @@
             
             <!-- About Section -->
             <div id='about' class='section'>
-                <h1 class='page-title'>About Me</h1>
-                <div class='about-title-container'>
+                <h1 class='page-title reveal-on-scroll'>About Me</h1>
+                <div class='about-title-container reveal-on-scroll'>
                     <div class='about-avatar'></div>
                 </div>
                 
                 <div class='about-cards-container'>
                     <!-- ML Passion Card -->
-                    <div class='about-card ml-passion'>
+                    <div class='about-card ml-passion reveal-on-scroll'>
                         <div class='about-card-icon'>🤖</div>
                         <h3 class='about-card-title'>Senior ML Engineer</h3>
                         <p class='about-card-description'>
@@ -143,7 +156,7 @@
                     </div>
                     
                     <!-- Expertise Card -->
-                    <div class='about-card expertise'>
+                    <div class='about-card expertise reveal-on-scroll'>
                         <div class='about-card-icon'>🚀</div>
                         <h3 class='about-card-title'>End-to-End Expertise</h3>
                         <p class='about-card-description'>
@@ -152,7 +165,7 @@
                     </div>
                     
                     <!-- Experience Card -->
-                    <div class='about-card experience'>
+                    <div class='about-card experience reveal-on-scroll'>
                         <div class='about-card-icon'>☁️</div>
                         <h3 class='about-card-title'>Cloud & ML Initiatives</h3>
                         <p class='about-card-description'>
@@ -161,7 +174,7 @@
                     </div>
                     
                     <!-- Technical Skills Card -->
-                    <div class='about-card technical-skills'>
+                    <div class='about-card technical-skills reveal-on-scroll'>
                         <div class='about-card-icon'>🧠</div>
                         <h3 class='about-card-title'>Technical Proficiency</h3>
                         <p class='about-card-description'>
@@ -170,7 +183,7 @@
                     </div>
                     
                     <!-- Projects Card -->
-                    <div class='about-card projects'>
+                    <div class='about-card projects reveal-on-scroll'>
                         <div class='about-card-icon'>📊</div>
                         <h3 class='about-card-title'>Delivered Projects</h3>
                         <p class='about-card-description'>
@@ -179,7 +192,7 @@
                     </div>
                     
                     <!-- Coding Philosophy Card -->
-                    <div class='about-card coding-philosophy'>
+                    <div class='about-card coding-philosophy reveal-on-scroll'>
                         <div class='about-card-icon'>💻</div>
                         <h3 class='about-card-title'>Code Quality Focus</h3>
                         <p class='about-card-description'>
@@ -192,12 +205,12 @@
             
             <!-- Experience Section -->
             <div id='experience' class='section'>
-                <h1 class='page-title'>Experience</h1>
+                <h1 class='page-title reveal-on-scroll'>Experience</h1>
                 <div class='timeline-container'>
                     <div class='timeline-line'></div>
                     
                     <!-- Timeline Node 1 -->
-                    <div class='timeline-node'>
+                    <div class='timeline-node reveal-on-scroll'>
                         <div class='timeline-point timeline-point-right'></div>
                         <div class='timeline-content timeline-right'>
                             <div class='experience-card'>
@@ -225,7 +238,7 @@
                     </div>
                     
                     <!-- Timeline Node 2 -->
-                    <div class='timeline-node'>
+                    <div class='timeline-node reveal-on-scroll'>
                         <div class='timeline-point timeline-point-left'></div>
                         <div class='timeline-content timeline-left'>
                             <div class='experience-card'>
@@ -253,7 +266,7 @@
                     </div>
                     
                     <!-- Timeline Node 3 -->
-                    <div class='timeline-node'>
+                    <div class='timeline-node reveal-on-scroll'>
                         <div class='timeline-point timeline-point-right'></div>
                         <div class='timeline-content timeline-right'>
                             <div class='experience-card'>
@@ -281,7 +294,7 @@
                     </div>
                     
                     <!-- Timeline Node 4 -->
-                    <div class='timeline-node'>
+                    <div class='timeline-node reveal-on-scroll'>
                         <div class='timeline-point timeline-point-left'></div>
                         <div class='timeline-content timeline-left'>
                             <div class='experience-card'>
@@ -319,9 +332,9 @@
             
             <!-- Portfolio Section -->
             <div id='portfolio' class='section'>
-                <h1 class='page-title'>Portfolio</h1>
+                <h1 class='page-title reveal-on-scroll'>Portfolio</h1>
                 <div class='project-carousel'>
-                    <div class='project-card'>
+                    <div class='project-card reveal-on-scroll'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
                                 <div class='project-image'></div>
@@ -345,7 +358,7 @@
                         </div>
                     </div>
                     
-                    <div class='project-card'>
+                    <div class='project-card reveal-on-scroll'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
                                 <div class='project-image'></div>
@@ -369,7 +382,7 @@
                         </div>
                     </div>
                     
-                    <div class='project-card'>
+                    <div class='project-card reveal-on-scroll'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
                                 <div class='project-image'></div>
@@ -393,7 +406,7 @@
                         </div>
                     </div>
                     
-                    <div class='project-card'>
+                    <div class='project-card reveal-on-scroll'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
                                 <div class='project-image'></div>
@@ -425,9 +438,9 @@
             
             <!-- Skills Section -->
             <div id='skills' class='section'>
-                <h1 class='page-title'>Technical Skills</h1>
+                <h1 class='page-title reveal-on-scroll'>Technical Skills</h1>
                 <div class='page-content-container'>
-                    <div id='programming' class='skill-container content'>
+                    <div id='programming' class='skill-container content reveal-on-scroll'>
                         <div id='programming-icon' class='skill-icon lighten'>
                             <i class="fa-solid fa-code skill-icon-img"></i>
                         </div>
@@ -470,7 +483,7 @@
                         </div>
                     </div>
 
-                    <div id='mlds' class='skill-container content'>
+                    <div id='mlds' class='skill-container content reveal-on-scroll'>
                         <div id='mlds-icon' class='skill-icon lighten'>
                             <i class="fa-solid fa-diagram-project skill-icon-img"></i>
                         </div>
@@ -513,7 +526,7 @@
                         </div>
                     </div>
 
-                    <div id='cloudinfra' class='skill-container content'>
+                    <div id='cloudinfra' class='skill-container content reveal-on-scroll'>
                         <div id='cloudinfra-icon' class='skill-icon lighten'>
                             <i class="fa-solid fa-cloud skill-icon-img"></i>
                         </div>
@@ -552,7 +565,7 @@
                         </div>
                     </div>
 
-                    <div id='util' class='skill-container content'>
+                    <div id='util' class='skill-container content reveal-on-scroll'>
                         <div id='util-icon' class='skill-icon lighten'>
                             <i class="fa-solid fa-tools skill-icon-img"></i>
                         </div>
@@ -599,8 +612,8 @@
             
             <!-- Contact Section -->
             <div id='contact' class='section'>
-                <h1 class='page-title'>Let's Connect</h1>
-                <div class='contact-container'>
+                <h1 class='page-title reveal-on-scroll'>Let's Connect</h1>
+                <div class='contact-container reveal-on-scroll'>
                     <!-- Contact Info -->
                     <div class='contact-info'>
                         <div class='contact-info-item'>
@@ -677,13 +690,13 @@
             <!-- Footer Section -->
             <div id='footer' class='section'>
                 <div id='footer-banner' class='subsection'>
-                    <div id='footer-banner-floating' class='content'>
+                    <div id='footer-banner-floating' class='content reveal-on-scroll'>
                         <img src='./resources/images/lotus_pose.png' alt='lotuspose' />
                         <div id='quote'>
                             "It's All About Experience"
                         </div>
                     </div>
-                    <div id='footer-banner-bottom' class='content'>
+                    <div id='footer-banner-bottom' class='content reveal-on-scroll'>
                         <div id='footer-last-image'>
                             <img src='./resources/images/have_a_good_one.png' alt='haveagoodone' />
                         </div>
