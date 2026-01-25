@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anubhav Tiwari | Creative ML Engineer</title>
+    <title>Anubhav Tiwari | The Void</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Manrope:wght@200;400;600&display=swap" rel="stylesheet">
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,236 +18,145 @@
 </head>
 <body>
 
-    <!-- Background Blobs (Fixed) -->
-    <div class="blob-cont">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
+    <!-- WebGL Canvas Container -->
+    <div id="webgl-container"></div>
 
-    <!-- Navigation -->
-    <nav class="glass-nav">
+    <!-- UI Overlay -->
+    <nav class="ui-nav">
         <div class="logo">AT.</div>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#work">Work</a>
-            <a href="#contact">Contact</a>
-        </div>
-        <div class="nav-toggle">
-            <i class="fa-solid fa-bars"></i>
-        </div>
+        <div class="menu-btn">Menu</div>
     </nav>
 
-    <!-- Overlay Menu -->
+    <!-- Menu Overlay -->
     <div class="menu-overlay">
-        <div class="menu-close"><i class="fa-solid fa-xmark"></i></div>
-        <div class="menu-items">
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#work">Work</a>
-            <a href="#contact">Contact</a>
+        <div class="close-btn">Close</div>
+        <div class="menu-links">
+            <a href="#" class="menu-link">Home</a>
+            <a href="#" class="menu-link">Philosophy</a>
+            <a href="#" class="menu-link">Works</a>
+            <a href="#" class="menu-link">Contact</a>
         </div>
     </div>
 
+    <!-- Scroll Content -->
     <main id="smooth-wrapper">
         <div id="smooth-content">
 
-            <!-- Hero Section -->
-            <header id="home" class="hero-section">
-                <div class="hero-content">
+            <!-- Hero -->
+            <section class="hero-section">
+                <div class="hero-text">
                     <h1 class="hero-title">
-                        <span class="word">Designing</span>
-                        <span class="word gradient-text">Intelligence</span>
+                        <div class="line">Anubhav</div>
+                        <div class="line">Tiwari</div>
                     </h1>
-                    <p class="hero-subtitle">Senior Machine Learning Engineer & <br> Creative Technologist</p>
-
-                    <div class="hero-buttons">
-                        <a href="#work" class="btn-primary">View Projects</a>
-                        <a href="#contact" class="btn-secondary">Let's Talk</a>
-                    </div>
+                    <p class="hero-subtitle">Creative Machine Learning Engineer</p>
                 </div>
-
-                <div class="hero-visual">
-                    <div class="glass-circle">
-                        <img src="resources/images/main_splash.png" alt="Anubhav Character" class="hero-img">
-                    </div>
-                    <div class="floating-badge badge-1">
-                        <i class="fa-solid fa-brain"></i> <span>NLP</span>
-                    </div>
-                    <div class="floating-badge badge-2">
-                        <i class="fa-solid fa-eye"></i> <span>Computer Vision</span>
-                    </div>
+                <div class="scroll-indicator">
+                    <span>Explore the Void</span>
+                    <div class="line-drop"></div>
                 </div>
-            </header>
+            </section>
 
-            <!-- Marquee -->
-            <div class="marquee-container">
-                <div class="marquee-content">
-                    <span>Machine Learning</span>
-                    <span class="star">*</span>
-                    <span>Deep Learning</span>
-                    <span class="star">*</span>
-                    <span>Cloud Architecture</span>
-                    <span class="star">*</span>
-                    <span>Python</span>
-                    <span class="star">*</span>
-                    <span>TensorFlow</span>
-                    <span class="star">*</span>
-                    <span>PyTorch</span>
-                    <span class="star">*</span>
-                </div>
-            </div>
-
-            <!-- About Section -->
-            <section id="about" class="about-section">
+            <!-- Philosophy / About -->
+            <section class="about-section">
                 <div class="container">
-                    <div class="glass-panel about-panel">
-                        <div class="about-text">
-                            <h2 class="section-title">Who I Am</h2>
-                            <p class="lead">I bridge the gap between <span class="highlight">complex algorithms</span> and <span class="highlight">human-centric design</span>.</p>
-                            <p>Specializing in Computer Vision and NLP, I build scalable AI solutions that don't just work—they delight. Currently exploring the intersection of Generative AI and intuitive user interfaces.</p>
-
-                            <div class="stats-row">
-                                <div class="stat-item">
-                                    <span class="stat-num" data-count="5">0+</span>
-                                    <span class="stat-label">Years Exp.</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-num" data-count="20">0+</span>
-                                    <span class="stat-label">Projects</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-num" data-count="100">0%</span>
-                                    <span class="stat-label">Commitment</span>
-                                </div>
-                            </div>
+                    <h2 class="section-heading">Philosophy</h2>
+                    <div class="editorial-text">
+                        <p>I exist at the intersection of <span class="highlight">Artificial Intelligence</span> and <span class="highlight">Human Perception</span>.</p>
+                        <p>Building scalable systems that do not just process data, but understand it. From Computer Vision to Generative AI, my code breathes life into silicon.</p>
+                    </div>
+                    <div class="stats-grid">
+                        <div class="stat">
+                            <span class="num">05+</span>
+                            <span class="label">Years of Innovation</span>
                         </div>
-                        <div class="about-img-cont">
-                            <img src="resources/images/lotus_pose.png" alt="Relaxed Developer" class="sticker-img">
+                        <div class="stat">
+                            <span class="num">20+</span>
+                            <span class="label">Deployed Systems</span>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Work Section (Colorful Cards) -->
-            <section id="work" class="work-section">
+            <!-- Selected Works -->
+            <section class="work-section">
                 <div class="container">
-                    <h2 class="section-title">Selected Work</h2>
+                    <h2 class="section-heading">Selected Works</h2>
 
-                    <div class="projects-grid">
+                    <div class="project-list">
                         <!-- Project 1 -->
-                        <div class="project-card card-blue">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <span class="project-cat">Computer Vision</span>
-                                <h3 class="project-title">Smart Surveillance</h3>
-                                <p class="project-desc">Real-time object detection system for high-security zones using YOLOv8 and Edge Computing.</p>
-                                <a href="#" class="btn-link">View Case Study <i class="fa-solid fa-arrow-right"></i></a>
+                        <div class="project-item">
+                            <div class="project-meta">
+                                <span class="cat">Computer Vision</span>
+                                <h3 class="title">Smart Surveillance</h3>
                             </div>
-                            <div class="card-visual">
-                                <i class="fa-solid fa-camera-retro visual-icon"></i>
+                            <div class="project-desc">
+                                <p>Real-time object detection for high-security zones using YOLOv8.</p>
+                            </div>
+                            <div class="project-link">
+                                <a href="#">View Case <i class="fa-solid fa-arrow-right-long"></i></a>
                             </div>
                         </div>
 
                         <!-- Project 2 -->
-                        <div class="project-card card-purple">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <span class="project-cat">NLP & GenAI</span>
-                                <h3 class="project-title">Legal Docs Summarizer</h3>
-                                <p class="project-desc">Automated legal document analysis using Large Language Models (LLMs) and LangChain.</p>
-                                <a href="#" class="btn-link">View Case Study <i class="fa-solid fa-arrow-right"></i></a>
+                        <div class="project-item">
+                            <div class="project-meta">
+                                <span class="cat">NLP & GenAI</span>
+                                <h3 class="title">Legal Summarizer</h3>
                             </div>
-                            <div class="card-visual">
-                                <i class="fa-solid fa-file-contract visual-icon"></i>
+                            <div class="project-desc">
+                                <p>Automated analysis of complex legal documents using Large Language Models.</p>
+                            </div>
+                            <div class="project-link">
+                                <a href="#">View Case <i class="fa-solid fa-arrow-right-long"></i></a>
                             </div>
                         </div>
 
                         <!-- Project 3 -->
-                        <div class="project-card card-orange">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <span class="project-cat">Cloud Infra</span>
-                                <h3 class="project-title">Scalable ML Pipeline</h3>
-                                <p class="project-desc">End-to-end MLOps pipeline on AWS SageMaker with automated retraining triggers.</p>
-                                <a href="#" class="btn-link">View Case Study <i class="fa-solid fa-arrow-right"></i></a>
+                        <div class="project-item">
+                            <div class="project-meta">
+                                <span class="cat">Cloud Architecture</span>
+                                <h3 class="title">ML Pipeline</h3>
                             </div>
-                            <div class="card-visual">
-                                <i class="fa-solid fa-cloud-bolt visual-icon"></i>
+                            <div class="project-desc">
+                                <p>End-to-end MLOps on AWS SageMaker with automated retraining triggers.</p>
+                            </div>
+                            <div class="project-link">
+                                <a href="#">View Case <i class="fa-solid fa-arrow-right-long"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Experience Section -->
-            <section class="experience-section">
+            <!-- Contact -->
+            <section class="contact-section">
                 <div class="container">
-                    <h2 class="section-title">Journey</h2>
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="glass-panel timeline-content">
-                                <span class="date">2021 - Present</span>
-                                <h3>Senior ML Engineer</h3>
-                                <h4>Tech Corp Inc.</h4>
-                                <p>Leading the vision team, deploying models to 10M+ users.</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="glass-panel timeline-content">
-                                <span class="date">2019 - 2021</span>
-                                <h3>Data Scientist</h3>
-                                <h4>DataFlow Systems</h4>
-                                <p>Built predictive models for churn analysis and revenue forecasting.</p>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="glass-panel timeline-content">
-                                <span class="date">2018 - 2019</span>
-                                <h3>Junior Developer</h3>
-                                <h4>Startup Hub</h4>
-                                <p>Full stack web development and initial foray into AI integration.</p>
-                            </div>
-                        </div>
+                    <h2 class="contact-title">Initiate Protocol</h2>
+                    <a href="mailto:hello@anubhav.com" class="contact-email">hello@anubhav.com</a>
+
+                    <div class="footer-links">
+                        <a href="#">GitHub</a>
+                        <a href="#">LinkedIn</a>
+                        <a href="#">Twitter</a>
                     </div>
+
+                    <footer class="main-footer">
+                        <p>© 2024 Anubhav Tiwari. <br>System Status: Online.</p>
+                    </footer>
                 </div>
             </section>
-
-            <!-- CTA / Contact -->
-            <section id="contact" class="contact-section">
-                <div class="container">
-                    <div class="glass-panel contact-panel">
-                        <div class="contact-left">
-                            <h2 class="big-cta">Let's build <br> something <br> <span class="gradient-text">amazing.</span></h2>
-                        </div>
-                        <div class="contact-right">
-                            <p>Available for freelance projects and consulting.</p>
-                            <a href="mailto:hello@anubhav.com" class="btn-primary btn-large">Say Hello</a>
-                            <div class="social-links">
-                                <a href="#"><i class="fa-brands fa-github"></i></a>
-                                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                                <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                            </div>
-                            <img src="resources/images/mic_drop.png" class="footer-sticker" alt="Mic Drop">
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <footer>
-                <p>&copy; 2024 Anubhav Tiwari. Crafted with <i class="fa-solid fa-heart"></i> and Code.</p>
-            </footer>
 
         </div>
     </main>
 
-    <!-- Scripts -->
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <!-- App Logic -->
     <script src="src/js/app.js"></script>
 </body>
 </html>
