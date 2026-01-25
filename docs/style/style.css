@@ -210,6 +210,8 @@ body, html {
     width: auto;
     object-fit: contain;
     filter: drop-shadow(0 20px 50px rgba(0,0,0,0.1));
+    mix-blend-mode: multiply; /* Helps blend the JPG background with the blue theme */
+    border-radius: 20px; /* Soften edges if it's a rectangle */
 }
 
 .hero-overlay {
