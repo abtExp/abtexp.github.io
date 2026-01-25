@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Anubhav Tiwari | Creative ML Engineer</title>
+    <title>Anubhav Tiwari | Senior ML Engineer</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
 
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,236 +18,300 @@
 </head>
 <body>
 
-    <!-- Background Blobs (Fixed) -->
-    <div class="blob-cont">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
-
     <!-- Navigation -->
-    <nav class="glass-nav">
-        <div class="logo">AT.</div>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#work">Work</a>
-            <a href="#contact">Contact</a>
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">ANUBHAV TIWARI</div>
+            <div class="nav-links desktop-only">
+                <a href="#about">About</a>
+                <a href="#experience">Experience</a>
+                <a href="#portfolio">Portfolio</a>
+                <a href="#skills">Skills</a>
+                <a href="#contact">Contact</a>
+            </div>
         </div>
-        <div class="nav-toggle">
-            <i class="fa-solid fa-bars"></i>
+        <div class="nav-right">
+            <a href="#contact" class="btn-contact desktop-only">Let's Talk</a>
+            <button class="menu-btn" id="menu-btn" aria-label="Menu">
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
 
-    <!-- Overlay Menu -->
-    <div class="menu-overlay">
-        <div class="menu-close"><i class="fa-solid fa-xmark"></i></div>
-        <div class="menu-items">
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#work">Work</a>
-            <a href="#contact">Contact</a>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobile-menu">
+        <div class="mobile-menu-links">
+            <a href="#about" class="mobile-link">About</a>
+            <a href="#experience" class="mobile-link">Experience</a>
+            <a href="#portfolio" class="mobile-link">Portfolio</a>
+            <a href="#skills" class="mobile-link">Skills</a>
+            <a href="#contact" class="mobile-link">Contact</a>
         </div>
     </div>
 
+    <!-- Main Content -->
     <main id="smooth-wrapper">
         <div id="smooth-content">
 
             <!-- Hero Section -->
-            <header id="home" class="hero-section">
-                <div class="hero-content">
-                    <h1 class="hero-title">
-                        <span class="word">Designing</span>
-                        <span class="word gradient-text">Intelligence</span>
-                    </h1>
-                    <p class="hero-subtitle">Senior Machine Learning Engineer & <br> Creative Technologist</p>
+            <section class="hero-container" id="home">
+                <!-- Background Big Text -->
+                <h1 class="bg-text">ENGINEER</h1>
 
-                    <div class="hero-buttons">
-                        <a href="#work" class="btn-primary">View Projects</a>
-                        <a href="#contact" class="btn-secondary">Let's Talk</a>
-                    </div>
+                <!-- Main Subject Image -->
+                <div class="hero-image-wrapper">
+                    <img src="resources/images/main_splash.png" alt="Anubhav Tiwari" class="hero-image">
                 </div>
 
-                <div class="hero-visual">
-                    <div class="glass-circle">
-                        <img src="resources/images/main_splash.png" alt="Anubhav Character" class="hero-img">
+                <!-- Overlay Elements -->
+                <div class="hero-overlay">
+                    <div class="hero-title">
+                        <h2>Senior Machine Learning Engineer</h2>
+                        <p>Specializing in Computer Vision, NLP, and Cloud Architecture.</p>
                     </div>
-                    <div class="floating-badge badge-1">
-                        <i class="fa-solid fa-brain"></i> <span>NLP</span>
+
+                    <div class="availability">
+                        <span class="dot"></span>
+                        <span>Available for Projects</span>
                     </div>
-                    <div class="floating-badge badge-2">
-                        <i class="fa-solid fa-eye"></i> <span>Computer Vision</span>
-                    </div>
-                </div>
-            </header>
 
-            <!-- Marquee -->
-            <div class="marquee-container">
-                <div class="marquee-content">
-                    <span>Machine Learning</span>
-                    <span class="star">*</span>
-                    <span>Deep Learning</span>
-                    <span class="star">*</span>
-                    <span>Cloud Architecture</span>
-                    <span class="star">*</span>
-                    <span>Python</span>
-                    <span class="star">*</span>
-                    <span>TensorFlow</span>
-                    <span class="star">*</span>
-                    <span>PyTorch</span>
-                    <span class="star">*</span>
-                </div>
-            </div>
-
-            <!-- About Section -->
-            <section id="about" class="about-section">
-                <div class="container">
-                    <div class="glass-panel about-panel">
-                        <div class="about-text">
-                            <h2 class="section-title">Who I Am</h2>
-                            <p class="lead">I bridge the gap between <span class="highlight">complex algorithms</span> and <span class="highlight">human-centric design</span>.</p>
-                            <p>Specializing in Computer Vision and NLP, I build scalable AI solutions that don't just work—they delight. Currently exploring the intersection of Generative AI and intuitive user interfaces.</p>
-
-                            <div class="stats-row">
-                                <div class="stat-item">
-                                    <span class="stat-num" data-count="5">0+</span>
-                                    <span class="stat-label">Years Exp.</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-num" data-count="20">0+</span>
-                                    <span class="stat-label">Projects</span>
-                                </div>
-                                <div class="stat-item">
-                                    <span class="stat-num" data-count="100">0%</span>
-                                    <span class="stat-label">Commitment</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="about-img-cont">
-                            <img src="resources/images/lotus_pose.png" alt="Relaxed Developer" class="sticker-img">
-                        </div>
+                    <div class="socials">
+                        <a href="https://github.com/abtExp" target="_blank"><i class="fa-brands fa-github"></i></a>
+                        <a href="mailto:abt.exp@gmail.com"><i class="fa-regular fa-envelope"></i></a>
+                        <a href="https://www.linkedin.com/in/abtExp" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                        <a href="https://x.com/overfitowl" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
                     </div>
                 </div>
             </section>
 
-            <!-- Work Section (Colorful Cards) -->
-            <section id="work" class="work-section">
-                <div class="container">
-                    <h2 class="section-title">Selected Work</h2>
-
-                    <div class="projects-grid">
-                        <!-- Project 1 -->
-                        <div class="project-card card-blue">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <span class="project-cat">Computer Vision</span>
-                                <h3 class="project-title">Smart Surveillance</h3>
-                                <p class="project-desc">Real-time object detection system for high-security zones using YOLOv8 and Edge Computing.</p>
-                                <a href="#" class="btn-link">View Case Study <i class="fa-solid fa-arrow-right"></i></a>
-                            </div>
-                            <div class="card-visual">
-                                <i class="fa-solid fa-camera-retro visual-icon"></i>
-                            </div>
-                        </div>
-
-                        <!-- Project 2 -->
-                        <div class="project-card card-purple">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <span class="project-cat">NLP & GenAI</span>
-                                <h3 class="project-title">Legal Docs Summarizer</h3>
-                                <p class="project-desc">Automated legal document analysis using Large Language Models (LLMs) and LangChain.</p>
-                                <a href="#" class="btn-link">View Case Study <i class="fa-solid fa-arrow-right"></i></a>
-                            </div>
-                            <div class="card-visual">
-                                <i class="fa-solid fa-file-contract visual-icon"></i>
-                            </div>
-                        </div>
-
-                        <!-- Project 3 -->
-                        <div class="project-card card-orange">
-                            <div class="card-bg"></div>
-                            <div class="card-content">
-                                <span class="project-cat">Cloud Infra</span>
-                                <h3 class="project-title">Scalable ML Pipeline</h3>
-                                <p class="project-desc">End-to-end MLOps pipeline on AWS SageMaker with automated retraining triggers.</p>
-                                <a href="#" class="btn-link">View Case Study <i class="fa-solid fa-arrow-right"></i></a>
-                            </div>
-                            <div class="card-visual">
-                                <i class="fa-solid fa-cloud-bolt visual-icon"></i>
-                            </div>
-                        </div>
+            <!-- About Section -->
+            <section class="section-container" id="about">
+                <div class="section-header">
+                    <span class="section-subtitle">01</span>
+                    <h2 class="section-title">About Me</h2>
+                </div>
+                <div class="about-grid">
+                    <div class="about-card">
+                        <i class="fa-solid fa-robot card-icon"></i>
+                        <h3>Senior ML Engineer</h3>
+                        <p>5 years of experience building solutions to challenging problems in Machine Learning.</p>
+                    </div>
+                    <div class="about-card">
+                        <i class="fa-solid fa-rocket card-icon"></i>
+                        <h3>End-to-End Expertise</h3>
+                        <p>From ideation and R&D to successful deployment on cloud infrastructures.</p>
+                    </div>
+                    <div class="about-card">
+                        <i class="fa-solid fa-cloud card-icon"></i>
+                        <h3>Cloud & ML Initiatives</h3>
+                        <p>Spearheaded ML initiatives and deployed solutions on AWS and GCP.</p>
+                    </div>
+                    <div class="about-card">
+                        <i class="fa-solid fa-brain card-icon"></i>
+                        <h3>Technical Proficiency</h3>
+                        <p>Computer Vision, Audio Signal Processing, and NLP.</p>
+                    </div>
+                    <div class="about-card">
+                        <i class="fa-solid fa-chart-simple card-icon"></i>
+                        <h3>Delivered Projects</h3>
+                        <p>Crowd density estimation, object detection, face recognition, and more.</p>
+                    </div>
+                    <div class="about-card">
+                        <i class="fa-solid fa-code card-icon"></i>
+                        <h3>Code Quality</h3>
+                        <p>Developer-friendly code that increases understandability and reusability.</p>
                     </div>
                 </div>
             </section>
 
             <!-- Experience Section -->
-            <section class="experience-section">
-                <div class="container">
-                    <h2 class="section-title">Journey</h2>
-                    <div class="timeline">
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="glass-panel timeline-content">
-                                <span class="date">2021 - Present</span>
-                                <h3>Senior ML Engineer</h3>
-                                <h4>Tech Corp Inc.</h4>
-                                <p>Leading the vision team, deploying models to 10M+ users.</p>
+            <section class="section-container" id="experience">
+                <div class="section-header">
+                    <span class="section-subtitle">02</span>
+                    <h2 class="section-title">Experience</h2>
+                </div>
+                <div class="timeline">
+                    <!-- Job 1 -->
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <span class="date">2023 - Present</span>
+                            <h3>Senior ML Engineer</h3>
+                            <h4 class="company">Quantiphi Analytics</h4>
+                            <p>Developing computer vision models for crowd density, license plate recognition, and voice activity detection systems.</p>
+                        </div>
+                    </div>
+                    <!-- Job 2 -->
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <span class="date">2022 - 2023</span>
+                            <h3>ML Engineer - L2</h3>
+                            <h4 class="company">Quantiphi Analytics</h4>
+                            <p>Led ML initiatives from POC to production. Established capabilities in face recognition and object detection on AWS/GCP.</p>
+                        </div>
+                    </div>
+                    <!-- Job 3 -->
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <span class="date">2021 - 2022</span>
+                            <h3>ML Engineer</h3>
+                            <h4 class="company">Verifyer Technologies</h4>
+                            <p>Designed ML models, analyzed large datasets, and built high-accuracy prediction models.</p>
+                        </div>
+                    </div>
+                    <!-- Job 4 -->
+                    <div class="timeline-item">
+                        <div class="timeline-content">
+                            <span class="date">2019 - 2020</span>
+                            <h3>ML Engineer</h3>
+                            <h4 class="company">RMgX Technologies</h4>
+                            <p>Conducted NLP research, published papers on deep learning, and mentored junior researchers.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Portfolio Section -->
+            <section class="section-container" id="portfolio">
+                <div class="section-header">
+                    <span class="section-subtitle">03</span>
+                    <h2 class="section-title">Selected Works</h2>
+                </div>
+                <div class="portfolio-grid">
+                    <div class="portfolio-card">
+                        <div class="portfolio-image" style="background-image: linear-gradient(to bottom right, #a1c4fd, #c2e9fb);"></div>
+                        <div class="portfolio-info">
+                            <h3>Crowd Density Estimation</h3>
+                            <p>Deep learning model for estimating crowd density with >95% accuracy in real-time.</p>
+                            <div class="tags">
+                                <span>Python</span><span>PyTorch</span><span>CV</span>
                             </div>
                         </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="glass-panel timeline-content">
-                                <span class="date">2019 - 2021</span>
-                                <h3>Data Scientist</h3>
-                                <h4>DataFlow Systems</h4>
-                                <p>Built predictive models for churn analysis and revenue forecasting.</p>
+                    </div>
+                    <div class="portfolio-card">
+                        <div class="portfolio-image" style="background-image: linear-gradient(to bottom right, #ffecd2, #fcb69f);"></div>
+                        <div class="portfolio-info">
+                            <h3>Code Generation NLP</h3>
+                            <p>Natural language to Python code generator converting text to executable snippets.</p>
+                            <div class="tags">
+                                <span>NLP</span><span>TensorFlow</span>
                             </div>
                         </div>
-                        <div class="timeline-item">
-                            <div class="timeline-dot"></div>
-                            <div class="glass-panel timeline-content">
-                                <span class="date">2018 - 2019</span>
-                                <h3>Junior Developer</h3>
-                                <h4>Startup Hub</h4>
-                                <p>Full stack web development and initial foray into AI integration.</p>
+                    </div>
+                    <div class="portfolio-card">
+                        <div class="portfolio-image" style="background-image: linear-gradient(to bottom right, #84fab0, #8fd3f4);"></div>
+                        <div class="portfolio-info">
+                            <h3>Speaker Diarization</h3>
+                            <p>Audio processing system to identify and separate speakers in noisy environments.</p>
+                            <div class="tags">
+                                <span>Signal Processing</span><span>ML</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-card">
+                        <div class="portfolio-image" style="background-image: linear-gradient(to bottom right, #fccb90, #d57eeb);"></div>
+                        <div class="portfolio-info">
+                            <h3>ML Pipeline Automation</h3>
+                            <p>End-to-end ML pipeline on AWS automating training and deployment with CI/CD.</p>
+                            <div class="tags">
+                                <span>AWS</span><span>Docker</span><span>MLOps</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- CTA / Contact -->
-            <section id="contact" class="contact-section">
-                <div class="container">
-                    <div class="glass-panel contact-panel">
-                        <div class="contact-left">
-                            <h2 class="big-cta">Let's build <br> something <br> <span class="gradient-text">amazing.</span></h2>
+            <!-- Skills Section -->
+            <section class="section-container" id="skills">
+                <div class="section-header">
+                    <span class="section-subtitle">04</span>
+                    <h2 class="section-title">Skills</h2>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Programming</h3>
+                        <div class="skill-list">
+                            <span>Python</span>
+                            <span>C++</span>
+                            <span>JavaScript</span>
+                            <span>TensorFlow</span>
+                            <span>PyTorch</span>
                         </div>
-                        <div class="contact-right">
-                            <p>Available for freelance projects and consulting.</p>
-                            <a href="mailto:hello@anubhav.com" class="btn-primary btn-large">Say Hello</a>
-                            <div class="social-links">
-                                <a href="#"><i class="fa-brands fa-github"></i></a>
-                                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                                <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                            </div>
-                            <img src="resources/images/mic_drop.png" class="footer-sticker" alt="Mic Drop">
+                    </div>
+                    <div class="skill-category">
+                        <h3>Data Science</h3>
+                        <div class="skill-list">
+                            <span>Computer Vision</span>
+                            <span>NLP</span>
+                            <span>Signal Processing</span>
+                            <span>Statistics</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Cloud & Infra</h3>
+                        <div class="skill-list">
+                            <span>GCP</span>
+                            <span>AWS</span>
+                            <span>Azure</span>
+                            <span>Docker</span>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Utility</h3>
+                        <div class="skill-list">
+                            <span>Git</span>
+                            <span>OpenCV</span>
+                            <span>Numpy</span>
+                            <span>SQL</span>
                         </div>
                     </div>
                 </div>
             </section>
 
+            <!-- Contact Section -->
+            <section class="section-container" id="contact">
+                <div class="section-header">
+                    <span class="section-subtitle">05</span>
+                    <h2 class="section-title">Get In Touch</h2>
+                </div>
+                <div class="contact-wrapper">
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <p>Bangalore, India</p>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-solid fa-envelope"></i>
+                            <p>contact@anubhavtiwari.tech</p>
+                        </div>
+                        <div class="socials-large">
+                            <a href="https://github.com/abtExp" target="_blank"><i class="fa-brands fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/abtExp" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                    <form class="contact-form" id="contactForm">
+                        <input type="text" placeholder="Name" required>
+                        <input type="email" placeholder="Email" required>
+                        <textarea placeholder="Message" rows="5" required></textarea>
+                        <button type="submit">Send Message</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Footer -->
             <footer>
-                <p>&copy; 2024 Anubhav Tiwari. Crafted with <i class="fa-solid fa-heart"></i> and Code.</p>
+                <p>&copy; 2023 Anubhav Tiwari. "It's All About Experience"</p>
             </footer>
 
         </div>
     </main>
 
-    <!-- Scripts -->
+    <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <!-- App Logic -->
     <script src="src/js/app.js"></script>
 </body>
 </html>

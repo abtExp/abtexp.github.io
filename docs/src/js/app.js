@@ -1,201 +1,158 @@
-document.addEventListener("DOMContentLoaded", () => {
+// Initialize Lenis for smooth scrolling
+const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    smooth: true,
+});
 
-    // 1. Initialize Lenis (Smooth Scroll)
-    const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        direction: 'vertical',
-        smooth: true,
-    });
-
-    function raf(time) {
-        lenis.raf(time);
-        requestAnimationFrame(raf);
-    }
+function raf(time) {
+    lenis.raf(time);
     requestAnimationFrame(raf);
+}
 
-    // 2. GSAP Animations
-    gsap.registerPlugin(ScrollTrigger);
+requestAnimationFrame(raf);
 
-    // Hero Animation
-    const tl = gsap.timeline();
+// Register GSAP Plugins
+gsap.registerPlugin(ScrollTrigger);
 
-    tl.from(".hero-title .word", {
-        y: 100,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power4.out"
-    })
-    .from(".hero-subtitle", {
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out"
-    }, "-=0.5")
-    .from(".hero-buttons a", {
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: "power3.out"
-    }, "-=0.6")
-    .from(".glass-circle", {
-        scale: 0.8,
-        opacity: 0,
-        duration: 1,
-        ease: "back.out(1.7)"
-    }, "-=1")
-    .from(".floating-badge", {
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.2,
-        ease: "power3.out"
-    }, "-=0.5");
+// Initial Animation Timeline
+const tl = gsap.timeline();
 
-    // Marquee Animation
-    gsap.to(".marquee-content", {
-        xPercent: -50,
-        ease: "none",
-        duration: 20,
-        repeat: -1
+// Hero Animations
+tl.from('.bg-text', { y: 150, opacity: 0, duration: 1.5, ease: 'power3.out', delay: 0.2 })
+  .from('.hero-image', { scale: 1.15, opacity: 0, y: 50, duration: 1.5, ease: 'power2.out', transformOrigin: 'bottom center' }, '-=1.3')
+  .from('.navbar', { opacity: 0, duration: 1, ease: 'power2.out' }, '-=1.0')
+  .from('.hero-overlay > *', { opacity: 0, y: 20, stagger: 0.1, duration: 0.8, ease: 'power2.out' }, '-=0.8');
+
+// Parallax Effect on Mouse Move
+const bgText = document.querySelector('.bg-text');
+const heroImage = document.querySelector('.hero-image');
+
+if (window.matchMedia("(min-width: 992px)").matches) {
+    window.addEventListener('mousemove', (e) => {
+        const x = e.clientX / window.innerWidth - 0.5;
+        const y = e.clientY / window.innerHeight - 0.5;
+        gsap.to(bgText, { x: x * -50, y: y * -20, duration: 1, ease: 'power2.out' });
+        gsap.to(heroImage, { x: x * 20, y: y * 10, duration: 1, ease: 'power2.out' });
     });
+}
 
-    // About Section Reveal
-    gsap.from(".about-panel", {
+// Mobile Menu Toggle
+const menuBtn = document.getElementById('menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileLinks = document.querySelectorAll('.mobile-link');
+let isMenuOpen = false;
+
+menuBtn.addEventListener('click', () => {
+    isMenuOpen = !isMenuOpen;
+    if (isMenuOpen) {
+        mobileMenu.classList.add('active');
+        menuBtn.classList.add('active');
+        // Animate links in
+        gsap.fromTo(mobileLinks,
+            { y: 50, opacity: 0 },
+            { y: 0, opacity: 1, stagger: 0.1, duration: 0.5, delay: 0.3 }
+        );
+        // Turn hamburger to X (simple CSS transition handled in style or here if needed)
+        gsap.to(menuBtn.children[0], { rotation: 45, y: 8, duration: 0.3 });
+        gsap.to(menuBtn.children[1], { rotation: -45, y: -5, duration: 0.3 });
+    } else {
+        mobileMenu.classList.remove('active');
+        menuBtn.classList.remove('active');
+        gsap.to(menuBtn.children[0], { rotation: 0, y: 0, duration: 0.3 });
+        gsap.to(menuBtn.children[1], { rotation: 0, y: 0, duration: 0.3 });
+    }
+});
+
+// Close menu on link click
+mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        isMenuOpen = false;
+        mobileMenu.classList.remove('active');
+        menuBtn.classList.remove('active');
+        gsap.to(menuBtn.children[0], { rotation: 0, y: 0, duration: 0.3 });
+        gsap.to(menuBtn.children[1], { rotation: 0, y: 0, duration: 0.3 });
+    });
+});
+
+// Scroll Animations for Sections
+
+// Titles
+gsap.utils.toArray('.section-header').forEach(header => {
+    gsap.from(header, {
         scrollTrigger: {
-            trigger: ".about-section",
-            start: "top 80%",
-            toggleActions: "play none none reverse"
+            trigger: header,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
         },
         y: 50,
         opacity: 0,
         duration: 1,
-        ease: "power3.out"
+        ease: 'power3.out'
     });
+});
 
-    // Stats Counter Animation
-    const stats = document.querySelectorAll(".stat-num");
-    stats.forEach(stat => {
-        let target = +stat.getAttribute("data-count");
+// About Cards
+gsap.from('.about-card', {
+    scrollTrigger: {
+        trigger: '.about-grid',
+        start: 'top 80%'
+    },
+    y: 50,
+    opacity: 0,
+    stagger: 0.1,
+    duration: 0.8,
+    ease: 'power2.out'
+});
 
-        ScrollTrigger.create({
-            trigger: stat,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-                gsap.to(stat, {
-                    innerText: target,
-                    duration: 2,
-                    snap: { innerText: 1 },
-                    ease: "power1.out",
-                    onUpdate: function() {
-                        stat.innerText = Math.ceil(this.targets()[0].innerText) + (stat.innerHTML.includes("%") ? "%" : "+");
-                    }
-                });
-            }
-        });
-    });
-
-    // Work Cards Stagger
-    gsap.from(".project-card", {
+// Timeline Items
+gsap.utils.toArray('.timeline-item').forEach(item => {
+    gsap.from(item, {
         scrollTrigger: {
-            trigger: ".projects-grid",
-            start: "top 75%",
+            trigger: item,
+            start: 'top 85%'
         },
-        y: 100,
+        x: -50,
         opacity: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power4.out"
+        duration: 0.8,
+        ease: 'power2.out'
     });
+});
 
-    // Timeline Items
-    const timelineItems = document.querySelectorAll(".timeline-item");
-    timelineItems.forEach((item, index) => {
-        gsap.from(item, {
-            scrollTrigger: {
-                trigger: item,
-                start: "top 85%",
-            },
-            x: -50,
-            opacity: 0,
-            duration: 0.8,
-            ease: "power3.out"
-        });
-    });
+// Portfolio Cards
+gsap.from('.portfolio-card', {
+    scrollTrigger: {
+        trigger: '.portfolio-grid',
+        start: 'top 80%'
+    },
+    y: 100,
+    opacity: 0,
+    stagger: 0.15,
+    duration: 1,
+    ease: 'power3.out'
+});
 
-    // Contact Panel Reveal
-    gsap.from(".contact-panel", {
-        scrollTrigger: {
-            trigger: ".contact-section",
-            start: "top 80%",
-        },
-        scale: 0.95,
-        opacity: 0,
-        duration: 1,
-        ease: "power3.out"
-    });
+// Skills
+gsap.from('.skill-category', {
+    scrollTrigger: {
+        trigger: '.skills-grid',
+        start: 'top 85%'
+    },
+    y: 30,
+    opacity: 0,
+    stagger: 0.1,
+    duration: 0.8,
+    ease: 'power2.out'
+});
 
-    // 3. Mobile Menu Toggle
-    const navToggle = document.querySelector(".nav-toggle");
-    const menuOverlay = document.querySelector(".menu-overlay");
-    const menuClose = document.querySelector(".menu-close");
-    const menuLinks = document.querySelectorAll(".menu-items a");
-
-    function toggleMenu() {
-        menuOverlay.classList.toggle("active");
-        if (menuOverlay.classList.contains("active")) {
-            gsap.fromTo(".menu-items a",
-                { y: 50, opacity: 0 },
-                { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, delay: 0.2 }
-            );
-        }
-    }
-
-    navToggle.addEventListener("click", toggleMenu);
-    menuClose.addEventListener("click", toggleMenu);
-
-    menuLinks.forEach(link => {
-        link.addEventListener("click", toggleMenu);
-    });
-
-    // 4. 3D Tilt Effect for Glass Panels
-    const panels = document.querySelectorAll(".glass-panel, .project-card, .glass-circle");
-
-    // Only on desktop
-    if (window.matchMedia("(min-width: 992px)").matches) {
-        panels.forEach(panel => {
-            panel.addEventListener("mousemove", (e) => {
-                const rect = panel.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-
-                const xPct = x / rect.width;
-                const yPct = y / rect.height;
-
-                const rotateX = (yPct - 0.5) * -10; // Max 5 deg tilt
-                const rotateY = (xPct - 0.5) * 10;
-
-                gsap.to(panel, {
-                    transformPerspective: 1000,
-                    rotationX: rotateX,
-                    rotationY: rotateY,
-                    duration: 0.5,
-                    ease: "power2.out"
-                });
-            });
-
-            panel.addEventListener("mouseleave", () => {
-                gsap.to(panel, {
-                    rotationX: 0,
-                    rotationY: 0,
-                    duration: 0.5,
-                    ease: "power2.out"
-                });
-            });
-        });
-    }
-
+// Contact
+gsap.from('.contact-wrapper', {
+    scrollTrigger: {
+        trigger: '.contact-wrapper',
+        start: 'top 80%'
+    },
+    y: 50,
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out'
 });
