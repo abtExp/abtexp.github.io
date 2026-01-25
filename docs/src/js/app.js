@@ -1,13 +1,8 @@
-// Initialize Lenis for Smooth Scroll
+// Initialize Lenis for smooth scrolling
 const lenis = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    direction: 'vertical',
-    gestureDirection: 'vertical',
     smooth: true,
-    mouseMultiplier: 1,
-    smoothTouch: false,
-    touchMultiplier: 2,
 });
 
 function raf(time) {
@@ -17,219 +12,147 @@ function raf(time) {
 
 requestAnimationFrame(raf);
 
-// Three.js Scene Setup
-const container = document.getElementById('webgl-container');
-const scene = new THREE.Scene();
-
-// Camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 1;
-
-// Renderer
-const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-container.appendChild(renderer.domElement);
-
-// Colorful Star Particles
-const starsGeometry = new THREE.BufferGeometry();
-const starsCount = 6000;
-const posArray = new Float32Array(starsCount * 3);
-const colorArray = new Float32Array(starsCount * 3);
-
-const colorPalette = [
-    new THREE.Color('#00f260'), // Green
-    new THREE.Color('#0575E6'), // Blue
-    new THREE.Color('#e84393'), // Pink
-    new THREE.Color('#ffffff')  // White
-];
-
-// Fill with random positions and colors
-for(let i = 0; i < starsCount; i++) {
-    // Positions
-    posArray[i*3] = (Math.random() - 0.5) * 15;
-    posArray[i*3+1] = (Math.random() - 0.5) * 15;
-    posArray[i*3+2] = (Math.random() - 0.5) * 15;
-
-    // Colors
-    const color = colorPalette[Math.floor(Math.random() * colorPalette.length)];
-    colorArray[i*3] = color.r;
-    colorArray[i*3+1] = color.g;
-    colorArray[i*3+2] = color.b;
-}
-
-starsGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-starsGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
-
-// Material
-const starsMaterial = new THREE.PointsMaterial({
-    size: 0.008,
-    vertexColors: true, // Enable per-vertex colors
-    transparent: true,
-    opacity: 0.8,
-});
-
-// Mesh
-const starMesh = new THREE.Points(starsGeometry, starsMaterial);
-scene.add(starMesh);
-
-// Mouse Interaction
-let mouseX = 0;
-let mouseY = 0;
-let targetX = 0;
-let targetY = 0;
-
-const windowHalfX = window.innerWidth / 2;
-const windowHalfY = window.innerHeight / 2;
-
-document.addEventListener('mousemove', (event) => {
-    mouseX = (event.clientX - windowHalfX);
-    mouseY = (event.clientY - windowHalfY);
-});
-
-// Scroll Velocity Integration
-let scrollSpeed = 0;
-
-lenis.on('scroll', (e) => {
-    scrollSpeed = e.velocity;
-});
-
-// Animation Loop
-const clock = new THREE.Clock();
-
-function animate() {
-    targetX = mouseX * 0.001;
-    targetY = mouseY * 0.001;
-
-    // Smooth rotation based on mouse
-    starMesh.rotation.y += 0.5 * (targetX - starMesh.rotation.y);
-    starMesh.rotation.x += 0.05 * (targetY - starMesh.rotation.x);
-
-    // Warp speed effect based on scroll
-    starMesh.rotation.z += 0.001 + (Math.abs(scrollSpeed) * 0.0005);
-
-    const time = clock.getElapsedTime();
-    // Gentle pulse
-    starMesh.scale.x = 1 + Math.sin(time * 0.5) * 0.05;
-    starMesh.scale.y = 1 + Math.sin(time * 0.5) * 0.05;
-
-    renderer.render(scene, camera);
-    requestAnimationFrame(animate);
-}
-
-animate();
-
-// Resize Handler
-window.addEventListener('resize', () => {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-});
-
-// GSAP Animations
+// Register GSAP Plugins
 gsap.registerPlugin(ScrollTrigger);
 
-// Hero Reveal
-const heroTl = gsap.timeline();
+// Initial Animation Timeline
+const tl = gsap.timeline();
 
-heroTl.from('.logo', {
-    y: -50,
-    opacity: 0,
-    duration: 1,
-    ease: 'power3.out'
-})
-.from('.hero-title', {
-    y: 100,
-    opacity: 0,
-    duration: 1.5,
-    ease: 'power4.out',
-    skewY: 7
-}, "-=0.5")
-.from('.hero-subtitle', {
-    y: 20,
-    opacity: 0,
-    duration: 1,
-    ease: 'power2.out'
-}, "-=1")
-.from('.scroll-indicator', {
-    opacity: 0,
-    duration: 1
-}, "-=0.5");
+// Hero Animations
+tl.from('.bg-text', { y: 150, opacity: 0, duration: 1.5, ease: 'power3.out', delay: 0.2 })
+  .from('.hero-image', { scale: 1.15, opacity: 0, y: 50, duration: 1.5, ease: 'power2.out', transformOrigin: 'bottom center' }, '-=1.3')
+  .from('.navbar', { opacity: 0, duration: 1, ease: 'power2.out' }, '-=1.0')
+  .from('.hero-overlay > *', { opacity: 0, y: 20, stagger: 0.1, duration: 0.8, ease: 'power2.out' }, '-=0.8');
 
-// Editorial Text Reveal
-const editorialText = document.querySelectorAll('.editorial-text p');
-editorialText.forEach(text => {
-    gsap.from(text, {
+// Parallax Effect on Mouse Move
+const bgText = document.querySelector('.bg-text');
+const heroImage = document.querySelector('.hero-image');
+
+if (window.matchMedia("(min-width: 992px)").matches) {
+    window.addEventListener('mousemove', (e) => {
+        const x = e.clientX / window.innerWidth - 0.5;
+        const y = e.clientY / window.innerHeight - 0.5;
+        gsap.to(bgText, { x: x * -50, y: y * -20, duration: 1, ease: 'power2.out' });
+        gsap.to(heroImage, { x: x * 20, y: y * 10, duration: 1, ease: 'power2.out' });
+    });
+}
+
+// Mobile Menu Toggle
+const menuBtn = document.getElementById('menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const mobileLinks = document.querySelectorAll('.mobile-link');
+let isMenuOpen = false;
+
+menuBtn.addEventListener('click', () => {
+    isMenuOpen = !isMenuOpen;
+    if (isMenuOpen) {
+        mobileMenu.classList.add('active');
+        menuBtn.classList.add('active');
+        // Animate links in
+        gsap.fromTo(mobileLinks,
+            { y: 50, opacity: 0 },
+            { y: 0, opacity: 1, stagger: 0.1, duration: 0.5, delay: 0.3 }
+        );
+        // Turn hamburger to X (simple CSS transition handled in style or here if needed)
+        gsap.to(menuBtn.children[0], { rotation: 45, y: 8, duration: 0.3 });
+        gsap.to(menuBtn.children[1], { rotation: -45, y: -5, duration: 0.3 });
+    } else {
+        mobileMenu.classList.remove('active');
+        menuBtn.classList.remove('active');
+        gsap.to(menuBtn.children[0], { rotation: 0, y: 0, duration: 0.3 });
+        gsap.to(menuBtn.children[1], { rotation: 0, y: 0, duration: 0.3 });
+    }
+});
+
+// Close menu on link click
+mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        isMenuOpen = false;
+        mobileMenu.classList.remove('active');
+        menuBtn.classList.remove('active');
+        gsap.to(menuBtn.children[0], { rotation: 0, y: 0, duration: 0.3 });
+        gsap.to(menuBtn.children[1], { rotation: 0, y: 0, duration: 0.3 });
+    });
+});
+
+// Scroll Animations for Sections
+
+// Titles
+gsap.utils.toArray('.section-header').forEach(header => {
+    gsap.from(header, {
         scrollTrigger: {
-            trigger: text,
-            start: "top 80%",
-            end: "bottom 20%",
-            toggleActions: "play none none reverse"
+            trigger: header,
+            start: 'top 80%',
+            toggleActions: 'play none none reverse'
         },
         y: 50,
         opacity: 0,
-        duration: 1.5,
+        duration: 1,
         ease: 'power3.out'
     });
 });
 
-// Project Items Stagger
-const projects = document.querySelectorAll('.project-item');
-projects.forEach((item, index) => {
+// About Cards
+gsap.from('.about-card', {
+    scrollTrigger: {
+        trigger: '.about-grid',
+        start: 'top 80%'
+    },
+    y: 50,
+    opacity: 0,
+    stagger: 0.1,
+    duration: 0.8,
+    ease: 'power2.out'
+});
+
+// Timeline Items
+gsap.utils.toArray('.timeline-item').forEach(item => {
     gsap.from(item, {
         scrollTrigger: {
             trigger: item,
-            start: "top 85%",
+            start: 'top 85%'
         },
-        y: 100,
+        x: -50,
         opacity: 0,
-        duration: 1,
-        delay: index * 0.1,
-        ease: 'power3.out'
+        duration: 0.8,
+        ease: 'power2.out'
     });
 });
 
-// Menu Interaction
-const menuBtn = document.querySelector('.menu-btn');
-const closeBtn = document.querySelector('.close-btn');
-const menuLinks = document.querySelectorAll('.menu-link');
+// Portfolio Cards
+gsap.from('.portfolio-card', {
+    scrollTrigger: {
+        trigger: '.portfolio-grid',
+        start: 'top 80%'
+    },
+    y: 100,
+    opacity: 0,
+    stagger: 0.15,
+    duration: 1,
+    ease: 'power3.out'
+});
 
-const menuTl = gsap.timeline({ paused: true });
+// Skills
+gsap.from('.skill-category', {
+    scrollTrigger: {
+        trigger: '.skills-grid',
+        start: 'top 85%'
+    },
+    y: 30,
+    opacity: 0,
+    stagger: 0.1,
+    duration: 0.8,
+    ease: 'power2.out'
+});
 
-menuTl.to('.menu-overlay', {
-    autoAlpha: 1, // Visiblity + Opacity
-    duration: 0.5,
-    ease: 'power2.inOut'
-})
-.from('.menu-link', {
+// Contact
+gsap.from('.contact-wrapper', {
+    scrollTrigger: {
+        trigger: '.contact-wrapper',
+        start: 'top 80%'
+    },
     y: 50,
     opacity: 0,
-    duration: 0.5,
-    stagger: 0.1,
+    duration: 1,
     ease: 'power3.out'
-}, "-=0.2");
-
-menuBtn.addEventListener('click', () => {
-    menuTl.play();
 });
-
-closeBtn.addEventListener('click', () => {
-    menuTl.reverse();
-});
-
-menuLinks.forEach(link => {
-    link.addEventListener('click', () => {
-        menuTl.reverse();
-    });
-});
-
-// Contact Email Hover Effect (simple scale)
-const contactEmail = document.querySelector('.contact-email');
-if(contactEmail) {
-    contactEmail.addEventListener('mouseenter', () => {
-        gsap.to(contactEmail, { scale: 1.05, duration: 0.3 });
-    });
-    contactEmail.addEventListener('mouseleave', () => {
-        gsap.to(contactEmail, { scale: 1, duration: 0.3 });
-    });
-}
