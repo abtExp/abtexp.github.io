@@ -36,6 +36,9 @@ def run():
         page.set_viewport_size({"width": 375, "height": 812})
         page.evaluate("window.scrollTo(0, 0)")
         page.wait_for_timeout(1000)
+        page.screenshot(path="verification/mobile_hero.png")
+        print("Mobile hero screenshot taken.")
+
         # Click menu to open it
         try:
             page.click(".nav-toggle")
