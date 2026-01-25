@@ -1,11 +1,11 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // 1. Initialize Lenis (Premium Smooth Scroll)
+document.addEventListener("DOMContentLoaded", () => {
+
+    // 1. Initialize Lenis (Smooth Scroll)
     const lenis = new Lenis({
         duration: 1.2,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         direction: 'vertical',
         smooth: true,
-        smoothTouch: false
     });
 
     function raf(time) {
@@ -14,132 +14,188 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     requestAnimationFrame(raf);
 
-    // 2. GSAP Animations (Discrete & Purposeful)
+    // 2. GSAP Animations
     gsap.registerPlugin(ScrollTrigger);
 
-    // Hero Entry Animation (Simple Fade Up)
-    const heroTl = gsap.timeline();
-    heroTl.from(".hero-title .line", {
+    // Hero Animation
+    const tl = gsap.timeline();
+
+    tl.from(".hero-title .word", {
         y: 100,
         opacity: 0,
         duration: 1,
-        stagger: 0.1,
-        ease: "power3.out"
+        stagger: 0.2,
+        ease: "power4.out"
     })
-    .from(".hero-intro", {
+    .from(".hero-subtitle", {
         y: 20,
         opacity: 0,
         duration: 0.8,
-        ease: "power2.out"
+        ease: "power3.out"
     }, "-=0.5")
-    .from(".hero-image-wrapper", {
-        scale: 0.9,
+    .from(".hero-buttons a", {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power3.out"
+    }, "-=0.6")
+    .from(".glass-circle", {
+        scale: 0.8,
         opacity: 0,
         duration: 1,
-        ease: "power2.out"
-    }, "-=0.8");
+        ease: "back.out(1.7)"
+    }, "-=1")
+    .from(".floating-badge", {
+        y: 20,
+        opacity: 0,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out"
+    }, "-=0.5");
 
-    // 3. Project Catalog Hover Reveal (Desktop Only)
-    const projectRows = document.querySelectorAll(".project-row");
-    const previewContainer = document.querySelector(".project-preview");
-    const previewImg = document.getElementById("preview-img");
-
-    if (window.matchMedia("(pointer: fine)").matches) {
-        projectRows.forEach(row => {
-            row.addEventListener("mouseenter", (e) => {
-                const imgUrl = row.getAttribute("data-image");
-                previewImg.src = imgUrl;
-
-                // Show preview
-                gsap.to(previewContainer, {
-                    opacity: 1,
-                    scale: 1,
-                    duration: 0.3,
-                    ease: "power2.out"
-                });
-            });
-
-            row.addEventListener("mousemove", (e) => {
-                // Move preview with cursor
-                gsap.to(previewContainer, {
-                    x: e.clientX,
-                    y: e.clientY,
-                    duration: 0.2, // slight delay for smoothness
-                    ease: "power1.out"
-                });
-            });
-
-            row.addEventListener("mouseleave", () => {
-                gsap.to(previewContainer, {
-                    opacity: 0,
-                    scale: 0.8,
-                    duration: 0.3,
-                    ease: "power2.in"
-                });
-            });
-        });
-    }
-
-    // 4. Mobile Menu Logic
-    const navToggle = document.querySelector(".nav-toggle");
-    const closeMenu = document.querySelector(".close-menu");
-    const mobileMenu = document.querySelector(".mobile-menu-overlay");
-    const mobileLinks = document.querySelectorAll(".mobile-link");
-
-    function toggleMenu() {
-        mobileMenu.classList.toggle("active");
-    }
-
-    navToggle.addEventListener("click", toggleMenu);
-    closeMenu.addEventListener("click", toggleMenu);
-
-    mobileLinks.forEach(link => {
-        link.addEventListener("click", () => {
-            toggleMenu();
-            // Smooth scroll handled by CSS scroll-behavior or Lenis
-            const target = document.querySelector(link.getAttribute("href"));
-            lenis.scrollTo(target);
-        });
+    // Marquee Animation
+    gsap.to(".marquee-content", {
+        xPercent: -50,
+        ease: "none",
+        duration: 20,
+        repeat: -1
     });
 
-    // Desktop Nav Links Smooth Scroll
-    document.querySelectorAll(".nav-links a, .nav-logo a").forEach(link => {
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
-            const href = link.getAttribute("href");
-            if (href && href !== "#") {
-                const target = document.querySelector(href);
-                if (target) lenis.scrollTo(target);
+    // About Section Reveal
+    gsap.from(".about-panel", {
+        scrollTrigger: {
+            trigger: ".about-section",
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+        },
+        y: 50,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out"
+    });
+
+    // Stats Counter Animation
+    const stats = document.querySelectorAll(".stat-num");
+    stats.forEach(stat => {
+        let target = +stat.getAttribute("data-count");
+
+        ScrollTrigger.create({
+            trigger: stat,
+            start: "top 85%",
+            once: true,
+            onEnter: () => {
+                gsap.to(stat, {
+                    innerText: target,
+                    duration: 2,
+                    snap: { innerText: 1 },
+                    ease: "power1.out",
+                    onUpdate: function() {
+                        stat.innerText = Math.ceil(this.targets()[0].innerText) + (stat.innerHTML.includes("%") ? "%" : "+");
+                    }
+                });
             }
         });
     });
 
-    // 5. Sticker Effect (Parallax on Mouse Move for About Image)
-    const aboutSection = document.getElementById("about");
-    const sticker = document.querySelector(".sticker-img");
+    // Work Cards Stagger
+    gsap.from(".project-card", {
+        scrollTrigger: {
+            trigger: ".projects-grid",
+            start: "top 75%",
+        },
+        y: 100,
+        opacity: 0,
+        duration: 1,
+        stagger: 0.2,
+        ease: "power4.out"
+    });
 
-    if (aboutSection && sticker && window.matchMedia("(pointer: fine)").matches) {
-        aboutSection.addEventListener("mousemove", (e) => {
-            const rect = aboutSection.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-            gsap.to(sticker, {
-                x: x * 30,
-                y: y * 30,
-                rotate: 5 + (x * 10),
-                duration: 0.5,
-                ease: "power1.out"
-            });
+    // Timeline Items
+    const timelineItems = document.querySelectorAll(".timeline-item");
+    timelineItems.forEach((item, index) => {
+        gsap.from(item, {
+            scrollTrigger: {
+                trigger: item,
+                start: "top 85%",
+            },
+            x: -50,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power3.out"
         });
+    });
 
-        aboutSection.addEventListener("mouseleave", () => {
-            gsap.to(sticker, {
-                x: 0,
-                y: 0,
-                rotate: 5,
-                duration: 0.5
+    // Contact Panel Reveal
+    gsap.from(".contact-panel", {
+        scrollTrigger: {
+            trigger: ".contact-section",
+            start: "top 80%",
+        },
+        scale: 0.95,
+        opacity: 0,
+        duration: 1,
+        ease: "power3.out"
+    });
+
+    // 3. Mobile Menu Toggle
+    const navToggle = document.querySelector(".nav-toggle");
+    const menuOverlay = document.querySelector(".menu-overlay");
+    const menuClose = document.querySelector(".menu-close");
+    const menuLinks = document.querySelectorAll(".menu-items a");
+
+    function toggleMenu() {
+        menuOverlay.classList.toggle("active");
+        if (menuOverlay.classList.contains("active")) {
+            gsap.fromTo(".menu-items a",
+                { y: 50, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, delay: 0.2 }
+            );
+        }
+    }
+
+    navToggle.addEventListener("click", toggleMenu);
+    menuClose.addEventListener("click", toggleMenu);
+
+    menuLinks.forEach(link => {
+        link.addEventListener("click", toggleMenu);
+    });
+
+    // 4. 3D Tilt Effect for Glass Panels
+    const panels = document.querySelectorAll(".glass-panel, .project-card, .glass-circle");
+
+    // Only on desktop
+    if (window.matchMedia("(min-width: 992px)").matches) {
+        panels.forEach(panel => {
+            panel.addEventListener("mousemove", (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const xPct = x / rect.width;
+                const yPct = y / rect.height;
+
+                const rotateX = (yPct - 0.5) * -10; // Max 5 deg tilt
+                const rotateY = (xPct - 0.5) * 10;
+
+                gsap.to(panel, {
+                    transformPerspective: 1000,
+                    rotationX: rotateX,
+                    rotationY: rotateY,
+                    duration: 0.5,
+                    ease: "power2.out"
+                });
+            });
+
+            panel.addEventListener("mouseleave", () => {
+                gsap.to(panel, {
+                    rotationX: 0,
+                    rotationY: 0,
+                    duration: 0.5,
+                    ease: "power2.out"
+                });
             });
         });
     }
+
 });
