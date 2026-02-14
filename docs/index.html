@@ -3,37 +3,57 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Anubhav Tiwari🌏</title>
         <script src="https://kit.fontawesome.com/25c4625338.js" crossorigin="anonymous"></script>
 
-        <!-- Consolidated Styles -->
-        <link rel="stylesheet" href="./style/style.css">
-
-        <noscript>
-            <style>
-                .reveal-on-scroll {
-                    opacity: 1 !important;
-                    transform: none !important;
-                }
-            </style>
-        </noscript>
+        <!-- Updated CSS imports with proper order -->
+        <link rel="stylesheet" type="text/css" href="./style/index.css">
+        <link rel="stylesheet" type="text/css" href="./style/navigation.css">
+        <link rel="stylesheet" type="text/css" href="./style/about.css">
+        <link rel="stylesheet" type="text/css" href="./style/experience.css">
+        <link rel="stylesheet" type="text/css" href="./style/portfolio.css">
+        <link rel="stylesheet" type="text/css" href="./style/skill.css">
+        <link rel="stylesheet" type="text/css" href="./style/contact.css">
+        <link rel="stylesheet" type="text/css" href="./style/footer.css">
 
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     </head>
     <body>
-        <!-- Particle Background -->
-        <canvas id="particles-canvas"></canvas>
-
         <!-- Container For All Pages -->
         <div id='container' class='light-theme'>
             <!-- Scroll Icon -->
-            <div id='scroll-button'>
+            <div id='scroll-button' class='floating'>
                 <i class='fa-solid fa-arrow-down' id='scroll-arrow'></i>
             </div>
             <!-- End Scroll Icon -->
 
             <!-- Navigation Bar -->
+            <!-- <div id='navigation' class='horizontal-list light-theme'>
+                <button class='nav-button active' data-target='home'>
+                    Home
+                </button>
+                <button class='nav-button' data-target='about'>
+                    About
+                </button>
+                <button class='nav-button' data-target='experience'>
+                    Experience
+                </button>
+                <button class='nav-button' data-target='portfolio'>
+                    Portfolio
+                </button>
+                <button class='nav-button' data-target='skills'>
+                    Skills
+                </button>
+                <button class='nav-button' data-target='contact'>
+                    Contact
+                </button>
+                <button class='nav-button' id='theme-button'>
+                    <img src='./resources/icons/moon.png' alt='theme' id='theme-icon' class='nav-icon light-theme'/>
+                </button>
+            </div> -->
+
             <div id='navigation' class='horizontal-list light-theme'>
                 <button class='nav-button active' data-target='home'>
                     Home
@@ -58,7 +78,7 @@
                 </button>
             </div>
 
-            <!-- Mobile Hamburger Menu Button -->
+        <!-- Mobile Hamburger Menu Button -->
             <button class='hamburger-menu' id='hamburger-menu'>
                 <div class='hamburger-icon'>
                     <span></span>
@@ -104,29 +124,28 @@
                 <div class='subsection lightsource' id='banner'>
                     <div id='filter' class='subsection'></div>
                     <div id='name-banner' class='content'>
-                        <div id='signature' class='content lightsource reveal-on-scroll'>Anubhav Tiwari</div>
-                        <!-- Designation targets the typing effect -->
-                        <div id='designation' class='content lightsource reveal-on-scroll'>Senior Machine Learning Engineer</div>
+                        <div id='signature' class='content lightsource'>Anubhav Tiwari</div>
+                        <div id='designation' class='content lightsource'>Senior Machine Learning Engineer</div>
                     </div>
-                    <div id='link-icons' class='horizontal-list content reveal-on-scroll'>
-                        <a href='mailto:abt.exp@gmail.com' id='email' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-solid fa-envelope"></i></a>
+                    <div id='link-icons' class='horizontal-list content'>
+                        <a href='' id='email' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-solid fa-envelope"></i></a>
                         <a href='https://github.com/abtExp' id='github' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-brands fa-github"></i></a>
-                        <a href='https://x.com/overfitowl' id='twitter' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-brands fa-twitter"></i></a>
+                        <a href='https://twitter.com/abtExp_' id='twitter' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-brands fa-twitter"></i></a>
                         <a href='https://www.linkedin.com/in/abtExp' id='linkedin' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-brands fa-linkedin"></i></a>
-                        <a href='https://drive.google.com/file/d/1mv2CHjsFoZ1qoV_ehRT2NsJEjkj4Z6nB/view?usp=sharing' id='resume' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-solid fa-file-arrow-down"></i></a>
+                        <a href='' id='resume' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-solid fa-file-arrow-down"></i></a>
                     </div>
                 </div>
                 <!-- End Left Image Banner With Link Icons -->
                 <!-- Right Splash Image With Contact Button -->
                 <div class='subsection' id='home-splash-container'>
                     <div class='content' id='home-splash'>
-                        <div class='bitmoji-image floating reveal-on-scroll' id='main-splash-hi'>
+                        <div class='bitmoji-image floating' id='main-splash-hi'>
                             <img src='./resources/images/main_splash.png' alt='main-splash' id='main-splash' />
                             <div class="blob"></div>
                         </div>
-                        <div id='contact-click-button' class='text-icon-pair click-button reveal-on-scroll'>
-                            <p id='contact-click-button-text' class='text-icon-pair-text'>
-                                Contact Me
+                        <div id='contact-click-button' class='text-icon-pair click-button'>
+                            <p id='contact-click-button-text', class='text-icon-pair-text'>
+                                Contact
                             </p>
                             <span class="material-symbols-rounded text-icon-pair-icon" id='contact-click-button-icon'>
                                 send
@@ -139,24 +158,25 @@
             <!-- End Home Page -->
 
             <!-- About Section -->
+            <!-- About Section - Using Original Content -->
             <div id='about' class='section'>
-                <h1 class='page-title reveal-on-scroll'>About Me</h1>
-                <div class='about-title-container reveal-on-scroll'>
+                <h1 class='page-title'>About Me</h1>
+                <div class='about-title-container'>
                     <div class='about-avatar'></div>
                 </div>
 
                 <div class='about-cards-container'>
                     <!-- ML Passion Card -->
-                    <div class='about-card ml-passion reveal-on-scroll'>
+                    <div class='about-card ml-passion'>
                         <div class='about-card-icon'>🤖</div>
-                        <h3 class='about-card-title'>Senior ML Engineer</h3>
+                        <h3 class='about-card-title'>ML Research Engineer</h3>
                         <p class='about-card-description'>
-                            I am Anubhav Tiwari, A data professional with 5 years of experience in working on different facets of Machine Learning building solutions to challenging problems.
+                            I am Anubhav Tiwari, a highly skilled ML Research Engineer with a passion for advancing the field of Machine Learning and creating innovative AI solutions.
                         </p>
                     </div>
 
                     <!-- Expertise Card -->
-                    <div class='about-card expertise reveal-on-scroll'>
+                    <div class='about-card expertise'>
                         <div class='about-card-icon'>🚀</div>
                         <h3 class='about-card-title'>End-to-End Expertise</h3>
                         <p class='about-card-description'>
@@ -165,7 +185,7 @@
                     </div>
 
                     <!-- Experience Card -->
-                    <div class='about-card experience reveal-on-scroll'>
+                    <div class='about-card experience'>
                         <div class='about-card-icon'>☁️</div>
                         <h3 class='about-card-title'>Cloud & ML Initiatives</h3>
                         <p class='about-card-description'>
@@ -174,7 +194,7 @@
                     </div>
 
                     <!-- Technical Skills Card -->
-                    <div class='about-card technical-skills reveal-on-scroll'>
+                    <div class='about-card technical-skills'>
                         <div class='about-card-icon'>🧠</div>
                         <h3 class='about-card-title'>Technical Proficiency</h3>
                         <p class='about-card-description'>
@@ -183,7 +203,7 @@
                     </div>
 
                     <!-- Projects Card -->
-                    <div class='about-card projects reveal-on-scroll'>
+                    <div class='about-card projects'>
                         <div class='about-card-icon'>📊</div>
                         <h3 class='about-card-title'>Delivered Projects</h3>
                         <p class='about-card-description'>
@@ -192,7 +212,7 @@
                     </div>
 
                     <!-- Coding Philosophy Card -->
-                    <div class='about-card coding-philosophy reveal-on-scroll'>
+                    <div class='about-card coding-philosophy'>
                         <div class='about-card-icon'>💻</div>
                         <h3 class='about-card-title'>Code Quality Focus</h3>
                         <p class='about-card-description'>
@@ -205,12 +225,12 @@
 
             <!-- Experience Section -->
             <div id='experience' class='section'>
-                <h1 class='page-title reveal-on-scroll'>Experience</h1>
+                <h1 class='page-title'>Experience</h1>
                 <div class='timeline-container'>
                     <div class='timeline-line'></div>
 
                     <!-- Timeline Node 1 -->
-                    <div class='timeline-node reveal-on-scroll'>
+                    <div class='timeline-node'>
                         <div class='timeline-point timeline-point-right'></div>
                         <div class='timeline-content timeline-right'>
                             <div class='experience-card'>
@@ -219,8 +239,8 @@
                                         <div class='company-logo'>
                                             <i class="fa-solid fa-building"></i>
                                         </div>
-                                        <h3 class='company-name'>Quantiphi Analytics</h3>
-                                        <div class='job-title'>Senior ML Engineer</div>
+                                        <h3 class='company-name'>Machine Learning Corp</h3>
+                                        <div class='job-title'>ML Research Engineer</div>
                                         <div class='job-duration'>2023 - Present</div>
                                     </div>
                                     <div class='experience-card-back'>
@@ -238,7 +258,7 @@
                     </div>
 
                     <!-- Timeline Node 2 -->
-                    <div class='timeline-node reveal-on-scroll'>
+                    <div class='timeline-node'>
                         <div class='timeline-point timeline-point-left'></div>
                         <div class='timeline-content timeline-left'>
                             <div class='experience-card'>
@@ -247,9 +267,9 @@
                                         <div class='company-logo'>
                                             <i class="fa-solid fa-laptop-code"></i>
                                         </div>
-                                        <h3 class='company-name'>Quantiphi Analytics</h3>
-                                        <div class='job-title'>ML Engineer - L2</div>
-                                        <div class='job-duration'>2022 - 2023</div>
+                                        <h3 class='company-name'>AI Solutions Inc</h3>
+                                        <div class='job-title'>ML Engineer</div>
+                                        <div class='job-duration'>2021 - 2023</div>
                                     </div>
                                     <div class='experience-card-back'>
                                         <h3>Key Responsibilities</h3>
@@ -266,7 +286,7 @@
                     </div>
 
                     <!-- Timeline Node 3 -->
-                    <div class='timeline-node reveal-on-scroll'>
+                    <div class='timeline-node'>
                         <div class='timeline-point timeline-point-right'></div>
                         <div class='timeline-content timeline-right'>
                             <div class='experience-card'>
@@ -275,9 +295,9 @@
                                         <div class='company-logo'>
                                             <i class="fa-solid fa-chart-line"></i>
                                         </div>
-                                        <h3 class='company-name'>Verifyer Technologies</h3>
-                                        <div class='job-title'>ML Engineer</div>
-                                        <div class='job-duration'>2021-2022</div>
+                                        <h3 class='company-name'>Data Insights Co</h3>
+                                        <div class='job-title'>Data Scientist</div>
+                                        <div class='job-duration'>2020 - 2021</div>
                                     </div>
                                     <div class='experience-card-back'>
                                         <h3>Key Responsibilities</h3>
@@ -294,7 +314,7 @@
                     </div>
 
                     <!-- Timeline Node 4 -->
-                    <div class='timeline-node reveal-on-scroll'>
+                    <div class='timeline-node'>
                         <div class='timeline-point timeline-point-left'></div>
                         <div class='timeline-content timeline-left'>
                             <div class='experience-card'>
@@ -303,8 +323,8 @@
                                         <div class='company-logo'>
                                             <i class="fa-solid fa-graduation-cap"></i>
                                         </div>
-                                        <h3 class='company-name'>RMgX Technologies</h3>
-                                        <div class='job-title'>ML Engineer</div>
+                                        <h3 class='company-name'>Research University</h3>
+                                        <div class='job-title'>Research Assistant</div>
                                         <div class='job-duration'>2019 - 2020</div>
                                     </div>
                                     <div class='experience-card-back'>
@@ -332,9 +352,9 @@
 
             <!-- Portfolio Section -->
             <div id='portfolio' class='section'>
-                <h1 class='page-title reveal-on-scroll'>Portfolio</h1>
+                <h1 class='page-title'>Portfolio</h1>
                 <div class='project-carousel'>
-                    <div class='project-card reveal-on-scroll'>
+                    <div class='project-card'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
                                 <div class='project-image'></div>
@@ -358,7 +378,7 @@
                         </div>
                     </div>
 
-                    <div class='project-card reveal-on-scroll'>
+                    <div class='project-card'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
                                 <div class='project-image'></div>
@@ -382,7 +402,7 @@
                         </div>
                     </div>
 
-                    <div class='project-card reveal-on-scroll'>
+                    <div class='project-card'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
                                 <div class='project-image'></div>
@@ -406,7 +426,7 @@
                         </div>
                     </div>
 
-                    <div class='project-card reveal-on-scroll'>
+                    <div class='project-card'>
                         <div class='project-card-inner'>
                             <div class='project-card-front'>
                                 <div class='project-image'></div>
@@ -438,9 +458,9 @@
 
             <!-- Skills Section -->
             <div id='skills' class='section'>
-                <h1 class='page-title reveal-on-scroll'>Technical Skills</h1>
+                <h1 class='page-title'>Technical Skills</h1>
                 <div class='page-content-container'>
-                    <div id='programming' class='skill-container content reveal-on-scroll'>
+                    <div id='programming' class='skill-container content'>
                         <div id='programming-icon' class='skill-icon lighten'>
                             <i class="fa-solid fa-code skill-icon-img"></i>
                         </div>
@@ -483,7 +503,7 @@
                         </div>
                     </div>
 
-                    <div id='mlds' class='skill-container content reveal-on-scroll'>
+                    <div id='mlds' class='skill-container content'>
                         <div id='mlds-icon' class='skill-icon lighten'>
                             <i class="fa-solid fa-diagram-project skill-icon-img"></i>
                         </div>
@@ -526,7 +546,7 @@
                         </div>
                     </div>
 
-                    <div id='cloudinfra' class='skill-container content reveal-on-scroll'>
+                    <div id='cloudinfra' class='skill-container content'>
                         <div id='cloudinfra-icon' class='skill-icon lighten'>
                             <i class="fa-solid fa-cloud skill-icon-img"></i>
                         </div>
@@ -565,7 +585,7 @@
                         </div>
                     </div>
 
-                    <div id='util' class='skill-container content reveal-on-scroll'>
+                    <div id='util' class='skill-container content'>
                         <div id='util-icon' class='skill-icon lighten'>
                             <i class="fa-solid fa-tools skill-icon-img"></i>
                         </div>
@@ -612,8 +632,8 @@
 
             <!-- Contact Section -->
             <div id='contact' class='section'>
-                <h1 class='page-title reveal-on-scroll'>Let's Connect</h1>
-                <div class='contact-container reveal-on-scroll'>
+                <h1 class='page-title'>Let's Connect</h1>
+                <div class='contact-container'>
                     <!-- Contact Info -->
                     <div class='contact-info'>
                         <div class='contact-info-item'>
@@ -690,13 +710,13 @@
             <!-- Footer Section -->
             <div id='footer' class='section'>
                 <div id='footer-banner' class='subsection'>
-                    <div id='footer-banner-floating' class='content reveal-on-scroll'>
+                    <div id='footer-banner-floating' class='content'>
                         <img src='./resources/images/lotus_pose.png' alt='lotuspose' />
                         <div id='quote'>
                             "It's All About Experience"
                         </div>
                     </div>
-                    <div id='footer-banner-bottom' class='content reveal-on-scroll'>
+                    <div id='footer-banner-bottom' class='content'>
                         <div id='footer-last-image'>
                             <img src='./resources/images/have_a_good_one.png' alt='haveagoodone' />
                         </div>
@@ -714,6 +734,9 @@
         <!-- End Container -->
 
         <!-- Scripts -->
-        <script src="./src/js/app.js"></script>
+        <script src='./src/js/index.js'></script>
+        <script src="./src/js/navigation.js"></script>
+        <script src="./src/js/tilt.js"></script>
+        <script src="./src/js/about.js"></script>
     </body>
 </html>
