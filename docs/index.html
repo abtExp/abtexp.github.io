@@ -1,719 +1,794 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Anubhav Tiwari🌏</title>
-        <script src="https://kit.fontawesome.com/25c4625338.js" crossorigin="anonymous"></script>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anubhav Tiwari · Senior ML Engineer</title>
+    <meta name="description" content="Anubhav Tiwari — Senior Machine Learning Engineer. Computer vision, audio signal processing, NLP, MLOps.">
 
-        <!-- Consolidated Styles -->
-        <link rel="stylesheet" href="./style/style.css">
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/25c4625338.js" crossorigin="anonymous"></script>
 
-        <noscript>
-            <style>
-                .reveal-on-scroll {
-                    opacity: 1 !important;
-                    transform: none !important;
-                }
-            </style>
-        </noscript>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Great+Vibes&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    </head>
-    <body>
-        <!-- Particle Background -->
-        <canvas id="particles-canvas"></canvas>
+    <link rel="stylesheet" href="./style/style.css">
 
-        <!-- Container For All Pages -->
-        <div id='container' class='light-theme'>
-            <!-- Scroll Icon -->
-            <div id='scroll-button'>
-                <i class='fa-solid fa-arrow-down' id='scroll-arrow'></i>
-            </div>
-            <!-- End Scroll Icon -->
+    <noscript>
+        <style>
+            .reveal-on-scroll { opacity: 1 !important; transform: none !important; }
+        </style>
+    </noscript>
+</head>
+<body>
+    <!-- Data ticker — ambient ML log strip at top -->
+    <div id="data-ticker" aria-hidden="true">
+        <div class="ticker-track" id="ticker-track"></div>
+    </div>
 
-            <!-- Navigation Bar -->
-            <div id='navigation' class='horizontal-list light-theme'>
-                <button class='nav-button active' data-target='home'>
-                    Home
-                </button>
-                <button class='nav-button' data-target='about'>
-                    About
-                </button>
-                <button class='nav-button' data-target='experience'>
-                    Experience
-                </button>
-                <button class='nav-button' data-target='portfolio'>
-                    Portfolio
-                </button>
-                <button class='nav-button' data-target='skills'>
-                    Skills
-                </button>
-                <button class='nav-button' data-target='contact'>
-                    Contact
-                </button>
-                <button class='nav-button' id='theme-button'>
-                    <img src='./resources/icons/moon.png' alt='theme' id='theme-icon' class='nav-icon light-theme'/>
-                </button>
-            </div>
+    <!-- Particle / latent-space background canvas -->
+    <canvas id="particles-canvas"></canvas>
 
-            <!-- Mobile Hamburger Menu Button -->
-            <button class='hamburger-menu' id='hamburger-menu'>
-                <div class='hamburger-icon'>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
+    <div id="container" class="light-theme">
+
+        <!-- Scroll-to-top -->
+        <button id="scroll-button" aria-label="Scroll to top">
+            <i class="fa-solid fa-arrow-up"></i>
+        </button>
+
+        <!-- ============== NAV ============== -->
+        <nav id="navigation">
+            <button class="nav-button active" data-target="home">
+                <span class="nav-num">00</span><span class="nav-label">home</span>
             </button>
+            <button class="nav-button" data-target="about">
+                <span class="nav-num">01</span><span class="nav-label">about</span>
+            </button>
+            <button class="nav-button" data-target="experience">
+                <span class="nav-num">02</span><span class="nav-label">experience</span>
+            </button>
+            <button class="nav-button" data-target="portfolio">
+                <span class="nav-num">03</span><span class="nav-label">work</span>
+            </button>
+            <button class="nav-button" data-target="skills">
+                <span class="nav-num">04</span><span class="nav-label">skills</span>
+            </button>
+            <button class="nav-button" data-target="contact">
+                <span class="nav-num">05</span><span class="nav-label">contact</span>
+            </button>
+            <span class="nav-divider"></span>
+            <button class="nav-button nav-icon-btn" id="theme-button" aria-label="Toggle theme">
+                <i class="fa-solid fa-moon" id="theme-icon"></i>
+            </button>
+        </nav>
 
-            <!-- Mobile Menu Overlay -->
-            <div class='mobile-menu-overlay' id='mobile-menu-overlay'></div>
-
-            <!-- Mobile Menu -->
-            <div class='mobile-menu' id='mobile-menu'>
-                <button class='mobile-nav-item active' data-target='home'>
-                    🏠 Home
-                </button>
-                <button class='mobile-nav-item' data-target='about'>
-                    👨‍💻 About
-                </button>
-                <button class='mobile-nav-item' data-target='experience'>
-                    💼 Experience
-                </button>
-                <button class='mobile-nav-item' data-target='portfolio'>
-                    📁 Portfolio
-                </button>
-                <button class='mobile-nav-item' data-target='skills'>
-                    ⚡ Skills
-                </button>
-                <button class='mobile-nav-item' data-target='contact'>
-                    📞 Contact
-                </button>
-
-                <!-- Mobile Theme Toggle -->
-                <button class='mobile-theme-button' id='mobile-theme-button'>
-                    <img src='./resources/icons/moon.png' alt='theme' id='mobile-theme-icon' class='mobile-theme-img'/>
-                </button>
+        <!-- Mobile menu -->
+        <button class="hamburger-menu" id="hamburger-menu" aria-label="Open menu">
+            <div class="hamburger-icon">
+                <span></span><span></span><span></span>
             </div>
-            <!-- End Navigation Bar -->
-
-            <!-- Home Page -->
-            <div id='home' class='section'>
-                <!-- Left Image Banner With Link Icons -->
-                <div class='subsection lightsource' id='banner'>
-                    <div id='filter' class='subsection'></div>
-                    <div id='name-banner' class='content'>
-                        <div id='signature' class='content lightsource reveal-on-scroll'>Anubhav Tiwari</div>
-                        <!-- Designation targets the typing effect -->
-                        <div id='designation' class='content lightsource reveal-on-scroll'>Senior Machine Learning Engineer</div>
-                    </div>
-                    <div id='link-icons' class='horizontal-list content reveal-on-scroll'>
-                        <a href='mailto:abt.exp@gmail.com' id='email' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-solid fa-envelope"></i></a>
-                        <a href='https://github.com/abtExp' id='github' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-brands fa-github"></i></a>
-                        <a href='https://x.com/overfitowl' id='twitter' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-brands fa-twitter"></i></a>
-                        <a href='https://www.linkedin.com/in/abtExp' id='linkedin' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-brands fa-linkedin"></i></a>
-                        <a href='https://drive.google.com/file/d/1mv2CHjsFoZ1qoV_ehRT2NsJEjkj4Z6nB/view?usp=sharing' id='resume' class='horizontal-list-item small-icon social-link lightsource'><i class="fa-solid fa-file-arrow-down"></i></a>
-                    </div>
-                </div>
-                <!-- End Left Image Banner With Link Icons -->
-                <!-- Right Splash Image With Contact Button -->
-                <div class='subsection' id='home-splash-container'>
-                    <div class='content' id='home-splash'>
-                        <div class='bitmoji-image floating reveal-on-scroll' id='main-splash-hi'>
-                            <img src='./resources/images/main_splash.png' alt='main-splash' id='main-splash' />
-                            <div class="blob"></div>
-                        </div>
-                        <div id='contact-click-button' class='text-icon-pair click-button reveal-on-scroll'>
-                            <p id='contact-click-button-text' class='text-icon-pair-text'>
-                                Contact Me
-                            </p>
-                            <span class="material-symbols-rounded text-icon-pair-icon" id='contact-click-button-icon'>
-                                send
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Right Splash Image With Contact Button -->
+        </button>
+        <div class="mobile-menu-overlay" id="mobile-menu-overlay"></div>
+        <div class="mobile-menu" id="mobile-menu">
+            <div class="mobile-menu-header">
+                <span class="mono">~/anubhav.tiwari</span>
             </div>
-            <!-- End Home Page -->
-
-            <!-- About Section -->
-            <div id='about' class='section'>
-                <h1 class='page-title reveal-on-scroll'>About Me</h1>
-                <div class='about-title-container reveal-on-scroll'>
-                    <div class='about-avatar'></div>
-                </div>
-
-                <div class='about-cards-container'>
-                    <!-- ML Passion Card -->
-                    <div class='about-card ml-passion reveal-on-scroll'>
-                        <div class='about-card-icon'>🤖</div>
-                        <h3 class='about-card-title'>Senior ML Engineer</h3>
-                        <p class='about-card-description'>
-                            I am Anubhav Tiwari, A data professional with 5 years of experience in working on different facets of Machine Learning building solutions to challenging problems.
-                        </p>
-                    </div>
-
-                    <!-- Expertise Card -->
-                    <div class='about-card expertise reveal-on-scroll'>
-                        <div class='about-card-icon'>🚀</div>
-                        <h3 class='about-card-title'>End-to-End Expertise</h3>
-                        <p class='about-card-description'>
-                            My expertise lies in taking projects from ideation through research and development to successful deployment on various cloud infrastructures and architectures.
-                        </p>
-                    </div>
-
-                    <!-- Experience Card -->
-                    <div class='about-card experience reveal-on-scroll'>
-                        <div class='about-card-icon'>☁️</div>
-                        <h3 class='about-card-title'>Cloud & ML Initiatives</h3>
-                        <p class='about-card-description'>
-                            I have spearheaded numerous ML initiatives, from proof of concepts for client calls to establishing new capabilities and deploying solutions on AWS and GCP clouds.
-                        </p>
-                    </div>
-
-                    <!-- Technical Skills Card -->
-                    <div class='about-card technical-skills reveal-on-scroll'>
-                        <div class='about-card-icon'>🧠</div>
-                        <h3 class='about-card-title'>Technical Proficiency</h3>
-                        <p class='about-card-description'>
-                            My technical proficiency spans across Computer Vision, Audio Signal Processing, and Natural Language Processing with hands-on experience in each domain.
-                        </p>
-                    </div>
-
-                    <!-- Projects Card -->
-                    <div class='about-card projects reveal-on-scroll'>
-                        <div class='about-card-icon'>📊</div>
-                        <h3 class='about-card-title'>Delivered Projects</h3>
-                        <p class='about-card-description'>
-                            Successfully delivered projects in crowd density estimation, license plate recognition, object detection, face recognition, voice activity detection, and speaker diarization.
-                        </p>
-                    </div>
-
-                    <!-- Coding Philosophy Card -->
-                    <div class='about-card coding-philosophy reveal-on-scroll'>
-                        <div class='about-card-icon'>💻</div>
-                        <h3 class='about-card-title'>Code Quality Focus</h3>
-                        <p class='about-card-description'>
-                            I write developer-friendly code that reduces redundancies, increases understandability, and enhances reusability. Dedicated to delivering high-quality, impactful solutions.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <!-- End About Section -->
-
-            <!-- Experience Section -->
-            <div id='experience' class='section'>
-                <h1 class='page-title reveal-on-scroll'>Experience</h1>
-                <div class='timeline-container'>
-                    <div class='timeline-line'></div>
-
-                    <!-- Timeline Node 1 -->
-                    <div class='timeline-node reveal-on-scroll'>
-                        <div class='timeline-point timeline-point-right'></div>
-                        <div class='timeline-content timeline-right'>
-                            <div class='experience-card'>
-                                <div class='experience-card-inner'>
-                                    <div class='experience-card-front'>
-                                        <div class='company-logo'>
-                                            <i class="fa-solid fa-building"></i>
-                                        </div>
-                                        <h3 class='company-name'>Quantiphi Analytics</h3>
-                                        <div class='job-title'>Senior ML Engineer</div>
-                                        <div class='job-duration'>2023 - Present</div>
-                                    </div>
-                                    <div class='experience-card-back'>
-                                        <h3>Key Responsibilities</h3>
-                                        <ul class='experience-points'>
-                                            <li>Developed computer vision models for crowd density estimation</li>
-                                            <li>Implemented ML pipelines for license plate recognition</li>
-                                            <li>Created voice activity detection systems</li>
-                                            <li>Designed speaker diarization models on cloud infrastructure</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Timeline Node 2 -->
-                    <div class='timeline-node reveal-on-scroll'>
-                        <div class='timeline-point timeline-point-left'></div>
-                        <div class='timeline-content timeline-left'>
-                            <div class='experience-card'>
-                                <div class='experience-card-inner'>
-                                    <div class='experience-card-front'>
-                                        <div class='company-logo'>
-                                            <i class="fa-solid fa-laptop-code"></i>
-                                        </div>
-                                        <h3 class='company-name'>Quantiphi Analytics</h3>
-                                        <div class='job-title'>ML Engineer - L2</div>
-                                        <div class='job-duration'>2022 - 2023</div>
-                                    </div>
-                                    <div class='experience-card-back'>
-                                        <h3>Key Responsibilities</h3>
-                                        <ul class='experience-points'>
-                                            <li>Led machine learning initiatives from POC to production</li>
-                                            <li>Established capabilities in face recognition systems</li>
-                                            <li>Created object detection models with high precision</li>
-                                            <li>Deployed ML solutions on AWS and GCP</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Timeline Node 3 -->
-                    <div class='timeline-node reveal-on-scroll'>
-                        <div class='timeline-point timeline-point-right'></div>
-                        <div class='timeline-content timeline-right'>
-                            <div class='experience-card'>
-                                <div class='experience-card-inner'>
-                                    <div class='experience-card-front'>
-                                        <div class='company-logo'>
-                                            <i class="fa-solid fa-chart-line"></i>
-                                        </div>
-                                        <h3 class='company-name'>Verifyer Technologies</h3>
-                                        <div class='job-title'>ML Engineer</div>
-                                        <div class='job-duration'>2021-2022</div>
-                                    </div>
-                                    <div class='experience-card-back'>
-                                        <h3>Key Responsibilities</h3>
-                                        <ul class='experience-points'>
-                                            <li>Designed ML models for various business problems</li>
-                                            <li>Analyzed large datasets to extract actionable insights</li>
-                                            <li>Built prediction models with high accuracy</li>
-                                            <li>Delivered data-driven solutions with cross-functional teams</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Timeline Node 4 -->
-                    <div class='timeline-node reveal-on-scroll'>
-                        <div class='timeline-point timeline-point-left'></div>
-                        <div class='timeline-content timeline-left'>
-                            <div class='experience-card'>
-                                <div class='experience-card-inner'>
-                                    <div class='experience-card-front'>
-                                        <div class='company-logo'>
-                                            <i class="fa-solid fa-graduation-cap"></i>
-                                        </div>
-                                        <h3 class='company-name'>RMgX Technologies</h3>
-                                        <div class='job-title'>ML Engineer</div>
-                                        <div class='job-duration'>2019 - 2020</div>
-                                    </div>
-                                    <div class='experience-card-back'>
-                                        <h3>Key Responsibilities</h3>
-                                        <ul class='experience-points'>
-                                            <li>Conducted research in natural language processing</li>
-                                            <li>Published papers on innovative deep learning models</li>
-                                            <li>Implemented prototype solutions for academic research</li>
-                                            <li>Mentored junior researchers in ML methodologies</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Timeline end spacer -->
-                    <div class="timeline-end-spacer"></div>
-                </div>
-            </div>
-            <!-- End Experience Section -->
-
-            <!-- Section divider -->
-            <div class="section-divider" id="experience-portfolio-divider"></div>
-
-            <!-- Portfolio Section -->
-            <div id='portfolio' class='section'>
-                <h1 class='page-title reveal-on-scroll'>Portfolio</h1>
-                <div class='project-carousel'>
-                    <div class='project-card reveal-on-scroll'>
-                        <div class='project-card-inner'>
-                            <div class='project-card-front'>
-                                <div class='project-image'></div>
-                                <h3 class='project-title'>Crowd Density Estimation</h3>
-                                <div class='project-tags'>
-                                    <span class='project-tag'>Python</span>
-                                    <span class='project-tag'>PyTorch</span>
-                                    <span class='project-tag'>Computer Vision</span>
-                                </div>
-                            </div>
-                            <div class='project-card-back'>
-                                <p class='project-description'>
-                                    Developed a deep learning model for estimating crowd density in public spaces with over 95% accuracy.
-                                    The solution works in varied lighting conditions and can process real-time video streams.
-                                </p>
-                                <div class='project-links'>
-                                    <a href='#' class='project-link'>Demo</a>
-                                    <a href='#' class='project-link'>Code</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class='project-card reveal-on-scroll'>
-                        <div class='project-card-inner'>
-                            <div class='project-card-front'>
-                                <div class='project-image'></div>
-                                <h3 class='project-title'>Code Generation NLP</h3>
-                                <div class='project-tags'>
-                                    <span class='project-tag'>Python</span>
-                                    <span class='project-tag'>TensorFlow</span>
-                                    <span class='project-tag'>NLP</span>
-                                </div>
-                            </div>
-                            <div class='project-card-back'>
-                                <p class='project-description'>
-                                    Built a natural language to Python code generator that converts text descriptions into
-                                    executable code snippets with high accuracy and proper formatting.
-                                </p>
-                                <div class='project-links'>
-                                    <a href='#' class='project-link'>Demo</a>
-                                    <a href='#' class='project-link'>Code</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class='project-card reveal-on-scroll'>
-                        <div class='project-card-inner'>
-                            <div class='project-card-front'>
-                                <div class='project-image'></div>
-                                <h3 class='project-title'>Speaker Diarization</h3>
-                                <div class='project-tags'>
-                                    <span class='project-tag'>Python</span>
-                                    <span class='project-tag'>Signal Processing</span>
-                                    <span class='project-tag'>ML</span>
-                                </div>
-                            </div>
-                            <div class='project-card-back'>
-                                <p class='project-description'>
-                                    Created an audio processing system that can identify and separate different speakers
-                                    in a conversation, even in noisy environments.
-                                </p>
-                                <div class='project-links'>
-                                    <a href='#' class='project-link'>Demo</a>
-                                    <a href='#' class='project-link'>Code</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class='project-card reveal-on-scroll'>
-                        <div class='project-card-inner'>
-                            <div class='project-card-front'>
-                                <div class='project-image'></div>
-                                <h3 class='project-title'>ML Pipeline Automation</h3>
-                                <div class='project-tags'>
-                                    <span class='project-tag'>AWS</span>
-                                    <span class='project-tag'>Docker</span>
-                                    <span class='project-tag'>MLOps</span>
-                                </div>
-                            </div>
-                            <div class='project-card-back'>
-                                <p class='project-description'>
-                                    Designed and implemented an end-to-end ML pipeline on AWS that automates
-                                    training, evaluation, and deployment of models with CI/CD integration.
-                                </p>
-                                <div class='project-links'>
-                                    <a href='#' class='project-link'>Demo</a>
-                                    <a href='#' class='project-link'>Code</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Portfolio Section -->
-
-            <!-- Section divider -->
-            <div class="section-divider" id="portfolio-skills-divider"></div>
-
-            <!-- Skills Section -->
-            <div id='skills' class='section'>
-                <h1 class='page-title reveal-on-scroll'>Technical Skills</h1>
-                <div class='page-content-container'>
-                    <div id='programming' class='skill-container content reveal-on-scroll'>
-                        <div id='programming-icon' class='skill-icon lighten'>
-                            <i class="fa-solid fa-code skill-icon-img"></i>
-                        </div>
-                        <div class='skill-top-container'>
-                            <div id='programming-title-container' class='skill-title-container'>
-                                <h1 class='skill-title'>Programming</h1>
-                                <h3 class='skill-description'>Languages & Frameworks</h3>
-                            </div>
-                        </div>
-                        <div class='skill-middle-container darken'>
-                            <div id='programming-skilllist-container' class='skilllist-container'>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-python"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>Python</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-c"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>C++</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-js"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>JavaScript</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-t"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>TensorFlow</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-fire"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>PyTorch</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='skill-bottom-container'>
-                            <div id='programming-statement-container' class='skill-statement-container'>
-                                <p class='skill-statement'>
-                                    Experience with multiple programming languages and different programming frameworks and can build solutions for different environments.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id='mlds' class='skill-container content reveal-on-scroll'>
-                        <div id='mlds-icon' class='skill-icon lighten'>
-                            <i class="fa-solid fa-diagram-project skill-icon-img"></i>
-                        </div>
-                        <div class='skill-top-container'>
-                            <div id='mlds-title-container' class='skill-title-container'>
-                                <h1 class='skill-title'>Data Science</h1>
-                                <h3 class='skill-description'>Domain Knowledge</h3>
-                            </div>
-                        </div>
-                        <div class='skill-middle-container darken'>
-                            <div id='mlds-skilllist-container' class='skilllist-container'>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-eye"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>Computer Vision</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-language"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>NLP</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-wave-square"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>Signal Processing</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-dice"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>Probability</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-chart-simple"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>Statistics</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='skill-bottom-container'>
-                            <div id='mlds-statement-container' class='skill-statement-container'>
-                                <p class='skill-statement'>
-                                    Have experience & knowledge of different ML and DS domains having delivered multiple projects in each domain.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id='cloudinfra' class='skill-container content reveal-on-scroll'>
-                        <div id='cloudinfra-icon' class='skill-icon lighten'>
-                            <i class="fa-solid fa-cloud skill-icon-img"></i>
-                        </div>
-                        <div class='skill-top-container'>
-                            <div id='cloudinfra-title-container' class='skill-title-container'>
-                                <h1 class='skill-title'>Cloud & Infra</h1>
-                                <h3 class='skill-description'>Development tools</h3>
-                            </div>
-                        </div>
-                        <div class='skill-middle-container darken'>
-                            <div id='cloudinfra-skilllist-container' class='skilllist-container'>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-google"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>GCP</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-aws"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>AWS</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-microsoft"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>Azure</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-docker"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>Docker</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='skill-bottom-container'>
-                            <div id='cloudinfra-statement-container' class='skill-statement-container'>
-                                <p class='skill-statement'>
-                                    Have deployed on all major cloud service providers and have knowledge of multiple tools that help in efficient development.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div id='util' class='skill-container content reveal-on-scroll'>
-                        <div id='util-icon' class='skill-icon lighten'>
-                            <i class="fa-solid fa-tools skill-icon-img"></i>
-                        </div>
-                        <div class='skill-top-container'>
-                            <div id='util-title-container' class='skill-title-container'>
-                                <h1 class='skill-title'>Utility Tools</h1>
-                                <h3 class='skill-description'>Other Tools and Technologies</h3>
-                            </div>
-                        </div>
-                        <div class='skill-middle-container darken'>
-                            <div id='util-skilllist-container' class='skilllist-container'>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-git"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>Git</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-brands fa-osi"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>OpenCV</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-cube"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>Numpy</div>
-                                </div>
-                                <div class='skilllist-item'>
-                                    <div class='skilllist-item-logo skilllist-item-content'><i class="fa-solid fa-database"></i></div>
-                                    <div class='skilllist-item-name skilllist-item-content'>MySQL</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class='skill-bottom-container'>
-                            <div id='util-statement-container' class='skill-statement-container'>
-                                <p class='skill-statement'>
-                                    Proficient in various tools that are essential for developing robust and fast solutions.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Skills Section -->
-
-            <!-- Section divider -->
-            <div class="section-divider" id="skills-contact-divider"></div>
-
-            <!-- Contact Section -->
-            <div id='contact' class='section'>
-                <h1 class='page-title reveal-on-scroll'>Let's Connect</h1>
-                <div class='contact-container reveal-on-scroll'>
-                    <!-- Contact Info -->
-                    <div class='contact-info'>
-                        <div class='contact-info-item'>
-                            <div class='contact-icon'>
-                                <i class="fa-solid fa-location-dot"></i>
-                            </div>
-                            <div class='contact-text'>
-                                <h3>Location</h3>
-                                <p>Bangalore, India</p>
-                            </div>
-                        </div>
-                        <div class='contact-info-item'>
-                            <div class='contact-icon'>
-                                <i class="fa-solid fa-envelope"></i>
-                            </div>
-                            <div class='contact-text'>
-                                <h3>Email</h3>
-                                <p>contact@anubhavtiwari.tech</p>
-                            </div>
-                        </div>
-                        <div class='contact-info-item'>
-                            <div class='contact-icon'>
-                                <i class="fa-brands fa-github"></i>
-                            </div>
-                            <div class='contact-text'>
-                                <h3>GitHub</h3>
-                                <p>github.com/abtExp</p>
-                            </div>
-                        </div>
-                        <div class='contact-info-item'>
-                            <div class='contact-icon'>
-                                <i class="fa-brands fa-linkedin"></i>
-                            </div>
-                            <div class='contact-text'>
-                                <h3>LinkedIn</h3>
-                                <p>linkedin.com/in/abtExp</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Contact Form -->
-                    <div class='contact-form'>
-                        <form id="contactForm">
-                            <div class='form-group'>
-                                <label>Your Name</label>
-                                <input type='text' class='form-control' placeholder='Enter your name' required>
-                            </div>
-                            <div class='form-group'>
-                                <label>Your Email</label>
-                                <input type='email' class='form-control' placeholder='Enter your email' required>
-                            </div>
-                            <div class='form-group'>
-                                <label>Subject</label>
-                                <input type='text' class='form-control' placeholder='What is this regarding?' required>
-                            </div>
-                            <div class='form-group'>
-                                <label>Message</label>
-                                <textarea class='form-control' placeholder='Type your message here...' required></textarea>
-                            </div>
-                            <button type='submit' class='submit-btn'>
-                                Send Message
-                                <i class="fa-solid fa-paper-plane"></i>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Background Elements -->
-                <div class='contact-bg-circle circle-1'></div>
-                <div class='contact-bg-circle circle-2'></div>
-            </div>
-            <!-- End Contact Section -->
-
-            <!-- Footer Section -->
-            <div id='footer' class='section'>
-                <div id='footer-banner' class='subsection'>
-                    <div id='footer-banner-floating' class='content reveal-on-scroll'>
-                        <img src='./resources/images/lotus_pose.png' alt='lotuspose' />
-                        <div id='quote'>
-                            "It's All About Experience"
-                        </div>
-                    </div>
-                    <div id='footer-banner-bottom' class='content reveal-on-scroll'>
-                        <div id='footer-last-image'>
-                            <img src='./resources/images/have_a_good_one.png' alt='haveagoodone' />
-                        </div>
-                        <div id='last-statement'>
-                            <span>Made with </span><span><i class="fa fa-heart"></i></span><span> by Anubhav Tiwari</span>
-                        </div>
-                        <div id='copyright'>
-                            &#169;Anubhav
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- End Footer Section -->
+            <button class="mobile-nav-item active" data-target="home">
+                <span class="mono">00</span> home
+            </button>
+            <button class="mobile-nav-item" data-target="about">
+                <span class="mono">01</span> about
+            </button>
+            <button class="mobile-nav-item" data-target="experience">
+                <span class="mono">02</span> experience
+            </button>
+            <button class="mobile-nav-item" data-target="portfolio">
+                <span class="mono">03</span> work
+            </button>
+            <button class="mobile-nav-item" data-target="skills">
+                <span class="mono">04</span> skills
+            </button>
+            <button class="mobile-nav-item" data-target="contact">
+                <span class="mono">05</span> contact
+            </button>
+            <button class="mobile-theme-button" id="mobile-theme-button">
+                <i class="fa-solid fa-moon"></i><span>Toggle Theme</span>
+            </button>
         </div>
-        <!-- End Container -->
 
-        <!-- Scripts -->
-        <script src="./src/js/app.js"></script>
-    </body>
+        <!-- ============== HERO ============== -->
+        <section id="home" class="section hero-section">
+            <!-- The embedding-space canvas behind everything -->
+            <canvas id="latent-canvas" class="latent-bg"></canvas>
+
+            <!-- Morphing blob halo -->
+            <div class="blob blob-hero"></div>
+
+            <div class="hero-grid">
+                <div class="hero-meta-top">
+                    <span class="mono dim">// portfolio_v3 · senior_mle</span>
+                    <span class="mono dim hero-loc"><i class="fa-solid fa-circle status-dot"></i> bangalore · india</span>
+                </div>
+
+                <div class="hero-center">
+                    <div class="hero-greeting reveal-on-scroll">
+                        <span class="mono accent">$</span>
+                        <span class="mono">whoami</span>
+                    </div>
+                    <h1 class="hero-name reveal-on-scroll">
+                        <span class="signature">Anubhav</span>
+                        <span class="surname">TIWARI</span>
+                    </h1>
+                    <div class="hero-role reveal-on-scroll">
+                        <span class="role-pill"><i class="fa-solid fa-brain"></i> Senior Machine Learning Engineer</span>
+                    </div>
+                    <p class="hero-tagline reveal-on-scroll">
+                        <span class="serif-italic">Five years</span> shipping production ML across
+                        <span class="hl hl-mint">computer&nbsp;vision</span>,
+                        <span class="hl hl-coral">audio&nbsp;signal&nbsp;processing</span>,
+                        <span class="hl hl-violet">NLP</span> &amp;
+                        <span class="hl hl-amber">MLOps</span>
+                        — from research to deployment.
+                    </p>
+
+                    <!-- Floating spec cards around hero name -->
+                    <div class="hero-cards">
+                        <div class="hero-card hc-1 reveal-on-scroll">
+                            <div class="hc-label mono dim">domains</div>
+                            <div class="hc-val">CV · NLP · Audio · MLOps</div>
+                        </div>
+                        <div class="hero-card hc-2 reveal-on-scroll">
+                            <div class="hc-label mono dim">stack</div>
+                            <div class="hc-val">PyTorch · TF · AWS · GCP</div>
+                        </div>
+                        <div class="hero-card hc-3 reveal-on-scroll">
+                            <div class="hc-label mono dim">experience</div>
+                            <div class="hc-val"><span class="big-num">5</span>+ years</div>
+                        </div>
+                    </div>
+
+                    <div class="hero-actions reveal-on-scroll">
+                        <button class="cta-primary" data-target="portfolio">
+                            <span>Explore Work</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                        <a href="https://drive.google.com/file/d/1mv2CHjsFoZ1qoV_ehRT2NsJEjkj4Z6nB/view?usp=sharing" target="_blank" rel="noopener" class="cta-ghost">
+                            <i class="fa-solid fa-file-arrow-down"></i>
+                            <span>Resume</span>
+                        </a>
+                    </div>
+
+                    <div class="hero-socials reveal-on-scroll">
+                        <a href="https://github.com/abtExp" target="_blank" rel="noopener" class="social-pill" aria-label="GitHub">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/abtExp" target="_blank" rel="noopener" class="social-pill" aria-label="LinkedIn">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://x.com/overfitowl" target="_blank" rel="noopener" class="social-pill" aria-label="X">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <a href="mailto:abt.exp@gmail.com" class="social-pill" aria-label="Email">
+                            <i class="fa-solid fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="scroll-cue reveal-on-scroll">
+                    <span class="mono dim">scroll</span>
+                    <div class="scroll-line"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== ABOUT ============== -->
+        <section id="about" class="section">
+            <div class="section-header reveal-on-scroll">
+                <div class="section-eyebrow mono"><span class="accent">// 01</span> &nbsp;about_me</div>
+                <h2 class="section-title">
+                    Engineer who turns <span class="serif-italic accent-mint">messy problems</span> into shipped systems
+                </h2>
+                <p class="section-lede">
+                    From POCs at the whiteboard to production on AWS &amp; GCP — I build, deploy, and own the lifecycle.
+                </p>
+            </div>
+
+            <div class="about-grid">
+                <div class="about-card ac-mint reveal-on-scroll">
+                    <div class="ac-icon"><i class="fa-solid fa-rocket"></i></div>
+                    <h3>End-to-End Ownership</h3>
+                    <p>Ideation → research → development → deployment. I take projects through every stage and own the lifecycle.</p>
+                    <div class="ac-viz">
+                        <svg viewBox="0 0 200 40" class="mini-pipeline">
+                            <line x1="10" y1="20" x2="190" y2="20" stroke="currentColor" stroke-width="1" opacity="0.3"/>
+                            <circle cx="20" cy="20" r="5" class="pipe-dot"/>
+                            <circle cx="65" cy="20" r="5" class="pipe-dot"/>
+                            <circle cx="110" cy="20" r="5" class="pipe-dot"/>
+                            <circle cx="155" cy="20" r="5" class="pipe-dot"/>
+                            <circle cx="190" cy="20" r="6" class="pipe-dot pipe-dot-final"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="about-card ac-coral reveal-on-scroll">
+                    <div class="ac-icon"><i class="fa-solid fa-eye"></i></div>
+                    <h3>Computer Vision</h3>
+                    <p>Crowd density estimation, object detection, license-plate recognition, face recognition. Real-time video pipelines.</p>
+                    <div class="ac-viz">
+                        <svg viewBox="0 0 200 40" class="mini-bbox">
+                            <rect x="10" y="6" width="180" height="28" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2" stroke-dasharray="3,3"/>
+                            <rect x="30" y="10" width="40" height="20" class="bbox-box bbox-1"/>
+                            <rect x="85" y="12" width="35" height="18" class="bbox-box bbox-2"/>
+                            <rect x="135" y="9" width="45" height="22" class="bbox-box bbox-3"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="about-card ac-violet reveal-on-scroll">
+                    <div class="ac-icon"><i class="fa-solid fa-language"></i></div>
+                    <h3>NLP &amp; Code Gen</h3>
+                    <p>Natural-language-to-code models, semantic understanding, prototype research solutions. Published papers in DL.</p>
+                    <div class="ac-viz">
+                        <div class="mini-tokens">
+                            <span>def</span><span class="tk-fn">predict</span><span>(</span><span class="tk-arg">x</span><span>):</span><span class="tk-cursor"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-card ac-amber reveal-on-scroll">
+                    <div class="ac-icon"><i class="fa-solid fa-wave-square"></i></div>
+                    <h3>Audio Signal Processing</h3>
+                    <p>Voice activity detection, speaker diarization, real-world noisy environments. Signal-level engineering.</p>
+                    <div class="ac-viz">
+                        <svg viewBox="0 0 200 40" class="mini-wave">
+                            <polyline points="" class="wave-poly" id="about-wave-poly"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="about-card ac-azure reveal-on-scroll">
+                    <div class="ac-icon"><i class="fa-solid fa-cloud"></i></div>
+                    <h3>Cloud &amp; MLOps</h3>
+                    <p>AWS &amp; GCP deployments, Docker, CI/CD pipelines. From notebook to production with monitoring &amp; rollback.</p>
+                    <div class="ac-viz">
+                        <div class="mini-bars">
+                            <span class="mini-bar mb-1"></span>
+                            <span class="mini-bar mb-2"></span>
+                            <span class="mini-bar mb-3"></span>
+                            <span class="mini-bar mb-4"></span>
+                            <span class="mini-bar mb-5"></span>
+                            <span class="mini-bar mb-6"></span>
+                            <span class="mini-bar mb-7"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-card ac-teal reveal-on-scroll">
+                    <div class="ac-icon"><i class="fa-solid fa-code"></i></div>
+                    <h3>Code Philosophy</h3>
+                    <p>Reusable, readable, testable. Reduces redundancy, increases understandability, treats infrastructure as a first-class concern.</p>
+                    <div class="ac-viz">
+                        <svg viewBox="0 0 200 40" class="mini-radar">
+                            <polygon points="100,8 160,22 145,36 55,36 40,22" fill="currentColor" opacity="0.18"/>
+                            <polygon points="100,12 150,24 140,34 60,34 50,24" fill="currentColor" opacity="0.35"/>
+                            <circle cx="100" cy="8"  r="2" class="radar-dot"/>
+                            <circle cx="160" cy="22" r="2" class="radar-dot"/>
+                            <circle cx="145" cy="36" r="2" class="radar-dot"/>
+                            <circle cx="55"  cy="36" r="2" class="radar-dot"/>
+                            <circle cx="40"  cy="22" r="2" class="radar-dot"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== EXPERIENCE ============== -->
+        <section id="experience" class="section">
+            <div class="section-header reveal-on-scroll">
+                <div class="section-eyebrow mono"><span class="accent">// 02</span> &nbsp;experience.log</div>
+                <h2 class="section-title">
+                    A <span class="serif-italic accent-mint">five-year trajectory</span> shipping ML at scale
+                </h2>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-line"></div>
+
+                <article class="timeline-node tl-right reveal-on-scroll">
+                    <div class="timeline-dot"><span class="dot-pulse"></span></div>
+                    <div class="timeline-meta mono">
+                        <span class="tl-year">2023 — Present</span>
+                        <span class="tl-tag">current</span>
+                    </div>
+                    <div class="exp-card" tabindex="0">
+                        <div class="exp-card-inner">
+                            <div class="exp-card-front">
+                                <div class="exp-header">
+                                    <div class="exp-logo"><i class="fa-solid fa-building"></i></div>
+                                    <div>
+                                        <h3>Quantiphi Analytics</h3>
+                                        <div class="exp-role">Senior ML Engineer</div>
+                                    </div>
+                                </div>
+                                <div class="exp-domains">
+                                    <span class="domain-pill dp-mint">CV</span>
+                                    <span class="domain-pill dp-amber">Audio</span>
+                                    <span class="domain-pill dp-azure">Cloud</span>
+                                </div>
+                                <svg viewBox="0 0 240 50" class="exp-spark">
+                                    <polyline points="5,40 35,35 65,28 95,30 125,18 155,12 185,15 215,8 235,5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="235" cy="5" r="3.5" class="spark-end"/>
+                                </svg>
+                                <div class="flip-hint mono"><i class="fa-solid fa-arrows-rotate"></i> hover to flip</div>
+                            </div>
+                            <div class="exp-card-back">
+                                <h4>Key Responsibilities</h4>
+                                <ul>
+                                    <li>Developed crowd density estimation models with 95%+ accuracy in varied lighting</li>
+                                    <li>Built ML pipelines for license plate recognition on real-time video streams</li>
+                                    <li>Created voice activity detection systems for noisy production audio</li>
+                                    <li>Designed speaker diarization models deployed on cloud infrastructure</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="timeline-node tl-left reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-meta mono">
+                        <span class="tl-year">2022 — 2023</span>
+                    </div>
+                    <div class="exp-card" tabindex="0">
+                        <div class="exp-card-inner">
+                            <div class="exp-card-front">
+                                <div class="exp-header">
+                                    <div class="exp-logo"><i class="fa-solid fa-laptop-code"></i></div>
+                                    <div>
+                                        <h3>Quantiphi Analytics</h3>
+                                        <div class="exp-role">ML Engineer · L2</div>
+                                    </div>
+                                </div>
+                                <div class="exp-domains">
+                                    <span class="domain-pill dp-mint">CV</span>
+                                    <span class="domain-pill dp-violet">Face Rec</span>
+                                    <span class="domain-pill dp-azure">AWS / GCP</span>
+                                </div>
+                                <svg viewBox="0 0 240 50" class="exp-spark">
+                                    <polyline points="5,42 35,38 65,32 95,25 125,22 155,18 185,20 215,14 235,11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="235" cy="11" r="3.5" class="spark-end"/>
+                                </svg>
+                                <div class="flip-hint mono"><i class="fa-solid fa-arrows-rotate"></i> hover to flip</div>
+                            </div>
+                            <div class="exp-card-back">
+                                <h4>Key Responsibilities</h4>
+                                <ul>
+                                    <li>Led ML initiatives from POC through production deployment</li>
+                                    <li>Established face recognition capabilities for enterprise clients</li>
+                                    <li>Built object detection models with high precision in real-world scenes</li>
+                                    <li>Deployed ML solutions across AWS and GCP infrastructure</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="timeline-node tl-right reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-meta mono">
+                        <span class="tl-year">2021 — 2022</span>
+                    </div>
+                    <div class="exp-card" tabindex="0">
+                        <div class="exp-card-inner">
+                            <div class="exp-card-front">
+                                <div class="exp-header">
+                                    <div class="exp-logo"><i class="fa-solid fa-chart-line"></i></div>
+                                    <div>
+                                        <h3>Verifyer Technologies</h3>
+                                        <div class="exp-role">ML Engineer</div>
+                                    </div>
+                                </div>
+                                <div class="exp-domains">
+                                    <span class="domain-pill dp-violet">Analytics</span>
+                                    <span class="domain-pill dp-mint">Modeling</span>
+                                </div>
+                                <svg viewBox="0 0 240 50" class="exp-spark">
+                                    <polyline points="5,45 35,40 65,38 95,32 125,30 155,26 185,22 215,18 235,16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="235" cy="16" r="3.5" class="spark-end"/>
+                                </svg>
+                                <div class="flip-hint mono"><i class="fa-solid fa-arrows-rotate"></i> hover to flip</div>
+                            </div>
+                            <div class="exp-card-back">
+                                <h4>Key Responsibilities</h4>
+                                <ul>
+                                    <li>Designed ML models tailored to varied business problems</li>
+                                    <li>Analyzed large datasets to surface actionable insights</li>
+                                    <li>Built high-accuracy prediction models for operational use</li>
+                                    <li>Delivered data-driven solutions with cross-functional teams</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="timeline-node tl-left reveal-on-scroll">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-meta mono">
+                        <span class="tl-year">2019 — 2020</span>
+                        <span class="tl-tag">origin</span>
+                    </div>
+                    <div class="exp-card" tabindex="0">
+                        <div class="exp-card-inner">
+                            <div class="exp-card-front">
+                                <div class="exp-header">
+                                    <div class="exp-logo"><i class="fa-solid fa-graduation-cap"></i></div>
+                                    <div>
+                                        <h3>RMgX Technologies</h3>
+                                        <div class="exp-role">ML Engineer</div>
+                                    </div>
+                                </div>
+                                <div class="exp-domains">
+                                    <span class="domain-pill dp-violet">NLP</span>
+                                    <span class="domain-pill dp-coral">Research</span>
+                                </div>
+                                <svg viewBox="0 0 240 50" class="exp-spark">
+                                    <polyline points="5,46 35,44 65,42 95,40 125,36 155,32 185,28 215,24 235,22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <circle cx="235" cy="22" r="3.5" class="spark-end"/>
+                                </svg>
+                                <div class="flip-hint mono"><i class="fa-solid fa-arrows-rotate"></i> hover to flip</div>
+                            </div>
+                            <div class="exp-card-back">
+                                <h4>Key Responsibilities</h4>
+                                <ul>
+                                    <li>Conducted research in natural language processing</li>
+                                    <li>Published papers on innovative deep learning models</li>
+                                    <li>Implemented prototype solutions for academic research</li>
+                                    <li>Mentored junior researchers in ML methodologies</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- ============== PORTFOLIO ============== -->
+        <section id="portfolio" class="section">
+            <div class="section-header reveal-on-scroll">
+                <div class="section-eyebrow mono"><span class="accent">// 03</span> &nbsp;selected_work</div>
+                <h2 class="section-title">
+                    Six <span class="serif-italic accent-mint">live demos</span>, not screenshots
+                </h2>
+                <p class="section-lede">Every card runs a real visualization. Click, hover, watch — these are the models I ship.</p>
+            </div>
+
+            <div class="work-grid">
+                <!-- PROJECT 1 — CROWD DENSITY (LARGE) -->
+                <article class="work-card wc-large reveal-on-scroll" data-project="crowd">
+                    <header class="wc-head">
+                        <div>
+                            <span class="wc-num mono">P.01</span>
+                            <h3>Crowd Density Estimation</h3>
+                            <p class="wc-sub">Real-time density mapping for public spaces. 95%+ accuracy in varied lighting.</p>
+                        </div>
+                        <div class="wc-tags">
+                            <span class="tag">PyTorch</span>
+                            <span class="tag">CV</span>
+                            <span class="tag">Real-time</span>
+                        </div>
+                    </header>
+
+                    <div class="demo-stage crowd-stage" id="crowd-stage">
+                        <canvas id="crowd-canvas" class="crowd-canvas"></canvas>
+                        <div class="demo-hud">
+                            <div class="hud-row">
+                                <span class="hud-label mono dim">people</span>
+                                <span class="hud-val mono" id="crowd-count">0</span>
+                            </div>
+                            <div class="hud-row">
+                                <span class="hud-label mono dim">density</span>
+                                <span class="hud-val mono" id="crowd-density">0.00</span>
+                            </div>
+                            <div class="hud-row">
+                                <span class="hud-label mono dim">status</span>
+                                <span class="hud-val mono" id="crowd-status">idle</span>
+                            </div>
+                        </div>
+                        <div class="demo-controls">
+                            <button class="demo-btn" id="crowd-seed">+ seed</button>
+                            <button class="demo-btn demo-btn-ghost" id="crowd-reset">reset</button>
+                        </div>
+                        <div class="demo-hint mono">click anywhere to add a person ↗</div>
+                    </div>
+                </article>
+
+                <!-- PROJECT 2 — SPEAKER DIARIZATION -->
+                <article class="work-card reveal-on-scroll" data-project="diar">
+                    <header class="wc-head">
+                        <div>
+                            <span class="wc-num mono">P.02</span>
+                            <h3>Speaker Diarization</h3>
+                            <p class="wc-sub">Who-spoke-when in real-world noisy audio.</p>
+                        </div>
+                    </header>
+                    <div class="demo-stage diar-stage">
+                        <canvas id="diar-canvas"></canvas>
+                        <div class="diar-legend">
+                            <span><i class="dot-mint"></i> SPK_0</span>
+                            <span><i class="dot-coral"></i> SPK_1</span>
+                            <span><i class="dot-violet"></i> SPK_2</span>
+                        </div>
+                    </div>
+                    <footer class="wc-foot">
+                        <span class="tag">Audio</span>
+                        <span class="tag">Signal</span>
+                    </footer>
+                </article>
+
+                <!-- PROJECT 3 — LICENSE PLATE -->
+                <article class="work-card reveal-on-scroll" data-project="plate">
+                    <header class="wc-head">
+                        <div>
+                            <span class="wc-num mono">P.03</span>
+                            <h3>License Plate Recognition</h3>
+                            <p class="wc-sub">Detect &amp; read plates on live video.</p>
+                        </div>
+                    </header>
+                    <div class="demo-stage plate-stage">
+                        <div class="plate-scene">
+                            <svg viewBox="0 0 320 160" class="plate-svg">
+                                <!-- car body silhouette -->
+                                <rect x="40" y="60" width="240" height="60" rx="10" class="car-body"/>
+                                <rect x="70" y="40" width="180" height="40" rx="10" class="car-top"/>
+                                <circle cx="90"  cy="125" r="14" class="car-wheel"/>
+                                <circle cx="230" cy="125" r="14" class="car-wheel"/>
+                                <!-- plate -->
+                                <rect x="140" y="92" width="60" height="20" class="plate-rect"/>
+                                <text x="170" y="106" text-anchor="middle" class="plate-text">KA·03·MJ</text>
+                                <!-- bbox -->
+                                <rect x="135" y="87" width="70" height="30" class="plate-bbox" id="plate-bbox"/>
+                                <!-- scan line -->
+                                <line x1="0" y1="0" x2="0" y2="160" class="scan-line" id="scan-line"/>
+                            </svg>
+                        </div>
+                        <div class="plate-readout">
+                            <span class="mono dim">detected →</span>
+                            <span class="plate-result mono" id="plate-result">KA · 03 · MJ · 4271</span>
+                            <span class="plate-conf mono">conf 0.98</span>
+                        </div>
+                    </div>
+                    <footer class="wc-foot">
+                        <span class="tag">CV</span>
+                        <span class="tag">OCR</span>
+                    </footer>
+                </article>
+
+                <!-- PROJECT 4 — CODE GENERATION -->
+                <article class="work-card reveal-on-scroll" data-project="codegen">
+                    <header class="wc-head">
+                        <div>
+                            <span class="wc-num mono">P.04</span>
+                            <h3>Code Generation NLP</h3>
+                            <p class="wc-sub">Natural language → executable Python.</p>
+                        </div>
+                    </header>
+                    <div class="demo-stage codegen-stage">
+                        <div class="codegen-prompt mono">
+                            <span class="dim">prompt &gt;</span>
+                            <span id="codegen-prompt-text"></span>
+                            <span class="caret"></span>
+                        </div>
+                        <pre class="codegen-out mono"><code id="codegen-out"></code></pre>
+                    </div>
+                    <footer class="wc-foot">
+                        <span class="tag">NLP</span>
+                        <span class="tag">TensorFlow</span>
+                    </footer>
+                </article>
+
+                <!-- PROJECT 5 — VAD -->
+                <article class="work-card reveal-on-scroll" data-project="vad">
+                    <header class="wc-head">
+                        <div>
+                            <span class="wc-num mono">P.05</span>
+                            <h3>Voice Activity Detection</h3>
+                            <p class="wc-sub">Speech / silence segmentation, live.</p>
+                        </div>
+                    </header>
+                    <div class="demo-stage vad-stage">
+                        <canvas id="vad-canvas"></canvas>
+                        <div class="vad-state" id="vad-state">
+                            <span class="state-dot"></span>
+                            <span class="state-text mono">SPEECH</span>
+                        </div>
+                    </div>
+                    <footer class="wc-foot">
+                        <span class="tag">Audio</span>
+                        <span class="tag">DSP</span>
+                    </footer>
+                </article>
+
+                <!-- PROJECT 6 — MLOPS -->
+                <article class="work-card reveal-on-scroll" data-project="mlops">
+                    <header class="wc-head">
+                        <div>
+                            <span class="wc-num mono">P.06</span>
+                            <h3>MLOps Pipeline</h3>
+                            <p class="wc-sub">CI/CD for ML on AWS with monitoring.</p>
+                        </div>
+                    </header>
+                    <div class="demo-stage mlops-stage">
+                        <div class="mlops-flow" id="mlops-flow">
+                            <div class="mlops-step" data-step="0"><i class="fa-solid fa-database"></i><span>data</span></div>
+                            <div class="mlops-edge"></div>
+                            <div class="mlops-step" data-step="1"><i class="fa-solid fa-gears"></i><span>train</span></div>
+                            <div class="mlops-edge"></div>
+                            <div class="mlops-step" data-step="2"><i class="fa-solid fa-flask"></i><span>eval</span></div>
+                            <div class="mlops-edge"></div>
+                            <div class="mlops-step" data-step="3"><i class="fa-brands fa-docker"></i><span>build</span></div>
+                            <div class="mlops-edge"></div>
+                            <div class="mlops-step" data-step="4"><i class="fa-solid fa-rocket"></i><span>deploy</span></div>
+                        </div>
+                        <div class="mlops-log mono" id="mlops-log"></div>
+                    </div>
+                    <footer class="wc-foot">
+                        <span class="tag">Docker</span>
+                        <span class="tag">AWS</span>
+                        <span class="tag">CI/CD</span>
+                    </footer>
+                </article>
+            </div>
+        </section>
+
+        <!-- ============== SKILLS ============== -->
+        <section id="skills" class="section">
+            <div class="section-header reveal-on-scroll">
+                <div class="section-eyebrow mono"><span class="accent">// 04</span> &nbsp;technical_skills</div>
+                <h2 class="section-title">
+                    The <span class="serif-italic accent-mint">toolkit</span> behind the work
+                </h2>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-card sc-mint reveal-on-scroll">
+                    <div class="sc-icon-badge"><i class="fa-solid fa-code"></i></div>
+                    <h3>Programming</h3>
+                    <p class="sc-sub mono dim">languages &amp; frameworks</p>
+                    <ul class="skill-list">
+                        <li><span><i class="fa-brands fa-python"></i>Python</span><span class="bar" data-fill="95"><span></span></span></li>
+                        <li><span><i class="fa-solid fa-fire"></i>PyTorch</span><span class="bar" data-fill="90"><span></span></span></li>
+                        <li><span><i class="fa-solid fa-brain"></i>TensorFlow</span><span class="bar" data-fill="85"><span></span></span></li>
+                        <li><span><i class="fa-brands fa-js"></i>JavaScript</span><span class="bar" data-fill="75"><span></span></span></li>
+                        <li><span><i class="fa-solid fa-c"></i>C++</span><span class="bar" data-fill="70"><span></span></span></li>
+                    </ul>
+                </div>
+
+                <div class="skill-card sc-coral reveal-on-scroll">
+                    <div class="sc-icon-badge"><i class="fa-solid fa-diagram-project"></i></div>
+                    <h3>Data Science</h3>
+                    <p class="sc-sub mono dim">domain knowledge</p>
+                    <ul class="skill-list">
+                        <li><span><i class="fa-solid fa-eye"></i>Computer Vision</span><span class="bar" data-fill="95"><span></span></span></li>
+                        <li><span><i class="fa-solid fa-wave-square"></i>Signal Processing</span><span class="bar" data-fill="90"><span></span></span></li>
+                        <li><span><i class="fa-solid fa-language"></i>NLP</span><span class="bar" data-fill="80"><span></span></span></li>
+                        <li><span><i class="fa-solid fa-chart-simple"></i>Statistics</span><span class="bar" data-fill="85"><span></span></span></li>
+                        <li><span><i class="fa-solid fa-dice"></i>Probability</span><span class="bar" data-fill="82"><span></span></span></li>
+                    </ul>
+                </div>
+
+                <div class="skill-card sc-azure reveal-on-scroll">
+                    <div class="sc-icon-badge"><i class="fa-solid fa-cloud"></i></div>
+                    <h3>Cloud &amp; Infra</h3>
+                    <p class="sc-sub mono dim">deployment tools</p>
+                    <ul class="skill-list">
+                        <li><span><i class="fa-brands fa-aws"></i>AWS</span><span class="bar" data-fill="90"><span></span></span></li>
+                        <li><span><i class="fa-brands fa-google"></i>GCP</span><span class="bar" data-fill="85"><span></span></span></li>
+                        <li><span><i class="fa-brands fa-docker"></i>Docker</span><span class="bar" data-fill="88"><span></span></span></li>
+                        <li><span><i class="fa-brands fa-microsoft"></i>Azure</span><span class="bar" data-fill="70"><span></span></span></li>
+                    </ul>
+                </div>
+
+                <div class="skill-card sc-violet reveal-on-scroll">
+                    <div class="sc-icon-badge"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+                    <h3>Tools</h3>
+                    <p class="sc-sub mono dim">utility belt</p>
+                    <ul class="skill-list">
+                        <li><span><i class="fa-brands fa-git-alt"></i>Git</span><span class="bar" data-fill="95"><span></span></span></li>
+                        <li><span><i class="fa-solid fa-camera"></i>OpenCV</span><span class="bar" data-fill="90"><span></span></span></li>
+                        <li><span><i class="fa-solid fa-cube"></i>NumPy</span><span class="bar" data-fill="95"><span></span></span></li>
+                        <li><span><i class="fa-solid fa-database"></i>MySQL</span><span class="bar" data-fill="75"><span></span></span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== CONTACT ============== -->
+        <section id="contact" class="section">
+            <div class="section-header reveal-on-scroll">
+                <div class="section-eyebrow mono"><span class="accent">// 05</span> &nbsp;connect</div>
+                <h2 class="section-title">
+                    Got a hard ML problem? <span class="serif-italic accent-mint">Let's talk.</span>
+                </h2>
+            </div>
+
+            <div class="contact-grid">
+                <div class="terminal reveal-on-scroll" id="contact-terminal">
+                    <div class="terminal-bar">
+                        <span class="td td-r"></span>
+                        <span class="td td-y"></span>
+                        <span class="td td-g"></span>
+                        <span class="terminal-title mono">~/anubhav — zsh</span>
+                    </div>
+                    <div class="terminal-body mono" id="terminal-body">
+                        <!-- typed by JS -->
+                    </div>
+                </div>
+
+                <div class="contact-channels">
+                    <a href="mailto:abt.exp@gmail.com" class="channel reveal-on-scroll">
+                        <div class="ch-icon ch-mint"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="ch-text">
+                            <div class="ch-label mono dim">email</div>
+                            <div class="ch-val">abt.exp@gmail.com</div>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square ch-arrow"></i>
+                    </a>
+                    <a href="https://github.com/abtExp" target="_blank" rel="noopener" class="channel reveal-on-scroll">
+                        <div class="ch-icon ch-violet"><i class="fa-brands fa-github"></i></div>
+                        <div class="ch-text">
+                            <div class="ch-label mono dim">github</div>
+                            <div class="ch-val">github.com/abtExp</div>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square ch-arrow"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/abtExp" target="_blank" rel="noopener" class="channel reveal-on-scroll">
+                        <div class="ch-icon ch-azure"><i class="fa-brands fa-linkedin-in"></i></div>
+                        <div class="ch-text">
+                            <div class="ch-label mono dim">linkedin</div>
+                            <div class="ch-val">linkedin.com/in/abtExp</div>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square ch-arrow"></i>
+                    </a>
+                    <a href="https://x.com/overfitowl" target="_blank" rel="noopener" class="channel reveal-on-scroll">
+                        <div class="ch-icon ch-coral"><i class="fa-brands fa-x-twitter"></i></div>
+                        <div class="ch-text">
+                            <div class="ch-label mono dim">x · twitter</div>
+                            <div class="ch-val">@overfitowl</div>
+                        </div>
+                        <i class="fa-solid fa-arrow-up-right-from-square ch-arrow"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============== FOOTER ============== -->
+        <footer id="footer">
+            <div class="footer-inner">
+                <svg viewBox="0 0 600 200" class="footer-nn" id="footer-nn" aria-hidden="true">
+                    <!-- Neural-network graphic — drawn by JS for dynamic look -->
+                </svg>
+
+                <div class="footer-quote">
+                    <span class="quote-prefix mono dim">/* signing off */</span>
+                    <div class="quote-text">It's all about <span class="serif-italic">experience</span></div>
+                </div>
+
+                <div class="footer-bottom">
+                    <div class="footer-left">
+                        <span class="mono dim">© 2026 anubhav tiwari</span>
+                    </div>
+                    <div class="footer-right mono dim">
+                        <span>made with <i class="fa-solid fa-heart heart"></i> in india</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="./src/js/app.js"></script>
+</body>
 </html>
