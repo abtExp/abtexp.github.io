@@ -137,19 +137,8 @@
     }
 
     // =========================================
-    // 6. FLIP CARDS (tap support for touch)
+    // 6. (removed: experience flip cards — now flat pastel cards)
     // =========================================
-    $$('.exp-card').forEach(card => {
-        card.addEventListener('click', () => {
-            card.classList.toggle('flipped');
-        });
-        card.addEventListener('keydown', e => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                card.classList.toggle('flipped');
-            }
-        });
-    });
 
     // =========================================
     // 7. DATA TICKER (top bar)
@@ -345,397 +334,525 @@
     }
 
     // =========================================
-    // 11. CROWD DENSITY DEMO
+    // 11-16. DEMO FACTORY + MODAL SYSTEM
+    // Each demo factory returns { cleanup } so animation frames
+    // / intervals can be cancelled when modal closes.
     // =========================================
-    (function crowdDemo() {
-        const stage   = $('#crowd-stage');
-        const canvas  = $('#crowd-canvas');
-        const seedBtn = $('#crowd-seed');
-        const resetBtn= $('#crowd-reset');
-        const countEl = $('#crowd-count');
-        const densEl  = $('#crowd-density');
-        const statEl  = $('#crowd-status');
-        if (!canvas || !stage) return;
 
-        const ctx = canvas.getContext('2d');
-        let people = [];
-        let raf;
+    const Demos = {
+        // -------- CROWD DENSITY --------
+        crowd: function(root, opts) {
+            opts = opts || {};
+            const ambient = !!opts.ambient;
+            const canvas = root.querySelector('[data-canvas="crowd"], .ambient-crowd-canvas');
+            const stage = ambient ? canvas.parentElement : root.querySelector('.crowd-stage');
+            if (!canvas) return { cleanup: function(){} };
 
-        function fitC() {
-            const rect = stage.getBoundingClientRect();
-            const dpr = window.devicePixelRatio || 1;
-            canvas.width  = rect.width  * dpr;
-            canvas.height = rect.height * dpr;
-            canvas.style.width  = rect.width + 'px';
-            canvas.style.height = rect.height + 'px';
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
-            ctx.scale(dpr, dpr);
-        }
-        function seed(n, w, h) {
-            for (let i = 0; i < n; i++) {
-                people.push({
-                    x: Math.random() * w,
-                    y: Math.random() * h,
-                    vx: (Math.random() - 0.5) * 0.4,
-                    vy: (Math.random() - 0.5) * 0.4
+            const ctx = canvas.getContext('2d');
+            let people = [];
+            let raf = null;
+
+            function fit() {
+                const rect = (ambient ? canvas : stage).getBoundingClientRect();
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width  = rect.width  * dpr;
+                canvas.height = rect.height * dpr;
+                canvas.style.width  = rect.width + 'px';
+                canvas.style.height = rect.height + 'px';
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.scale(dpr, dpr);
+            }
+            function seed(n) {
+                const rect = canvas.getBoundingClientRect();
+                for (let i = 0; i < n; i++) {
+                    people.push({
+                        x: Math.random() * rect.width,
+                        y: Math.random() * rect.height,
+                        vx: (Math.random() - 0.5) * (ambient ? 0.18 : 0.4),
+                        vy: (Math.random() - 0.5) * (ambient ? 0.18 : 0.4)
+                    });
+                }
+            }
+            const countEl  = root.querySelector('[data-out="crowd-count"]');
+            const densEl   = root.querySelector('[data-out="crowd-density"]');
+            const statEl   = root.querySelector('[data-out="crowd-status"]');
+
+            function draw() {
+                const rect = canvas.getBoundingClientRect();
+                const w = rect.width, h = rect.height;
+                ctx.clearRect(0, 0, w, h);
+
+                const gx = ambient ? 12 : 16;
+                const gy = ambient ? 8 : 12;
+                const cellW = w / gx, cellH = h / gy;
+                const grid = new Array(gx * gy).fill(0);
+                people.forEach(p => {
+                    const ix = Math.floor(p.x / cellW);
+                    const iy = Math.floor(p.y / cellH);
+                    if (ix >= 0 && ix < gx && iy >= 0 && iy < gy) {
+                        grid[iy * gx + ix] += 1;
+                        if (ix > 0)     grid[iy * gx + (ix-1)] += 0.4;
+                        if (ix < gx-1)  grid[iy * gx + (ix+1)] += 0.4;
+                        if (iy > 0)     grid[(iy-1) * gx + ix] += 0.4;
+                        if (iy < gy-1)  grid[(iy+1) * gx + ix] += 0.4;
+                    }
+                });
+                const maxV = Math.max(1, ...grid);
+                for (let i = 0; i < gy; i++) {
+                    for (let j = 0; j < gx; j++) {
+                        const v = grid[i * gx + j] / maxV;
+                        if (v > 0.02) {
+                            ctx.fillStyle = 'rgba(57, 252, 155,' + (v * (ambient ? 0.35 : 0.45)).toFixed(3) + ')';
+                            ctx.fillRect(j * cellW, i * cellH, cellW, cellH);
+                        }
+                    }
+                }
+                people.forEach(p => {
+                    p.x += p.vx; p.y += p.vy;
+                    if (p.x < 4 || p.x > w - 4) p.vx *= -1;
+                    if (p.y < 4 || p.y > h - 4) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, ambient ? 3 : 4, 0, Math.PI * 2);
+                    ctx.fillStyle = '#1e8c50';
+                    ctx.fill();
+                    if (!ambient) {
+                        ctx.lineWidth = 1.5;
+                        ctx.strokeStyle = '#ffffff';
+                        ctx.stroke();
+                    }
+                });
+
+                if (countEl) countEl.textContent = people.length.toString().padStart(3, '0');
+                if (densEl)  densEl.textContent  = (people.length / (gx * gy)).toFixed(2);
+                if (statEl) {
+                    statEl.textContent = people.length === 0 ? 'idle'
+                                      : people.length < 20  ? 'sparse'
+                                      : people.length < 60  ? 'normal'
+                                      :                       'crowded';
+                    statEl.style.color = people.length >= 60 ? '#ff6b4a'
+                                      : people.length >= 20  ? '#ffb347'
+                                      :                        '';
+                }
+
+                raf = requestAnimationFrame(draw);
+            }
+            // wait one tick so layout settles
+            setTimeout(() => { fit(); seed(ambient ? 14 : 12); draw(); }, 50);
+
+            const onResize = () => fit();
+            window.addEventListener('resize', onResize);
+
+            const handlers = [];
+            if (!ambient) {
+                const onClick = (e) => {
+                    const rect = canvas.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    people.push({ x, y, vx: (Math.random() - 0.5) * 0.6, vy: (Math.random() - 0.5) * 0.6 });
+                };
+                canvas.addEventListener('click', onClick);
+                handlers.push(['click', canvas, onClick]);
+
+                const seedBtn  = root.querySelector('[data-action="crowd-seed"]');
+                const resetBtn = root.querySelector('[data-action="crowd-reset"]');
+                if (seedBtn) {
+                    const f = () => seed(5);
+                    seedBtn.addEventListener('click', f);
+                    handlers.push(['click', seedBtn, f]);
+                }
+                if (resetBtn) {
+                    const f = () => { people = []; };
+                    resetBtn.addEventListener('click', f);
+                    handlers.push(['click', resetBtn, f]);
+                }
+            }
+
+            return {
+                cleanup: function() {
+                    if (raf) cancelAnimationFrame(raf);
+                    window.removeEventListener('resize', onResize);
+                    handlers.forEach(([type, el, f]) => el.removeEventListener(type, f));
+                    people = [];
+                }
+            };
+        },
+
+        // -------- DIARIZATION --------
+        diar: function(root, opts) {
+            opts = opts || {};
+            const ambient = !!opts.ambient;
+            const canvas = root.querySelector('[data-canvas="diar"], .ambient-diar-canvas');
+            if (!canvas) return { cleanup: function(){} };
+            const ctx = canvas.getContext('2d');
+            const speakerCols = ['#39fc9b', '#ff6b4a', '#7d6bff'];
+            const segments = [
+                { start: 0,    end: 0.18, speaker: 0 },
+                { start: 0.18, end: 0.32, speaker: 1 },
+                { start: 0.32, end: 0.55, speaker: 0 },
+                { start: 0.55, end: 0.72, speaker: 2 },
+                { start: 0.72, end: 0.88, speaker: 1 },
+                { start: 0.88, end: 1.0,  speaker: 0 }
+            ];
+            let raf = null;
+            let t = 0;
+
+            function fit() {
+                const rect = canvas.getBoundingClientRect();
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width  = rect.width  * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.scale(dpr, dpr);
+            }
+            function draw() {
+                const rect = canvas.getBoundingClientRect();
+                const w = rect.width, h = rect.height;
+                ctx.clearRect(0, 0, w, h);
+
+                segments.forEach(seg => {
+                    const x = seg.start * w;
+                    const sw = (seg.end - seg.start) * w;
+                    ctx.fillStyle = speakerCols[seg.speaker] + (ambient ? '18' : '22');
+                    ctx.fillRect(x, 0, sw, h);
+                    ctx.fillStyle = speakerCols[seg.speaker];
+                    ctx.fillRect(x, 0, sw, ambient ? 2 : 3);
+                });
+
+                ctx.beginPath();
+                for (let x = 0; x <= w; x += 2) {
+                    const seg = segments.find(s => x / w >= s.start && x / w < s.end) || segments[0];
+                    const amp = h * (ambient ? 0.22 : 0.32);
+                    const freq = 0.04 + seg.speaker * 0.015;
+                    const y = h / 2 + Math.sin(x * freq + t + seg.speaker * 1.7) * amp
+                             * (0.4 + 0.6 * Math.abs(Math.sin(x * 0.01 + t * 0.5)));
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.lineWidth = 1.5;
+                ctx.strokeStyle = '#9ba1ac';
+                ctx.globalAlpha = ambient ? 0.7 : 0.85;
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+
+                t += ambient ? 0.04 : 0.08;
+                raf = requestAnimationFrame(draw);
+            }
+            setTimeout(() => { fit(); draw(); }, 50);
+            const onResize = () => fit();
+            window.addEventListener('resize', onResize);
+
+            return {
+                cleanup: function() {
+                    if (raf) cancelAnimationFrame(raf);
+                    window.removeEventListener('resize', onResize);
+                }
+            };
+        },
+
+        // -------- PLATE --------
+        plate: function(root, opts) {
+            opts = opts || {};
+            const ambient = !!opts.ambient;
+            if (ambient) return { cleanup: function(){} }; // ambient is CSS-only
+            const out = root.querySelector('[data-out="plate-result"]');
+            if (!out) return { cleanup: function(){} };
+            const plates = [
+                'KA · 03 · MJ · 4271',
+                'MH · 12 · DE · 8842',
+                'DL · 07 · CA · 5519',
+                'TN · 09 · BV · 1023',
+                'KA · 04 · NK · 7398'
+            ];
+            let i = 0;
+            out.style.transition = 'opacity 0.2s';
+            const interval = setInterval(() => {
+                i = (i + 1) % plates.length;
+                out.style.opacity = '0';
+                setTimeout(() => {
+                    out.textContent = plates[i];
+                    out.style.opacity = '1';
+                }, 200);
+            }, 3500);
+            return {
+                cleanup: function() { clearInterval(interval); }
+            };
+        },
+
+        // -------- CODEGEN --------
+        codegen: function(root, opts) {
+            opts = opts || {};
+            const ambient = !!opts.ambient;
+            if (ambient) return { cleanup: function(){} }; // ambient is static
+            const promptEl = root.querySelector('[data-out="codegen-prompt-text"]');
+            const outEl    = root.querySelector('[data-out="codegen-out"]');
+            if (!promptEl || !outEl) return { cleanup: function(){} };
+            const samples = [
+                {
+                    prompt: 'sort a list of numbers in ascending order',
+                    code:  '<span class="kw">def</span> <span class="fn">sort_asc</span>(nums):\n    <span class="cm"># quicksort via builtin</span>\n    <span class="kw">return</span> <span class="fn">sorted</span>(nums)'
+                },
+                {
+                    prompt: 'fetch user by id from the api',
+                    code:  '<span class="kw">async def</span> <span class="fn">fetch_user</span>(id):\n    r = <span class="kw">await</span> client.<span class="fn">get</span>(<span class="str">f"/users/{id}"</span>)\n    <span class="kw">return</span> r.<span class="fn">json</span>()'
+                },
+                {
+                    prompt: 'parse a json string safely',
+                    code:  '<span class="kw">import</span> json\n<span class="kw">def</span> <span class="fn">safe_parse</span>(s):\n    <span class="kw">try</span>:    <span class="kw">return</span> json.<span class="fn">loads</span>(s)\n    <span class="kw">except</span>: <span class="kw">return</span> {}'
+                },
+                {
+                    prompt: 'compute precision and recall',
+                    code:  '<span class="kw">def</span> <span class="fn">metrics</span>(tp, fp, fn):\n    p = tp / (tp + fp)\n    r = tp / (tp + fn)\n    <span class="kw">return</span> p, r'
+                }
+            ];
+            let idx = 0;
+            let stopped = false;
+            const timers = [];
+            function wait(ms) {
+                return new Promise(r => {
+                    const t = setTimeout(r, ms);
+                    timers.push(t);
                 });
             }
-        }
-        function draw() {
-            const rect = stage.getBoundingClientRect();
-            const w = rect.width, h = rect.height;
-            ctx.clearRect(0, 0, w, h);
-
-            // density heatmap (16x16 grid)
-            const gx = 16, gy = 12;
-            const cellW = w / gx, cellH = h / gy;
-            const grid = new Array(gx * gy).fill(0);
-            people.forEach(p => {
-                const ix = Math.floor(p.x / cellW);
-                const iy = Math.floor(p.y / cellH);
-                if (ix >= 0 && ix < gx && iy >= 0 && iy < gy) {
-                    grid[iy * gx + ix] += 1;
-                    // soften neighbors
-                    if (ix > 0)     grid[iy * gx + (ix-1)] += 0.4;
-                    if (ix < gx-1)  grid[iy * gx + (ix+1)] += 0.4;
-                    if (iy > 0)     grid[(iy-1) * gx + ix] += 0.4;
-                    if (iy < gy-1)  grid[(iy+1) * gx + ix] += 0.4;
-                }
-            });
-            const maxV = Math.max(1, ...grid);
-            for (let i = 0; i < gy; i++) {
-                for (let j = 0; j < gx; j++) {
-                    const v = grid[i * gx + j] / maxV;
-                    if (v > 0.02) {
-                        ctx.fillStyle = 'rgba(57, 252, 155,' + (v * 0.45).toFixed(3) + ')';
-                        ctx.fillRect(j * cellW, i * cellH, cellW, cellH);
+            async function cycle() {
+                while (!stopped) {
+                    const s = samples[idx];
+                    promptEl.textContent = '';
+                    for (let i = 0; i <= s.prompt.length; i++) {
+                        if (stopped) return;
+                        promptEl.textContent = s.prompt.slice(0, i);
+                        await wait(28);
                     }
+                    await wait(400);
+                    if (stopped) return;
+                    outEl.innerHTML = '';
+                    const html = s.code;
+                    let i = 0;
+                    while (i < html.length) {
+                        if (stopped) return;
+                        if (html[i] === '<') {
+                            const end = html.indexOf('>', i);
+                            outEl.innerHTML = html.slice(0, end + 1);
+                            i = end + 1;
+                        } else {
+                            outEl.innerHTML = html.slice(0, i + 1);
+                            i++;
+                            await wait(12);
+                        }
+                    }
+                    await wait(3000);
+                    idx = (idx + 1) % samples.length;
                 }
             }
+            cycle();
+            return {
+                cleanup: function() {
+                    stopped = true;
+                    timers.forEach(t => clearTimeout(t));
+                }
+            };
+        },
 
-            // people dots
-            people.forEach(p => {
-                p.x += p.vx;
-                p.y += p.vy;
-                if (p.x < 4 || p.x > w - 4) p.vx *= -1;
-                if (p.y < 4 || p.y > h - 4) p.vy *= -1;
+        // -------- VAD --------
+        vad: function(root, opts) {
+            opts = opts || {};
+            const ambient = !!opts.ambient;
+            const canvas = root.querySelector('[data-canvas="vad"], .ambient-vad-canvas');
+            if (!canvas) return { cleanup: function(){} };
+            const stateEl = root.querySelector('[data-out="vad-state"]');
+            const ctx = canvas.getContext('2d');
+            let raf = null;
+            let t = 0;
+            let isSpeech = true;
+            let nextFlip = performance.now() + (ambient ? 4000 : 2500) + Math.random() * 2500;
+
+            function fit() {
+                const rect = canvas.getBoundingClientRect();
+                const dpr = window.devicePixelRatio || 1;
+                canvas.width  = rect.width  * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.scale(dpr, dpr);
+            }
+            function draw(now) {
+                const rect = canvas.getBoundingClientRect();
+                const w = rect.width, h = rect.height;
+                if (now > nextFlip) {
+                    isSpeech = !isSpeech;
+                    nextFlip = now + (ambient ? 4000 : 2500) + Math.random() * 2500;
+                    if (stateEl) {
+                        stateEl.classList.toggle('silence', !isSpeech);
+                        const txt = stateEl.querySelector('.state-text');
+                        if (txt) txt.textContent = isSpeech ? 'SPEECH' : 'SILENCE';
+                    }
+                }
+                ctx.clearRect(0, 0, w, h);
+                if (!ambient) {
+                    ctx.strokeStyle = 'rgba(57, 252, 155, 0.25)';
+                    ctx.setLineDash([3, 4]);
+                    ctx.beginPath();
+                    ctx.moveTo(0, h * 0.18); ctx.lineTo(w, h * 0.18);
+                    ctx.moveTo(0, h * 0.82); ctx.lineTo(w, h * 0.82);
+                    ctx.stroke();
+                    ctx.setLineDash([]);
+                }
                 ctx.beginPath();
-                ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
-                ctx.fillStyle = '#1e8c50';
-                ctx.fill();
-                ctx.lineWidth = 1.5;
-                ctx.strokeStyle = '#ffffff';
+                for (let x = 0; x <= w; x += 1.5) {
+                    let amp;
+                    if (isSpeech) {
+                        amp = h * (ambient ? 0.22 : 0.35) * (0.5 + 0.5 * Math.sin(x * 0.04 + t));
+                        amp *= 0.6 + 0.4 * Math.sin(x * 0.012 + t * 0.7);
+                    } else {
+                        amp = h * 0.06 * (Math.random() - 0.5);
+                    }
+                    const y = h / 2 + Math.sin(x * 0.08 + t) * amp + (isSpeech ? 0 : (Math.random() - 0.5) * 2);
+                    if (x === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.lineWidth = 1.6;
+                ctx.strokeStyle = isSpeech ? '#39fc9b' : '#8a8f99';
                 ctx.stroke();
-            });
-
-            countEl.textContent = people.length.toString().padStart(3, '0');
-            const density = (people.length / (gx * gy)).toFixed(2);
-            densEl.textContent = density;
-            statEl.textContent = people.length === 0 ? 'idle'
-                              : people.length < 20  ? 'sparse'
-                              : people.length < 60  ? 'normal'
-                              :                       'crowded';
-            statEl.style.color = people.length >= 60 ? '#ff6b4a'
-                              : people.length >= 20  ? '#ffb347'
-                              :                        '';
-
-            raf = requestAnimationFrame(draw);
-        }
-
-        fitC();
-        const rect0 = stage.getBoundingClientRect();
-        seed(12, rect0.width, rect0.height);
-        draw();
-
-        window.addEventListener('resize', fitC);
-
-        canvas.addEventListener('click', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            people.push({ x, y, vx: (Math.random() - 0.5) * 0.6, vy: (Math.random() - 0.5) * 0.6 });
-        });
-        seedBtn?.addEventListener('click', () => {
-            const r = stage.getBoundingClientRect();
-            seed(5, r.width, r.height);
-        });
-        resetBtn?.addEventListener('click', () => {
-            people = [];
-        });
-    })();
-
-    // =========================================
-    // 12. SPEAKER DIARIZATION DEMO
-    // =========================================
-    (function diarDemo() {
-        const canvas = $('#diar-canvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        const speakerCols = ['#39fc9b', '#ff6b4a', '#7d6bff'];
-        let segments = [
-            { start: 0,   end: 0.18, speaker: 0 },
-            { start: 0.18, end: 0.32, speaker: 1 },
-            { start: 0.32, end: 0.55, speaker: 0 },
-            { start: 0.55, end: 0.72, speaker: 2 },
-            { start: 0.72, end: 0.88, speaker: 1 },
-            { start: 0.88, end: 1.0,  speaker: 0 },
-        ];
-
-        function fitD() {
-            const rect = canvas.getBoundingClientRect();
-            const dpr = window.devicePixelRatio || 1;
-            canvas.width  = rect.width  * dpr;
-            canvas.height = rect.height * dpr;
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
-            ctx.scale(dpr, dpr);
-            return rect;
-        }
-
-        let t = 0;
-        function draw() {
-            const rect = canvas.getBoundingClientRect();
-            const w = rect.width, h = rect.height;
-            ctx.clearRect(0, 0, w, h);
-
-            // bg bands per segment
-            segments.forEach(seg => {
-                const x = seg.start * w;
-                const sw = (seg.end - seg.start) * w;
-                ctx.fillStyle = speakerCols[seg.speaker] + '22';
-                ctx.fillRect(x, 0, sw, h);
-                // top accent line
-                ctx.fillStyle = speakerCols[seg.speaker];
-                ctx.fillRect(x, 0, sw, 3);
-            });
-
-            // waveform
-            ctx.beginPath();
-            for (let x = 0; x <= w; x += 2) {
-                const segIdx = segments.findIndex(s => x / w >= s.start && x / w < s.end);
-                const seg = segments[Math.max(0, segIdx)];
-                const amp = h * 0.32;
-                const freq = 0.04 + seg.speaker * 0.015;
-                const y = h / 2 + Math.sin(x * freq + t + seg.speaker * 1.7) * amp
-                         * (0.4 + 0.6 * Math.abs(Math.sin(x * 0.01 + t * 0.5)));
-                if (x === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
+                t += ambient ? 0.06 : 0.12;
+                raf = requestAnimationFrame(draw);
             }
-            ctx.lineWidth = 1.5;
-            ctx.strokeStyle = '#9ba1ac';
-            ctx.globalAlpha = 0.85;
-            ctx.stroke();
-            ctx.globalAlpha = 1;
-
-            t += 0.08;
-            requestAnimationFrame(draw);
-        }
-        fitD();
-        draw();
-        window.addEventListener('resize', fitD);
-    })();
-
-    // =========================================
-    // 13. LICENSE PLATE — animated readout
-    // =========================================
-    (function plateDemo() {
-        const out = $('#plate-result');
-        if (!out) return;
-        const plates = [
-            'KA · 03 · MJ · 4271',
-            'MH · 12 · DE · 8842',
-            'DL · 07 · CA · 5519',
-            'TN · 09 · BV · 1023',
-            'KA · 04 · NK · 7398'
-        ];
-        let i = 0;
-        setInterval(() => {
-            i = (i + 1) % plates.length;
-            out.style.opacity = '0';
-            setTimeout(() => {
-                out.textContent = plates[i];
-                out.style.opacity = '1';
-            }, 200);
-        }, 3500);
-        out.style.transition = 'opacity 0.2s';
-    })();
-
-    // =========================================
-    // 14. CODE GENERATION DEMO — typewriter
-    // =========================================
-    (function codegenDemo() {
-        const promptEl = $('#codegen-prompt-text');
-        const outEl    = $('#codegen-out');
-        if (!promptEl || !outEl) return;
-
-        const samples = [
-            {
-                prompt: 'sort a list of numbers in ascending order',
-                code:  '<span class="kw">def</span> <span class="fn">sort_asc</span>(nums):\n    <span class="cm"># quicksort via builtin</span>\n    <span class="kw">return</span> <span class="fn">sorted</span>(nums)'
-            },
-            {
-                prompt: 'fetch user by id from the api',
-                code:  '<span class="kw">async def</span> <span class="fn">fetch_user</span>(id):\n    r = <span class="kw">await</span> client.<span class="fn">get</span>(<span class="str">f"/users/{id}"</span>)\n    <span class="kw">return</span> r.<span class="fn">json</span>()'
-            },
-            {
-                prompt: 'parse a json string safely',
-                code:  '<span class="kw">import</span> json\n<span class="kw">def</span> <span class="fn">safe_parse</span>(s):\n    <span class="kw">try</span>:    <span class="kw">return</span> json.<span class="fn">loads</span>(s)\n    <span class="kw">except</span>: <span class="kw">return</span> {}'
-            },
-            {
-                prompt: 'compute precision and recall',
-                code:  '<span class="kw">def</span> <span class="fn">metrics</span>(tp, fp, fn):\n    p = tp / (tp + fp)\n    r = tp / (tp + fn)\n    <span class="kw">return</span> p, r'
-            }
-        ];
-        let idx = 0;
-
-        async function cycle() {
-            while (true) {
-                const s = samples[idx];
-                // type prompt
-                promptEl.textContent = '';
-                for (let i = 0; i <= s.prompt.length; i++) {
-                    promptEl.textContent = s.prompt.slice(0, i);
-                    await wait(28);
+            setTimeout(() => { fit(); raf = requestAnimationFrame(draw); }, 50);
+            const onResize = () => fit();
+            window.addEventListener('resize', onResize);
+            return {
+                cleanup: function() {
+                    if (raf) cancelAnimationFrame(raf);
+                    window.removeEventListener('resize', onResize);
                 }
-                await wait(400);
-                // reveal output progressively (by char) using innerHTML
-                outEl.innerHTML = '';
-                const html = s.code;
-                let i = 0;
-                while (i < html.length) {
-                    if (html[i] === '<') {
-                        const end = html.indexOf('>', i);
-                        outEl.innerHTML = html.slice(0, end + 1);
-                        i = end + 1;
-                    } else {
-                        outEl.innerHTML = html.slice(0, i + 1);
-                        i++;
-                        await wait(12);
-                    }
+            };
+        },
+
+        // -------- MLOPS --------
+        mlops: function(root, opts) {
+            opts = opts || {};
+            const ambient = !!opts.ambient;
+            if (ambient) return { cleanup: function(){} }; // ambient is CSS-only
+            const flow = root.querySelector('[data-out="mlops-flow"]');
+            const log  = root.querySelector('[data-out="mlops-log"]');
+            if (!flow || !log) return { cleanup: function(){} };
+            const steps = Array.from(flow.querySelectorAll('.mlops-step'));
+            const edges = Array.from(flow.querySelectorAll('.mlops-edge'));
+            const logsByStep = [
+                ['[12:34:01] dataset loaded · 1.2M rows', '[12:34:02] schema validated', '[12:34:03] split 80/10/10'],
+                ['[12:34:04] training · epoch 1/10', '[12:34:08] loss 0.124', '[12:34:14] val_acc 0.91'],
+                ['[12:34:15] eval on test split', '[12:34:16] PR-AUC 0.94', '[12:34:17] no regression'],
+                ['[12:34:18] docker build started', '[12:34:22] image · 482MB', '[12:34:23] pushed to ecr'],
+                ['[12:34:24] deploying v2.3.1', '[12:34:27] canary 10%', '[12:34:30] traffic 100% · ✓ healthy']
+            ];
+            let step = 0;
+            const subTimers = [];
+            function activate(i) {
+                steps.forEach((s, k) => s.classList.toggle('active', k === i));
+                edges.forEach((e, k) => e.classList.toggle('lit', k < i));
+                const lines = logsByStep[i];
+                log.innerHTML = '';
+                lines.forEach((line, k) => {
+                    const t = setTimeout(() => {
+                        const div = document.createElement('div');
+                        div.className = 'log-line';
+                        const m = line.match(/^\[(.*?)\](.*)$/);
+                        if (m) div.innerHTML = '<span class="log-time">[' + m[1] + ']</span>' + m[2];
+                        else   div.textContent = line;
+                        log.appendChild(div);
+                        log.scrollTop = log.scrollHeight;
+                    }, k * 400);
+                    subTimers.push(t);
+                });
+            }
+            activate(0);
+            const interval = setInterval(() => {
+                step = (step + 1) % steps.length;
+                activate(step);
+            }, 3200);
+            return {
+                cleanup: function() {
+                    clearInterval(interval);
+                    subTimers.forEach(t => clearTimeout(t));
                 }
-                await wait(3000);
-                idx = (idx + 1) % samples.length;
-            }
+            };
         }
-        function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
-        cycle();
-    })();
+    };
 
-    // =========================================
-    // 15. VAD DEMO
-    // =========================================
-    (function vadDemo() {
-        const canvas = $('#vad-canvas');
-        const stateEl = $('#vad-state');
-        if (!canvas || !stateEl) return;
-        const ctx = canvas.getContext('2d');
-        let t = 0;
-        let isSpeech = true;
-        let nextFlip = performance.now() + 2500 + Math.random() * 2500;
+    // ---------- MODAL CONTROLLER ----------
+    const modal     = $('#demo-modal');
+    const modalBody = $('#modal-body');
+    const modalTitleEl   = $('#modal-title');
+    const modalEyebrowEl = $('#modal-eyebrow');
 
-        function fitV() {
-            const rect = canvas.getBoundingClientRect();
-            const dpr = window.devicePixelRatio || 1;
-            canvas.width  = rect.width  * dpr;
-            canvas.height = rect.height * dpr;
-            ctx.setTransform(1, 0, 0, 1, 0, 0);
-            ctx.scale(dpr, dpr);
-        }
-        function draw(now) {
-            const rect = canvas.getBoundingClientRect();
-            const w = rect.width, h = rect.height;
+    const projectMeta = {
+        crowd:   { num: 'P.01', title: 'Crowd Density Estimation' },
+        diar:    { num: 'P.02', title: 'Speaker Diarization' },
+        plate:   { num: 'P.03', title: 'License Plate Recognition' },
+        codegen: { num: 'P.04', title: 'Code Generation NLP' },
+        vad:     { num: 'P.05', title: 'Voice Activity Detection' },
+        mlops:   { num: 'P.06', title: 'MLOps Pipeline' }
+    };
 
-            if (now > nextFlip) {
-                isSpeech = !isSpeech;
-                nextFlip = now + 2500 + Math.random() * 2500;
-                stateEl.classList.toggle('silence', !isSpeech);
-                stateEl.querySelector('.state-text').textContent = isSpeech ? 'SPEECH' : 'SILENCE';
-            }
+    let activeDemo = null;
 
-            ctx.clearRect(0, 0, w, h);
-            // threshold line
-            ctx.strokeStyle = 'rgba(57, 252, 155, 0.25)';
-            ctx.setLineDash([3, 4]);
-            ctx.beginPath();
-            ctx.moveTo(0, h * 0.18);
-            ctx.lineTo(w, h * 0.18);
-            ctx.moveTo(0, h * 0.82);
-            ctx.lineTo(w, h * 0.82);
-            ctx.stroke();
-            ctx.setLineDash([]);
+    function openModal(key) {
+        const tpl = $('#tpl-' + key);
+        const factory = Demos[key];
+        if (!tpl || !factory || !modal) return;
 
-            // waveform
-            ctx.beginPath();
-            for (let x = 0; x <= w; x += 1.5) {
-                let amp;
-                if (isSpeech) {
-                    amp = h * 0.35 * (0.5 + 0.5 * Math.sin(x * 0.04 + t));
-                    amp *= 0.6 + 0.4 * Math.sin(x * 0.012 + t * 0.7);
-                } else {
-                    amp = h * 0.06 * (Math.random() - 0.5);
-                }
-                const y = h / 2 + Math.sin(x * 0.08 + t) * amp + (isSpeech ? 0 : (Math.random() - 0.5) * 2);
-                if (x === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            }
-            ctx.lineWidth = 1.6;
-            ctx.strokeStyle = isSpeech ? '#39fc9b' : '#8a8f99';
-            ctx.stroke();
+        // Clear prior content & inject template
+        modalBody.innerHTML = '';
+        const node = tpl.content.cloneNode(true);
+        modalBody.appendChild(node);
 
-            t += 0.12;
-            requestAnimationFrame(draw);
-        }
-        fitV();
-        requestAnimationFrame(draw);
-        window.addEventListener('resize', fitV);
-    })();
+        // Update header
+        const meta = projectMeta[key] || { num: '', title: '' };
+        if (modalEyebrowEl) modalEyebrowEl.innerHTML = '<span class="modal-eyebrow-tag">' + meta.num + '</span> · live demo';
+        if (modalTitleEl)   modalTitleEl.textContent = meta.title;
 
-    // =========================================
-    // 16. MLOPS PIPELINE DEMO
-    // =========================================
-    (function mlopsDemo() {
-        const flow = $('#mlops-flow');
-        const log  = $('#mlops-log');
-        if (!flow || !log) return;
-        const steps = $$('.mlops-step', flow);
-        const edges = $$('.mlops-edge', flow);
+        // Open
+        modal.classList.add('open');
+        modal.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
 
-        const logsByStep = [
-            ['[12:34:01] dataset loaded · 1.2M rows', '[12:34:02] schema validated', '[12:34:03] split 80/10/10'],
-            ['[12:34:04] training · epoch 1/10', '[12:34:08] loss 0.124', '[12:34:14] val_acc 0.91'],
-            ['[12:34:15] eval on test split', '[12:34:16] PR-AUC 0.94', '[12:34:17] no regression'],
-            ['[12:34:18] docker build started', '[12:34:22] image · 482MB', '[12:34:23] pushed to ecr'],
-            ['[12:34:24] deploying v2.3.1', '[12:34:27] canary 10%', '[12:34:30] traffic 100% · ✓ healthy']
-        ];
-        let step = 0;
+        // Init demo after modal opening animation settles
+        setTimeout(() => {
+            activeDemo = factory(modalBody, { ambient: false });
+        }, 450);
+    }
+    function closeModal() {
+        if (!modal || !modal.classList.contains('open')) return;
+        if (activeDemo && activeDemo.cleanup) activeDemo.cleanup();
+        activeDemo = null;
+        modal.classList.remove('open');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        // Clear after fade so it doesn't flash
+        setTimeout(() => { if (!modal.classList.contains('open')) modalBody.innerHTML = ''; }, 350);
+    }
 
-        function activate(i) {
-            steps.forEach((s, k) => s.classList.toggle('active', k === i));
-            edges.forEach((e, k) => e.classList.toggle('lit', k < i));
-            // log
-            const lines = logsByStep[i];
-            log.innerHTML = '';
-            lines.forEach((line, k) => {
-                setTimeout(() => {
-                    const div = document.createElement('div');
-                    div.className = 'log-line';
-                    const m = line.match(/^\[(.*?)\](.*)$/);
-                    if (m) {
-                        div.innerHTML = '<span class="log-time">[' + m[1] + ']</span>' + m[2];
-                    } else {
-                        div.textContent = line;
-                    }
-                    log.appendChild(div);
-                    // keep log scrolled
-                    log.scrollTop = log.scrollHeight;
-                }, k * 400);
-            });
-        }
-        activate(0);
-        setInterval(() => {
-            step = (step + 1) % steps.length;
-            activate(step);
-        }, 3200);
-    })();
+    // Wire up open buttons
+    $$('[data-open-demo]').forEach(btn => {
+        btn.addEventListener('click', () => openModal(btn.dataset.openDemo));
+    });
+    // Wire up close buttons
+    $$('[data-modal-close]').forEach(el => {
+        el.addEventListener('click', closeModal);
+    });
+    // Escape to close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+
+    // ---------- AMBIENT DEMOS (always running in cards) ----------
+    // Each ambient demo is initialized once on the card visual.
+    const ambientCrowd = document.querySelector('.ambient-crowd');
+    if (ambientCrowd) Demos.crowd(ambientCrowd, { ambient: true });
+
+    const ambientDiar = document.querySelector('.ambient-diar');
+    if (ambientDiar) Demos.diar(ambientDiar, { ambient: true });
+
+    const ambientVad = document.querySelector('.ambient-vad');
+    if (ambientVad) Demos.vad(ambientVad, { ambient: true });
+    // plate, codegen, mlops ambient versions are CSS-only / static — no JS needed.
 
     // =========================================
     // 17. TERMINAL CONTACT — types out
