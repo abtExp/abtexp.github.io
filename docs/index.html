@@ -30,7 +30,7 @@
     </div>
 
     <!-- Particle / latent-space background canvas -->
-    <canvas id="particles-canvas"></canvas>
+    <!-- particles removed -->
 
     <div id="container" class="light-theme">
 
@@ -101,56 +101,38 @@
 
         <!-- ============== HERO ============== -->
         <section id="home" class="section hero-section">
-            <!-- The embedding-space canvas behind everything -->
-            <canvas id="latent-canvas" class="latent-bg"></canvas>
-
-            <!-- Morphing blob halo -->
             <div class="blob blob-hero"></div>
 
-            <div class="hero-grid">
-                <div class="hero-meta-top">
-                    <span class="mono dim">// portfolio_v3 · senior_mle</span>
-                    <span class="mono dim hero-loc"><i class="fa-solid fa-circle status-dot"></i> bangalore · india</span>
+            <div class="hero-portrait-wrap reveal-on-scroll">
+                <div class="hero-tag-top mono">
+                    <span><i class="fa-solid fa-circle status-dot"></i>&nbsp;bangalore · india</span>
+                    <span class="dim">·</span>
+                    <span class="dim">open to opportunities</span>
                 </div>
 
-                <div class="hero-center">
-                    <div class="hero-greeting reveal-on-scroll">
-                        <span class="mono accent">$</span>
-                        <span class="mono">whoami</span>
-                    </div>
-                    <h1 class="hero-name reveal-on-scroll">
-                        <span class="signature">Anubhav</span>
-                        <span class="surname">TIWARI</span>
-                    </h1>
-                    <div class="hero-role reveal-on-scroll">
-                        <span class="role-pill"><i class="fa-solid fa-brain"></i> Senior Machine Learning Engineer</span>
-                    </div>
-                    <p class="hero-tagline reveal-on-scroll">
-                        <span class="serif-italic">Five years</span> shipping production ML across
-                        <span class="hl hl-mint">computer&nbsp;vision</span>,
-                        <span class="hl hl-coral">audio&nbsp;signal&nbsp;processing</span>,
-                        <span class="hl hl-violet">NLP</span> &amp;
-                        <span class="hl hl-amber">MLOps</span>
-                        — from research to deployment.
+                <div class="hero-scene-caption" id="hero-scene-caption">
+                    <span class="ssc-num mono">01</span>
+                    <span class="ssc-name mono" id="ssc-name">object detection</span>
+                </div>
+
+                <div class="portrait-stage" id="portrait-stage">
+                    <canvas id="portrait-canvas"></canvas>
+                    <!-- skill labels positioned by JS at cluster centroids -->
+                    <div class="skill-label sl-cv"    data-cluster="0"><span class="sl-dot"></span>computer vision</div>
+                    <div class="skill-label sl-py"    data-cluster="1"><span class="sl-dot"></span>python</div>
+                    <div class="skill-label sl-nlp"   data-cluster="2"><span class="sl-dot"></span>nlp</div>
+                    <div class="skill-label sl-audio" data-cluster="3"><span class="sl-dot"></span>audio</div>
+                    <div class="skill-label sl-mlops" data-cluster="4"><span class="sl-dot"></span>mlops</div>
+                </div>
+
+                <div class="hero-identity">
+                    <h1 class="hero-name-big">Anubhav Tiwari</h1>
+                    <p class="hero-sub">
+                        Senior Machine Learning Engineer ·
+                        <span class="serif-italic accent-mint">five years shipping production ML</span>
                     </p>
 
-                    <!-- Floating spec cards around hero name -->
-                    <div class="hero-cards">
-                        <div class="hero-card hc-1 reveal-on-scroll">
-                            <div class="hc-label mono dim">domains</div>
-                            <div class="hc-val">CV · NLP · Audio · MLOps</div>
-                        </div>
-                        <div class="hero-card hc-2 reveal-on-scroll">
-                            <div class="hc-label mono dim">stack</div>
-                            <div class="hc-val">PyTorch · TF · AWS · GCP</div>
-                        </div>
-                        <div class="hero-card hc-3 reveal-on-scroll">
-                            <div class="hc-label mono dim">experience</div>
-                            <div class="hc-val"><span class="big-num">5</span>+ years</div>
-                        </div>
-                    </div>
-
-                    <div class="hero-actions reveal-on-scroll">
+                    <div class="hero-actions">
                         <button class="cta-primary" data-target="portfolio">
                             <span>Explore Work</span>
                             <i class="fa-solid fa-arrow-right"></i>
@@ -159,64 +141,40 @@
                             <i class="fa-solid fa-file-arrow-down"></i>
                             <span>Resume</span>
                         </a>
+                        <div class="hero-socials">
+                            <a href="https://github.com/abtExp" target="_blank" rel="noopener" class="social-pill" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+                            <a href="https://www.linkedin.com/in/abtExp" target="_blank" rel="noopener" class="social-pill" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+                            <a href="https://x.com/overfitowl" target="_blank" rel="noopener" class="social-pill" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a>
+                            <a href="mailto:abt.exp@gmail.com" class="social-pill" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+                        </div>
                     </div>
-
-                    <div class="hero-socials reveal-on-scroll">
-                        <a href="https://github.com/abtExp" target="_blank" rel="noopener" class="social-pill" aria-label="GitHub">
-                            <i class="fa-brands fa-github"></i>
-                        </a>
-                        <a href="https://www.linkedin.com/in/abtExp" target="_blank" rel="noopener" class="social-pill" aria-label="LinkedIn">
-                            <i class="fa-brands fa-linkedin-in"></i>
-                        </a>
-                        <a href="https://x.com/overfitowl" target="_blank" rel="noopener" class="social-pill" aria-label="X">
-                            <i class="fa-brands fa-x-twitter"></i>
-                        </a>
-                        <a href="mailto:abt.exp@gmail.com" class="social-pill" aria-label="Email">
-                            <i class="fa-solid fa-envelope"></i>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="scroll-cue reveal-on-scroll">
-                    <span class="mono dim">scroll</span>
-                    <div class="scroll-line"></div>
                 </div>
             </div>
         </section>
 
         <!-- ============== ABOUT ============== -->
-        <section id="about" class="section">
-            <div class="section-header reveal-on-scroll">
-                <div class="section-eyebrow mono"><span class="accent">// 01</span> &nbsp;about_me</div>
-                <h2 class="section-title">
-                    Engineer who turns <span class="serif-italic accent-mint">messy problems</span> into shipped systems
+        <section id="about" class="section about-section">
+
+            <div class="about-manifesto reveal-on-scroll">
+                <div class="section-eyebrow mono"><span class="accent">// 01</span>&nbsp;&nbsp;about</div>
+                <h2 class="manifesto-headline">
+                    I build production ML<br>
+                    systems that <span class="serif-italic accent-mint">actually ship.</span>
                 </h2>
-                <p class="section-lede">
-                    From POCs at the whiteboard to production on AWS &amp; GCP — I build, deploy, and own the lifecycle.
+                <p class="manifesto-body">
+                    Most ML work dies between the notebook and prod. Mine doesn't.
+                    Five years of owning the full cycle — from data pipeline design through
+                    model development, cloud deployment, and monitoring in production.
+                    I work across computer vision, audio signal processing, NLP, and MLOps,
+                    and I treat the engineering quality of the system as seriously as the model accuracy.
                 </p>
             </div>
 
-            <div class="about-grid">
-                <div class="about-card ac-mint reveal-on-scroll">
-                    <div class="ac-icon"><i class="fa-solid fa-rocket"></i></div>
-                    <h3>End-to-End Ownership</h3>
-                    <p>Ideation → research → development → deployment. I take projects through every stage and own the lifecycle.</p>
-                    <div class="ac-viz">
-                        <svg viewBox="0 0 200 40" class="mini-pipeline">
-                            <line x1="10" y1="20" x2="190" y2="20" stroke="currentColor" stroke-width="1" opacity="0.3"/>
-                            <circle cx="20" cy="20" r="5" class="pipe-dot"/>
-                            <circle cx="65" cy="20" r="5" class="pipe-dot"/>
-                            <circle cx="110" cy="20" r="5" class="pipe-dot"/>
-                            <circle cx="155" cy="20" r="5" class="pipe-dot"/>
-                            <circle cx="190" cy="20" r="6" class="pipe-dot pipe-dot-final"/>
-                        </svg>
-                    </div>
-                </div>
-
+            <div class="about-domains">
                 <div class="about-card ac-coral reveal-on-scroll">
                     <div class="ac-icon"><i class="fa-solid fa-eye"></i></div>
                     <h3>Computer Vision</h3>
-                    <p>Crowd density estimation, object detection, license-plate recognition, face recognition. Real-time video pipelines.</p>
+                    <p>Crowd density estimation, object detection, license-plate recognition, face recognition. Real-time video pipelines at production scale.</p>
                     <div class="ac-viz">
                         <svg viewBox="0 0 200 40" class="mini-bbox">
                             <rect x="10" y="6" width="180" height="28" fill="none" stroke="currentColor" stroke-width="1" opacity="0.2" stroke-dasharray="3,3"/>
@@ -227,21 +185,10 @@
                     </div>
                 </div>
 
-                <div class="about-card ac-violet reveal-on-scroll">
-                    <div class="ac-icon"><i class="fa-solid fa-language"></i></div>
-                    <h3>NLP &amp; Code Gen</h3>
-                    <p>Natural-language-to-code models, semantic understanding, prototype research solutions. Published papers in DL.</p>
-                    <div class="ac-viz">
-                        <div class="mini-tokens">
-                            <span>def</span><span class="tk-fn">predict</span><span>(</span><span class="tk-arg">x</span><span>):</span><span class="tk-cursor"></span>
-                        </div>
-                    </div>
-                </div>
-
                 <div class="about-card ac-amber reveal-on-scroll">
                     <div class="ac-icon"><i class="fa-solid fa-wave-square"></i></div>
-                    <h3>Audio Signal Processing</h3>
-                    <p>Voice activity detection, speaker diarization, real-world noisy environments. Signal-level engineering.</p>
+                    <h3>Audio &amp; Signal</h3>
+                    <p>Voice activity detection, speaker diarization, noise-robust systems. Signal-level engineering in real-world noisy environments.</p>
                     <div class="ac-viz">
                         <svg viewBox="0 0 200 40" class="mini-wave">
                             <polyline points="" class="wave-poly" id="about-wave-poly"/>
@@ -249,37 +196,14 @@
                     </div>
                 </div>
 
-                <div class="about-card ac-azure reveal-on-scroll">
-                    <div class="ac-icon"><i class="fa-solid fa-cloud"></i></div>
-                    <h3>Cloud &amp; MLOps</h3>
-                    <p>AWS &amp; GCP deployments, Docker, CI/CD pipelines. From notebook to production with monitoring &amp; rollback.</p>
+                <div class="about-card ac-violet reveal-on-scroll">
+                    <div class="ac-icon"><i class="fa-solid fa-language"></i></div>
+                    <h3>NLP &amp; Code Gen</h3>
+                    <p>Natural-language-to-code models, semantic understanding, research prototypes. Published papers in deep learning for code.</p>
                     <div class="ac-viz">
-                        <div class="mini-bars">
-                            <span class="mini-bar mb-1"></span>
-                            <span class="mini-bar mb-2"></span>
-                            <span class="mini-bar mb-3"></span>
-                            <span class="mini-bar mb-4"></span>
-                            <span class="mini-bar mb-5"></span>
-                            <span class="mini-bar mb-6"></span>
-                            <span class="mini-bar mb-7"></span>
+                        <div class="mini-tokens">
+                            <span>def</span><span class="tk-fn">predict</span><span>(</span><span class="tk-arg">x</span><span>):</span><span class="tk-cursor"></span>
                         </div>
-                    </div>
-                </div>
-
-                <div class="about-card ac-teal reveal-on-scroll">
-                    <div class="ac-icon"><i class="fa-solid fa-code"></i></div>
-                    <h3>Code Philosophy</h3>
-                    <p>Reusable, readable, testable. Reduces redundancy, increases understandability, treats infrastructure as a first-class concern.</p>
-                    <div class="ac-viz">
-                        <svg viewBox="0 0 200 40" class="mini-radar">
-                            <polygon points="100,8 160,22 145,36 55,36 40,22" fill="currentColor" opacity="0.18"/>
-                            <polygon points="100,12 150,24 140,34 60,34 50,24" fill="currentColor" opacity="0.35"/>
-                            <circle cx="100" cy="8"  r="2" class="radar-dot"/>
-                            <circle cx="160" cy="22" r="2" class="radar-dot"/>
-                            <circle cx="145" cy="36" r="2" class="radar-dot"/>
-                            <circle cx="55"  cy="36" r="2" class="radar-dot"/>
-                            <circle cx="40"  cy="22" r="2" class="radar-dot"/>
-                        </svg>
                     </div>
                 </div>
             </div>
@@ -288,115 +212,193 @@
         <!-- ============== EXPERIENCE ============== -->
         <section id="experience" class="section">
             <div class="section-header reveal-on-scroll">
-                <div class="section-eyebrow mono"><span class="accent">// 02</span> &nbsp;experience.log</div>
+                <div class="section-eyebrow mono"><span class="accent">// 02</span>&nbsp;&nbsp;experience.log</div>
                 <h2 class="section-title">
                     A <span class="serif-italic accent-mint">five-year trajectory</span> shipping ML at scale
                 </h2>
                 <p class="section-lede">From research labs to production cloud — four roles, one through-line: own the lifecycle.</p>
             </div>
 
-            <div class="exp-grid">
+            <div class="exp-timeline">
+                <div class="etl-line"></div>
 
-                <article class="exp-pastel pc-mint reveal-on-scroll">
-                    <div class="ep-head">
-                        <div class="ep-logo"><i class="fa-solid fa-building"></i></div>
-                        <div class="ep-meta">
-                            <div class="ep-tenure mono">2023 — Present <span class="ep-now">· current</span></div>
-                            <h3 class="ep-company">Quantiphi Analytics</h3>
-                            <div class="ep-role">Senior Machine Learning Engineer</div>
+                <!-- 01 — RIGHT — Quantiphi Senior (current) -->
+                <article class="etl-node etl-right reveal-on-scroll">
+                    <div class="etl-dot etl-dot-active"><span class="etl-pulse"></span></div>
+                    <div class="etl-card etl-mint" tabindex="0" aria-label="Quantiphi Analytics Senior ML Engineer — hover to see details">
+                        <div class="etl-inner">
+
+                            <div class="etl-front">
+                                <div class="etl-front-logo">
+                                    <div class="etl-icon-wrap etl-iw-mint"><i class="fa-solid fa-building"></i></div>
+                                    <div class="etl-badge mono">current</div>
+                                </div>
+                                <div class="etl-front-body">
+                                    <div class="etl-tenure mono">2023 — Present</div>
+                                    <h3 class="etl-company">Quantiphi Analytics</h3>
+                                    <div class="etl-role">Senior Machine Learning Engineer</div>
+                                </div>
+                                <div class="etl-front-tags">
+                                    <span class="etl-tag">CV</span>
+                                    <span class="etl-tag">Audio</span>
+                                    <span class="etl-tag">Cloud</span>
+                                </div>
+                                <div class="etl-flip-hint mono"><i class="fa-solid fa-rotate"></i>&nbsp;hover for details</div>
+                            </div>
+
+                            <div class="etl-back etl-back-mint">
+                                <p class="etl-back-headline">
+                                    Shipping <span class="serif-italic">production CV &amp; audio systems</span> end-to-end — from crowd density to license plates to speaker diarization.
+                                </p>
+                                <ul class="etl-back-bullets">
+                                    <li>Crowd density estimation models holding 95%+ accuracy in varied lighting</li>
+                                    <li>License plate recognition pipelines on real-time video streams</li>
+                                    <li>Voice activity detection hardened for noisy production audio</li>
+                                    <li>Speaker diarization models deployed across cloud infrastructure</li>
+                                </ul>
+                                <div class="etl-back-tags">
+                                    <span class="etl-tag etl-tag-back">CV</span>
+                                    <span class="etl-tag etl-tag-back">Audio</span>
+                                    <span class="etl-tag etl-tag-back">Cloud</span>
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
-                    <p class="ep-headline">
-                        Shipping <span class="serif-italic">production CV &amp; audio systems</span> end-to-end — from crowd density to license plates to speaker diarization.
-                    </p>
-                    <ul class="ep-bullets">
-                        <li>Crowd density estimation models holding 95%+ accuracy in varied lighting</li>
-                        <li>License plate recognition pipelines on real-time video streams</li>
-                        <li>Voice activity detection systems hardened for noisy production audio</li>
-                        <li>Speaker diarization models deployed across cloud infrastructure</li>
-                    </ul>
-                    <div class="ep-tags">
-                        <span class="pc-tag">CV</span>
-                        <span class="pc-tag">Audio</span>
-                        <span class="pc-tag">Cloud</span>
                     </div>
                 </article>
 
-                <article class="exp-pastel pc-violet reveal-on-scroll">
-                    <div class="ep-head">
-                        <div class="ep-logo"><i class="fa-solid fa-laptop-code"></i></div>
-                        <div class="ep-meta">
-                            <div class="ep-tenure mono">2022 — 2023</div>
-                            <h3 class="ep-company">Quantiphi Analytics</h3>
-                            <div class="ep-role">Machine Learning Engineer · L2</div>
+                <!-- 02 — LEFT — Quantiphi L2 -->
+                <article class="etl-node etl-left reveal-on-scroll">
+                    <div class="etl-dot"></div>
+                    <div class="etl-card etl-violet" tabindex="0" aria-label="Quantiphi Analytics ML Engineer L2">
+                        <div class="etl-inner">
+
+                            <div class="etl-front">
+                                <div class="etl-front-logo">
+                                    <div class="etl-icon-wrap etl-iw-violet"><i class="fa-solid fa-laptop-code"></i></div>
+                                </div>
+                                <div class="etl-front-body">
+                                    <div class="etl-tenure mono">2022 — 2023</div>
+                                    <h3 class="etl-company">Quantiphi Analytics</h3>
+                                    <div class="etl-role">Machine Learning Engineer · L2</div>
+                                </div>
+                                <div class="etl-front-tags">
+                                    <span class="etl-tag">CV</span>
+                                    <span class="etl-tag">Face Rec</span>
+                                    <span class="etl-tag">AWS / GCP</span>
+                                </div>
+                                <div class="etl-flip-hint mono"><i class="fa-solid fa-rotate"></i>&nbsp;hover for details</div>
+                            </div>
+
+                            <div class="etl-back etl-back-violet">
+                                <p class="etl-back-headline">
+                                    Leading ML initiatives from <span class="serif-italic">POC through production</span> deployment for enterprise clients.
+                                </p>
+                                <ul class="etl-back-bullets">
+                                    <li>Established face recognition capabilities for enterprise clients</li>
+                                    <li>Built object detection models with high precision in real-world scenes</li>
+                                    <li>Deployed ML solutions across AWS and GCP infrastructure</li>
+                                    <li>Owned the lifecycle from data through monitoring</li>
+                                </ul>
+                                <div class="etl-back-tags">
+                                    <span class="etl-tag etl-tag-back">CV</span>
+                                    <span class="etl-tag etl-tag-back">Face Rec</span>
+                                    <span class="etl-tag etl-tag-back">AWS / GCP</span>
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
-                    <p class="ep-headline">
-                        Leading ML initiatives from <span class="serif-italic">POC through production</span> deployment for enterprise clients.
-                    </p>
-                    <ul class="ep-bullets">
-                        <li>Established face recognition capabilities for enterprise clients</li>
-                        <li>Built object detection models with high precision in real-world scenes</li>
-                        <li>Deployed ML solutions across AWS and GCP infrastructure</li>
-                        <li>Owned the lifecycle from data through monitoring</li>
-                    </ul>
-                    <div class="ep-tags">
-                        <span class="pc-tag">CV</span>
-                        <span class="pc-tag">Face Rec</span>
-                        <span class="pc-tag">AWS / GCP</span>
                     </div>
                 </article>
 
-                <article class="exp-pastel pc-coral reveal-on-scroll">
-                    <div class="ep-head">
-                        <div class="ep-logo"><i class="fa-solid fa-chart-line"></i></div>
-                        <div class="ep-meta">
-                            <div class="ep-tenure mono">2021 — 2022</div>
-                            <h3 class="ep-company">Verifyer Technologies</h3>
-                            <div class="ep-role">Machine Learning Engineer</div>
+                <!-- 03 — RIGHT — Verifyer -->
+                <article class="etl-node etl-right reveal-on-scroll">
+                    <div class="etl-dot"></div>
+                    <div class="etl-card etl-coral" tabindex="0" aria-label="Verifyer Technologies ML Engineer">
+                        <div class="etl-inner">
+
+                            <div class="etl-front">
+                                <div class="etl-front-logo">
+                                    <div class="etl-icon-wrap etl-iw-coral"><i class="fa-solid fa-chart-line"></i></div>
+                                </div>
+                                <div class="etl-front-body">
+                                    <div class="etl-tenure mono">2021 — 2022</div>
+                                    <h3 class="etl-company">Verifyer Technologies</h3>
+                                    <div class="etl-role">Machine Learning Engineer</div>
+                                </div>
+                                <div class="etl-front-tags">
+                                    <span class="etl-tag">Analytics</span>
+                                    <span class="etl-tag">Modeling</span>
+                                </div>
+                                <div class="etl-flip-hint mono"><i class="fa-solid fa-rotate"></i>&nbsp;hover for details</div>
+                            </div>
+
+                            <div class="etl-back etl-back-coral">
+                                <p class="etl-back-headline">
+                                    Designed ML models for <span class="serif-italic">varied business problems</span> — data exploration through operational deployment.
+                                </p>
+                                <ul class="etl-back-bullets">
+                                    <li>Designed models tailored to specific business problems</li>
+                                    <li>Analyzed large datasets to surface actionable insights</li>
+                                    <li>Built high-accuracy prediction models for operational use</li>
+                                    <li>Delivered data-driven solutions with cross-functional teams</li>
+                                </ul>
+                                <div class="etl-back-tags">
+                                    <span class="etl-tag etl-tag-back">Analytics</span>
+                                    <span class="etl-tag etl-tag-back">Modeling</span>
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
-                    <p class="ep-headline">
-                        Designed ML models for <span class="serif-italic">varied business problems</span> — from data exploration to operational deployment.
-                    </p>
-                    <ul class="ep-bullets">
-                        <li>Designed models tailored to specific business problems</li>
-                        <li>Analyzed large datasets to surface actionable insights</li>
-                        <li>Built high-accuracy prediction models for operational use</li>
-                        <li>Delivered data-driven solutions with cross-functional teams</li>
-                    </ul>
-                    <div class="ep-tags">
-                        <span class="pc-tag">Analytics</span>
-                        <span class="pc-tag">Modeling</span>
                     </div>
                 </article>
 
-                <article class="exp-pastel pc-amber reveal-on-scroll">
-                    <div class="ep-head">
-                        <div class="ep-logo"><i class="fa-solid fa-graduation-cap"></i></div>
-                        <div class="ep-meta">
-                            <div class="ep-tenure mono">2019 — 2020 <span class="ep-now ep-origin">· origin</span></div>
-                            <h3 class="ep-company">RMgX Technologies</h3>
-                            <div class="ep-role">Machine Learning Engineer</div>
+                <!-- 04 — LEFT — RMgX (origin) -->
+                <article class="etl-node etl-left reveal-on-scroll">
+                    <div class="etl-dot"></div>
+                    <div class="etl-card etl-amber" tabindex="0" aria-label="RMgX Technologies ML Engineer">
+                        <div class="etl-inner">
+
+                            <div class="etl-front">
+                                <div class="etl-front-logo">
+                                    <div class="etl-icon-wrap etl-iw-amber"><i class="fa-solid fa-graduation-cap"></i></div>
+                                    <div class="etl-badge etl-badge-origin mono">origin</div>
+                                </div>
+                                <div class="etl-front-body">
+                                    <div class="etl-tenure mono">2019 — 2020</div>
+                                    <h3 class="etl-company">RMgX Technologies</h3>
+                                    <div class="etl-role">Machine Learning Engineer</div>
+                                </div>
+                                <div class="etl-front-tags">
+                                    <span class="etl-tag">NLP</span>
+                                    <span class="etl-tag">Research</span>
+                                </div>
+                                <div class="etl-flip-hint mono"><i class="fa-solid fa-rotate"></i>&nbsp;hover for details</div>
+                            </div>
+
+                            <div class="etl-back etl-back-amber">
+                                <p class="etl-back-headline">
+                                    Started in <span class="serif-italic">NLP research</span> — published papers, prototyped novel architectures, mentored juniors.
+                                </p>
+                                <ul class="etl-back-bullets">
+                                    <li>Conducted research in natural language processing</li>
+                                    <li>Published papers on innovative deep learning models</li>
+                                    <li>Implemented prototype solutions for academic research</li>
+                                    <li>Mentored junior researchers in ML methodologies</li>
+                                </ul>
+                                <div class="etl-back-tags">
+                                    <span class="etl-tag etl-tag-back">NLP</span>
+                                    <span class="etl-tag etl-tag-back">Research</span>
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
-                    <p class="ep-headline">
-                        Started in <span class="serif-italic">NLP research</span> — published papers, prototyped novel architectures, mentored juniors.
-                    </p>
-                    <ul class="ep-bullets">
-                        <li>Conducted research in natural language processing</li>
-                        <li>Published papers on innovative deep learning models</li>
-                        <li>Implemented prototype solutions for academic research</li>
-                        <li>Mentored junior researchers in ML methodologies</li>
-                    </ul>
-                    <div class="ep-tags">
-                        <span class="pc-tag">NLP</span>
-                        <span class="pc-tag">Research</span>
                     </div>
                 </article>
 
             </div>
         </section>
+
 
         <!-- ============== PORTFOLIO ============== -->
         <section id="portfolio" class="section">
@@ -625,63 +627,89 @@
         </section>
 
         <!-- ============== SKILLS ============== -->
-        <section id="skills" class="section">
+        <section id="skills" class="section skills-section">
             <div class="section-header reveal-on-scroll">
-                <div class="section-eyebrow mono"><span class="accent">// 04</span> &nbsp;technical_skills</div>
-                <h2 class="section-title">
-                    The <span class="serif-italic accent-mint">toolkit</span> behind the work
-                </h2>
+                <div class="section-eyebrow mono"><span class="accent">// 04</span>&nbsp;&nbsp;stack</div>
+                <h2 class="section-title">The <span class="serif-italic accent-mint">toolkit</span> behind the work</h2>
             </div>
 
-            <div class="skills-grid">
-                <div class="skill-card sc-mint reveal-on-scroll">
-                    <div class="sc-icon-badge"><i class="fa-solid fa-code"></i></div>
-                    <h3>Programming</h3>
-                    <p class="sc-sub mono dim">languages &amp; frameworks</p>
-                    <ul class="skill-list">
-                        <li><span><i class="fa-brands fa-python"></i>Python</span><span class="bar" data-fill="95"><span></span></span></li>
-                        <li><span><i class="fa-solid fa-fire"></i>PyTorch</span><span class="bar" data-fill="90"><span></span></span></li>
-                        <li><span><i class="fa-solid fa-brain"></i>TensorFlow</span><span class="bar" data-fill="85"><span></span></span></li>
-                        <li><span><i class="fa-brands fa-js"></i>JavaScript</span><span class="bar" data-fill="75"><span></span></span></li>
-                        <li><span><i class="fa-solid fa-c"></i>C++</span><span class="bar" data-fill="70"><span></span></span></li>
-                    </ul>
+            <div class="model-card reveal-on-scroll">
+                <div class="mc-bar">
+                    <span class="mc-dots"><i></i><i></i><i></i></span>
+                    <span class="mc-file mono">model_card.yaml</span>
+                    <span class="mc-tag mono">v5 · prod</span>
                 </div>
 
-                <div class="skill-card sc-coral reveal-on-scroll">
-                    <div class="sc-icon-badge"><i class="fa-solid fa-diagram-project"></i></div>
-                    <h3>Data Science</h3>
-                    <p class="sc-sub mono dim">domain knowledge</p>
-                    <ul class="skill-list">
-                        <li><span><i class="fa-solid fa-eye"></i>Computer Vision</span><span class="bar" data-fill="95"><span></span></span></li>
-                        <li><span><i class="fa-solid fa-wave-square"></i>Signal Processing</span><span class="bar" data-fill="90"><span></span></span></li>
-                        <li><span><i class="fa-solid fa-language"></i>NLP</span><span class="bar" data-fill="80"><span></span></span></li>
-                        <li><span><i class="fa-solid fa-chart-simple"></i>Statistics</span><span class="bar" data-fill="85"><span></span></span></li>
-                        <li><span><i class="fa-solid fa-dice"></i>Probability</span><span class="bar" data-fill="82"><span></span></span></li>
-                    </ul>
-                </div>
+                <div class="mc-body">
+                    <div class="mc-row">
+                        <span class="mc-key mono">domains</span>
+                        <span class="mc-val">
+                            <span class="mc-pill mcp-cv"><span class="mcp-dot"></span>computer vision</span>
+                            <span class="mc-pill mcp-audio"><span class="mcp-dot"></span>audio &amp; signal</span>
+                            <span class="mc-pill mcp-nlp"><span class="mcp-dot"></span>nlp</span>
+                            <span class="mc-pill mcp-mlops"><span class="mcp-dot"></span>mlops</span>
+                        </span>
+                    </div>
 
-                <div class="skill-card sc-azure reveal-on-scroll">
-                    <div class="sc-icon-badge"><i class="fa-solid fa-cloud"></i></div>
-                    <h3>Cloud &amp; Infra</h3>
-                    <p class="sc-sub mono dim">deployment tools</p>
-                    <ul class="skill-list">
-                        <li><span><i class="fa-brands fa-aws"></i>AWS</span><span class="bar" data-fill="90"><span></span></span></li>
-                        <li><span><i class="fa-brands fa-google"></i>GCP</span><span class="bar" data-fill="85"><span></span></span></li>
-                        <li><span><i class="fa-brands fa-docker"></i>Docker</span><span class="bar" data-fill="88"><span></span></span></li>
-                        <li><span><i class="fa-brands fa-microsoft"></i>Azure</span><span class="bar" data-fill="70"><span></span></span></li>
-                    </ul>
-                </div>
+                    <div class="mc-divider"></div>
 
-                <div class="skill-card sc-violet reveal-on-scroll">
-                    <div class="sc-icon-badge"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-                    <h3>Tools</h3>
-                    <p class="sc-sub mono dim">utility belt</p>
-                    <ul class="skill-list">
-                        <li><span><i class="fa-brands fa-git-alt"></i>Git</span><span class="bar" data-fill="95"><span></span></span></li>
-                        <li><span><i class="fa-solid fa-camera"></i>OpenCV</span><span class="bar" data-fill="90"><span></span></span></li>
-                        <li><span><i class="fa-solid fa-cube"></i>NumPy</span><span class="bar" data-fill="95"><span></span></span></li>
-                        <li><span><i class="fa-solid fa-database"></i>MySQL</span><span class="bar" data-fill="75"><span></span></span></li>
-                    </ul>
+                    <div class="mc-row">
+                        <span class="mc-key mono">languages</span>
+                        <span class="mc-val mc-chips">
+                            <span class="mc-chip core">Python</span>
+                            <span class="mc-chip">C++</span>
+                            <span class="mc-chip">JavaScript</span>
+                            <span class="mc-chip">SQL</span>
+                            <span class="mc-chip">Bash</span>
+                        </span>
+                    </div>
+
+                    <div class="mc-row">
+                        <span class="mc-key mono">frameworks</span>
+                        <span class="mc-val mc-chips">
+                            <span class="mc-chip core">PyTorch</span>
+                            <span class="mc-chip core">TensorFlow</span>
+                            <span class="mc-chip">Keras</span>
+                            <span class="mc-chip">OpenCV</span>
+                            <span class="mc-chip">scikit-learn</span>
+                            <span class="mc-chip">NumPy</span>
+                            <span class="mc-chip">Pandas</span>
+                            <span class="mc-chip">Librosa</span>
+                        </span>
+                    </div>
+
+                    <div class="mc-row">
+                        <span class="mc-key mono">infra</span>
+                        <span class="mc-val mc-chips">
+                            <span class="mc-chip core">AWS</span>
+                            <span class="mc-chip core">GCP</span>
+                            <span class="mc-chip">Docker</span>
+                            <span class="mc-chip">Kubernetes</span>
+                            <span class="mc-chip">Azure</span>
+                            <span class="mc-chip">CI/CD</span>
+                        </span>
+                    </div>
+
+                    <div class="mc-row">
+                        <span class="mc-key mono">tooling</span>
+                        <span class="mc-val mc-chips">
+                            <span class="mc-chip">Git</span>
+                            <span class="mc-chip">MLflow</span>
+                            <span class="mc-chip">CUDA</span>
+                            <span class="mc-chip">Jupyter</span>
+                            <span class="mc-chip">Linux</span>
+                            <span class="mc-chip">MySQL</span>
+                        </span>
+                    </div>
+
+                    <div class="mc-divider"></div>
+
+                    <div class="mc-row mc-foot">
+                        <span class="mc-key mono">status</span>
+                        <span class="mc-val">
+                            <span class="mc-status"><span class="mc-status-dot"></span>5+ years · production scale · open to opportunities</span>
+                        </span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -769,8 +797,6 @@
         </footer>
 
     </div>
-
-    <!-- ============== DEMO MODAL ============== -->
     <div class="demo-modal" id="demo-modal" aria-hidden="true" role="dialog">
         <div class="modal-backdrop" data-modal-close></div>
         <div class="modal-shell" role="document">
@@ -877,6 +903,7 @@
         </div>
     </template>
 
+    <script src="./src/js/portrait-data.js"></script>
     <script src="./src/js/app.js"></script>
 </body>
 </html>

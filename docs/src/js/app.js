@@ -137,8 +137,20 @@
     }
 
     // =========================================
-    // 6. (removed: experience flip cards — now flat pastel cards)
+    // 6. EXPERIENCE FLIP CARDS
+    // Hover flips on desktop; tap toggles on touch
     // =========================================
+    $$('.etl-card').forEach(card => {
+        card.addEventListener('click', () => {
+            card.classList.toggle('flipped');
+        });
+        card.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                card.classList.toggle('flipped');
+            }
+        });
+    });
 
     // =========================================
     // 7. DATA TICKER (top bar)
@@ -170,149 +182,494 @@
     }
 
     // =========================================
-    // 8. BACKGROUND PARTICLES
+    // 8. (background particles removed — new design uses latent canvas in hero)
     // =========================================
-    if (!PRM) {
-        const canvas = $('#particles-canvas');
-        if (canvas) {
-            const ctx = canvas.getContext('2d');
-            let particles = [];
-            let raf;
-            function fit() {
-                const dpr = window.devicePixelRatio || 1;
-                canvas.width  = window.innerWidth  * dpr;
-                canvas.height = window.innerHeight * dpr;
-                canvas.style.width  = window.innerWidth + 'px';
-                canvas.style.height = window.innerHeight + 'px';
-                ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.scale(dpr, dpr);
-            }
-            function spawn() {
-                const n = window.innerWidth < 768 ? 28 : 60;
-                particles = [];
-                for (let i = 0; i < n; i++) {
-                    particles.push({
-                        x: Math.random() * window.innerWidth,
-                        y: Math.random() * window.innerHeight,
-                        vx: (Math.random() - 0.5) * 0.12,
-                        vy: (Math.random() - 0.5) * 0.12,
-                        r: 1 + Math.random() * 1.4,
-                        a: 0.16 + Math.random() * 0.3
-                    });
+
+    // =========================================
+    // =========================================
+    // 9. HERO — three-scene ML showcase
+    //    Scene 0: object detection (cutout + boxes)
+    //    Scene 1: k-means clustering (centroids converge, points colorize)
+    //    Scene 2: token generation (ML terms form the portrait)
+    // =========================================
+    (function heroShowcase() {
+        const canvas = document.getElementById('portrait-canvas');
+        const stage  = document.getElementById('portrait-stage');
+        const data   = window.PORTRAIT_DATA;
+        if (!canvas || !stage || !data) return;
+
+        const ctx = canvas.getContext('2d');
+        const skillLabels = Array.from(document.querySelectorAll('.skill-label'));
+        const sceneCapName = document.getElementById('ssc-name');
+        const sceneCapNum  = document.querySelector('#hero-scene-caption .ssc-num');
+        const sceneNames = ['object detection','clustering','generation'];
+
+        // cutout image
+        const cutImg = new Image();
+        let cutReady = false;
+        cutImg.onload = () => {
+            cutReady = true;
+            // calligram needs the loaded image; rebuild now that it's ready
+            if (layout.geo) buildCalligram(layout.geo.drawW, layout.geo.drawH, layout.geo.offX, layout.geo.offY);
+        };
+        cutImg.src = data.cutout;
+
+        // skill label anchor offsets (used in clustering scene)
+        const labelAnchors = [
+            { dx: 0.00, dy:-0.13 }, { dx: 0.27, dy:-0.03 }, { dx:-0.28, dy: 0.00 },
+            { dx:-0.26, dy: 0.10 }, { dx: 0.24, dy: 0.08 },
+        ];
+        const clusterCols = ['43,179,111','125,107,255','255,107,74','255,179,71','77,171,247'];
+        const skillNames  = ['computer vision','python','nlp','audio','mlops'];
+
+        // detection box accent colours by id
+        const boxCols = { hair:'43,179,111', glasses:'125,107,255', face:'255,107,74', shirt:'77,171,247' };
+
+        // ML terms for the generation scene
+        const mlTerms = ['gradient','tensor','epoch','softmax','attention','embedding','dropout','relu',
+            'conv2d','backprop','logits','entropy','adam','batchnorm','sigmoid','encoder','decoder','kernel',
+            'pooling','feature','vector','weights','bias','loss','accuracy','recall','f1','auc','sgd','lstm',
+            'transformer','token','vocab','corpus','ngram','cosine','manifold','latent','cluster','kmeans',
+            'pipeline','docker','deploy','inference','dataset','augment','overfit','regularize','tuning','prior'];
+
+        let pts = [];
+        let dpr = 1;
+        let raf = null;
+        let clock = 0;            // ms master clock
+        let last = null;
+        let sceneStart = 0;       // ms when current scene started
+        let scene = 0;            // 0,1,2
+        let paused = false;
+        let mouse = { x:-999, y:-999, active:false };
+
+        // scene durations (ms) including their intro/hold
+        const DUR = [5200, 7000, 8000];
+
+        function layout() {
+            dpr = window.devicePixelRatio || 1;
+            const rect = stage.getBoundingClientRect();
+            canvas.width = rect.width*dpr; canvas.height = rect.height*dpr;
+            canvas.style.width = rect.width+'px'; canvas.style.height = rect.height+'px';
+            ctx.setTransform(dpr,0,0,dpr,0,0);
+
+            const padX = rect.width*0.10, padY = rect.height*0.04;
+            const availW = rect.width-padX*2, availH = rect.height-padY*2;
+            let drawW = availW, drawH = availW/data.aspect;
+            if (drawH>availH){ drawH=availH; drawW=availH*data.aspect; }
+            const offX=(rect.width-drawW)/2, offY=(rect.height-drawH)/2;
+
+            pts = data.points.map((p,i) => {
+                const tx=offX+(p[0]/1000)*drawW, ty=offY+(p[1]/1000)*drawH;
+                return {
+                    tx, ty,
+                    sx: rect.width/2 + (Math.random()-0.5)*rect.width,
+                    sy: rect.height/2 + (Math.random()-0.5)*rect.height,
+                    r:p[2], g:p[3], b:p[4], cluster:p[5],
+                    size:1.5+Math.random()*1.2, ph:Math.random()*Math.PI*2,
+                    sp:0.0004+Math.random()*0.0009, idx:i
+                };
+            });
+            layout.rect=rect; layout.geo={drawW,drawH,offX,offY};
+
+            // map detection boxes + centroids to pixel space
+            layout.boxes = (data.boxes||[]).map(b => ({
+                id:b.id, label:b.label, conf:b.conf, side:b.side,
+                x: offX + b.box[0]/1000*drawW, y: offY + b.box[1]/1000*drawH,
+                w: (b.box[2]-b.box[0])/1000*drawW, h: (b.box[3]-b.box[1])/1000*drawH
+            }));
+            layout.cents = data.centroids.map((c,i)=>({
+                tx: offX + c[0]*drawW, ty: offY + c[1]*drawH, cluster:i
+            }));
+
+            // build calligram cells (text that forms the portrait shape)
+            buildCalligram(drawW, drawH, offX, offY);
+        }
+
+        // Sample the cutout into a grid of character cells, colored by pixel,
+        // assigning a continuous stream of ML-term characters in reading order.
+        function buildCalligram(drawW, drawH, offX, offY) {
+            layout.cells = [];
+            if (!cutReady) return;   // rebuilt on image load
+            const COL = 4, ROW = 7;             // small cells → denser, clearer portrait
+            const ow = Math.max(1, Math.round(drawW));
+            const oh = Math.max(1, Math.round(drawH));
+            const oc = document.createElement('canvas');
+            oc.width = ow; oc.height = oh;
+            const octx = oc.getContext('2d', { willReadFrequently: true });
+            octx.drawImage(cutImg, 0, 0, ow, oh);
+            let img;
+            try { img = octx.getImageData(0, 0, ow, oh).data; }
+            catch(e){ return; }
+
+            // continuous character stream from ML terms
+            const stream = mlTerms.join(' ') + ' ';
+            let si = 0;
+            const cells = [];
+            for (let gy = 0; gy < oh; gy += ROW) {
+                let insidePrev = false;
+                for (let gx = 0; gx < ow; gx += COL) {
+                    const px = Math.min(ow-1, gx + (COL>>1));
+                    const py = Math.min(oh-1, gy + (ROW>>1));
+                    const o = (py * ow + px) * 4;
+                    const a = img[o+3];
+                    if (a > 70) {
+                        // advance past a space when re-entering silhouette so words don't split oddly
+                        if (!insidePrev) { while (stream[si % stream.length] === ' ') si++; }
+                        let ch = stream[si % stream.length];
+                        si++;
+                        if (ch === ' ') { insidePrev = true; continue; } // gap = space
+                        let r = img[o], g = img[o+1], b = img[o+2];
+                        // contrast expansion around mid-grey so dark features
+                        // (hair, glasses, beard) separate from skin, then darken
+                        // slightly for legibility on the light background
+                        const k = 1.45;
+                        r = (r-128)*k+128; g = (g-128)*k+128; b = (b-128)*k+128;
+                        r = Math.max(0,Math.min(255,r))*0.74;
+                        g = Math.max(0,Math.min(255,g))*0.74;
+                        b = Math.max(0,Math.min(255,b))*0.74;
+                        r=Math.round(r); g=Math.round(g); b=Math.round(b);
+                        const mxv = Math.max(r,g,b);
+                        if (mxv < 38) { r+=30; g+=27; b+=25; }   // keep darkest hair visible
+                        cells.push({ x: offX+gx, y: offY+gy+ROW*0.5, ch, r, g, b });
+                        insidePrev = true;
+                    } else {
+                        insidePrev = false;
+                    }
                 }
             }
-            function tick() {
-                ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-                const isDark = container.classList.contains('dark-theme');
-                const colour = isDark ? '255,255,255' : '57,252,155';
-                particles.forEach(p => {
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    if (p.x < 0 || p.x > window.innerWidth)  p.vx *= -1;
-                    if (p.y < 0 || p.y > window.innerHeight) p.vy *= -1;
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-                    ctx.fillStyle = 'rgba(' + colour + ',' + (p.a * (isDark ? 0.4 : 0.5)) + ')';
-                    ctx.fill();
-                });
-                raf = requestAnimationFrame(tick);
-            }
-            fit(); spawn(); tick();
-            window.addEventListener('resize', () => {
-                cancelAnimationFrame(raf); fit(); spawn(); tick();
+            layout.cells = cells;
+            layout.cellFont = '6px "JetBrains Mono", monospace';
+        }
+
+        function clearStageLabels() { skillLabels.forEach(l=>l.classList.remove('shown')); }
+
+        function showClusterLabels(on) {
+            const rect=layout.rect, g=layout.geo;
+            if (!rect||!g) return;
+            data.centroids.forEach((c,i)=>{
+                const lbl = skillLabels.find(l=>+l.dataset.cluster===i); if(!lbl) return;
+                const bx=g.offX+c[0]*g.drawW, by=g.offY+c[1]*g.drawH;
+                const a=labelAnchors[i];
+                lbl.style.left=(bx+a.dx*rect.width)+'px';
+                lbl.style.top =(by+a.dy*rect.height)+'px';
+                lbl.classList.toggle('shown', on);
             });
         }
-    }
 
-    // =========================================
-    // 9. LATENT-SPACE HERO CANVAS
-    // =========================================
-    if (!PRM) {
-        const latent = $('#latent-canvas');
-        if (latent) {
-            const ctx = latent.getContext('2d');
-            let clusters = [];
-            let raf2;
-            const palette = [
-                { r: 57,  g: 252, b: 155 },  // mint
-                { r: 255, g: 107, b: 74  },  // coral
-                { r: 125, g: 107, b: 255 },  // violet
-                { r: 255, g: 179, b: 71  },  // amber
-            ];
+        const easeOut = t => 1-Math.pow(1-t,3);
+        const easeInOut = t => t<0.5 ? 2*t*t : 1-Math.pow(-2*t+2,2)/2;
 
-            function fitLat() {
-                const dpr = window.devicePixelRatio || 1;
-                const rect = latent.getBoundingClientRect();
-                latent.width  = rect.width  * dpr;
-                latent.height = rect.height * dpr;
-                ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.scale(dpr, dpr);
-                return rect;
+        // ---------- SCENE 0: OBJECT DETECTION ----------
+        function drawDetection(st) {
+            const rect=layout.rect, g=layout.geo;
+            ctx.clearRect(0,0,rect.width,rect.height);
+            const fade = Math.min(1, st/500);
+
+            // draw cutout
+            if (cutReady) {
+                ctx.globalAlpha = fade;
+                ctx.drawImage(cutImg, g.offX, g.offY, g.drawW, g.drawH);
+                ctx.globalAlpha = 1;
             }
-            function spawnClusters() {
-                const rect = fitLat();
-                clusters = [];
-                const positions = [
-                    { x: rect.width * 0.18, y: rect.height * 0.28 },
-                    { x: rect.width * 0.82, y: rect.height * 0.32 },
-                    { x: rect.width * 0.22, y: rect.height * 0.78 },
-                    { x: rect.width * 0.78, y: rect.height * 0.72 },
-                ];
-                positions.forEach((pos, idx) => {
-                    const pts = [];
-                    const count = 22;
-                    for (let i = 0; i < count; i++) {
-                        const angle = Math.random() * Math.PI * 2;
-                        const dist = Math.pow(Math.random(), 0.7) * 80;
-                        pts.push({
-                            cx: pos.x,
-                            cy: pos.y,
-                            ox: Math.cos(angle) * dist,
-                            oy: Math.sin(angle) * dist,
-                            r: 1 + Math.random() * 2.2,
-                            phase: Math.random() * Math.PI * 2,
-                            speed: 0.0006 + Math.random() * 0.0012
-                        });
-                    }
-                    clusters.push({ pts, col: palette[idx] });
-                });
+
+            // boxes draw in sequentially
+            const boxes = layout.boxes;
+            const perBox = 520; // ms per box reveal
+            const placed = []; // label rects already placed this frame
+            boxes.forEach((b,i) => {
+                const bt = st - 600 - i*perBox;
+                if (bt < 0) return;
+                const p = Math.min(1, bt/420);
+                const col = boxCols[b.id] || '57,252,155';
+                drawBoxAnim(b.x,b.y,b.w,b.h,easeOut(p),col);
+                if (p >= 1) drawBoxLabel(b, col, placed);
+            });
+
+            // scanning line during first 1.2s
+            if (st < 1300) {
+                const sy = g.offY + (st/1300)*g.drawH;
+                ctx.strokeStyle='rgba(57,252,155,0.5)';
+                ctx.lineWidth=1.5; ctx.setLineDash([4,4]);
+                ctx.beginPath(); ctx.moveTo(g.offX,sy); ctx.lineTo(g.offX+g.drawW,sy); ctx.stroke();
+                ctx.setLineDash([]);
             }
-            function loop(t) {
-                const w = latent.width  / (window.devicePixelRatio || 1);
-                const h = latent.height / (window.devicePixelRatio || 1);
-                ctx.clearRect(0, 0, w, h);
-                clusters.forEach(cl => {
-                    // halo
-                    const grd = ctx.createRadialGradient(cl.pts[0].cx, cl.pts[0].cy, 0,
-                                                         cl.pts[0].cx, cl.pts[0].cy, 130);
-                    grd.addColorStop(0, 'rgba(' + cl.col.r + ',' + cl.col.g + ',' + cl.col.b + ',0.10)');
-                    grd.addColorStop(1, 'rgba(' + cl.col.r + ',' + cl.col.g + ',' + cl.col.b + ',0)');
-                    ctx.fillStyle = grd;
-                    ctx.beginPath();
-                    ctx.arc(cl.pts[0].cx, cl.pts[0].cy, 130, 0, Math.PI * 2);
-                    ctx.fill();
-                    // points
-                    cl.pts.forEach(p => {
-                        const drift = Math.sin(t * p.speed + p.phase) * 8;
-                        const x = p.cx + p.ox + Math.cos(p.phase) * drift;
-                        const y = p.cy + p.oy + Math.sin(p.phase) * drift;
-                        ctx.beginPath();
-                        ctx.arc(x, y, p.r, 0, Math.PI * 2);
-                        ctx.fillStyle = 'rgba(' + cl.col.r + ',' + cl.col.g + ',' + cl.col.b + ',0.55)';
-                        ctx.fill();
-                    });
-                });
-                raf2 = requestAnimationFrame(loop);
+        }
+        function drawBoxAnim(x,y,w,h,p,col){
+            // draw 4 corner brackets growing, then full rect
+            const c=Math.min(w,h)*0.22;
+            ctx.strokeStyle='rgba('+col+',0.95)';
+            ctx.lineWidth=2.5;
+            // corners
+            const cl=c*p;
+            ctx.beginPath();
+            // TL
+            ctx.moveTo(x,y+cl); ctx.lineTo(x,y); ctx.lineTo(x+cl,y);
+            // TR
+            ctx.moveTo(x+w-cl,y); ctx.lineTo(x+w,y); ctx.lineTo(x+w,y+cl);
+            // BR
+            ctx.moveTo(x+w,y+h-cl); ctx.lineTo(x+w,y+h); ctx.lineTo(x+w-cl,y+h);
+            // BL
+            ctx.moveTo(x+cl,y+h); ctx.lineTo(x,y+h); ctx.lineTo(x,y+h-cl);
+            ctx.stroke();
+            // faint full rect fading in
+            if (p>0.6){
+                ctx.strokeStyle='rgba('+col+','+((p-0.6)/0.4*0.35)+')';
+                ctx.lineWidth=1; ctx.strokeRect(x,y,w,h);
             }
-            spawnClusters();
-            loop(0);
-            window.addEventListener('resize', () => {
-                cancelAnimationFrame(raf2);
-                spawnClusters();
-                loop(0);
+        }
+        function drawBoxLabel(b,col,placed){
+            ctx.font='600 11px '+'"JetBrains Mono", monospace';
+            const text=b.label+'  '+b.conf.toFixed(2);
+            const tw=ctx.measureText(text).width+14;
+            const th=18;
+            const g=layout.geo;
+            // anchor to the box's outer side so tags sit toward the margins, not the face
+            let lx = b.side==='right' ? b.x+b.w-tw : b.x;
+            lx = Math.max(g.offX-6, Math.min(lx, g.offX+g.drawW-tw+6));
+            // sit just above the box top edge (attached), flip below if off the top
+            let ly = b.y-th-2;
+            const flipUp = (b.y - g.offY) < g.drawH*0.5;   // top-half boxes push up, bottom-half push down
+            if (ly < g.offY-th) ly = b.y+2;
+
+            if (placed) {
+                let guard=0;
+                const overlap = r => (lx < r.x+r.w+5 && lx+tw > r.x-5 && ly < r.y+r.h+4 && ly+th > r.y-4);
+                while (placed.some(overlap) && guard<14) {
+                    ly += flipUp ? -(th+4) : (th+4);   // move away from the face center
+                    guard++;
+                }
+                placed.push({x:lx,y:ly,w:tw,h:th});
+            }
+            // connector tick from tag to the box corner
+            ctx.strokeStyle='rgba('+col+',0.6)'; ctx.lineWidth=1;
+            const tickX = b.side==='right' ? lx+tw-3 : lx+3;
+            ctx.beginPath(); ctx.moveTo(tickX, ly+th); ctx.lineTo(tickX, b.y); ctx.stroke();
+
+            ctx.fillStyle='rgba('+col+',0.96)';
+            roundRect(lx,ly,tw,th,3); ctx.fill();
+            ctx.fillStyle='#fff';
+            ctx.textBaseline='middle';
+            ctx.fillText(text, lx+7, ly+th/2+0.5);
+        }
+        function roundRect(x,y,w,h,r){
+            ctx.beginPath();
+            ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+            ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+        }
+
+        // ---------- SCENE 1: K-MEANS CLUSTERING ----------
+        // initial centroids = random data points (k-means++ style), so they
+        // start INSIDE the portrait and converge inward to the cluster centers
+        function ensureKmeansStart(){
+            if (layout.kmStart) return;
+            layout.kmStart = layout.cents.map(()=>{
+                const p = pts[(Math.random()*pts.length)|0];
+                return { x: p.tx, y: p.ty };
             });
         }
-    }
+        // label position for a cluster (pill sits offset; connector links it to centroid)
+        function labelPos(i){
+            const rect=layout.rect, g=layout.geo;
+            const c=data.centroids[i];
+            const cx=g.offX+c[0]*g.drawW, cy=g.offY+c[1]*g.drawH;
+            const a=labelAnchors[i];
+            return { x: cx+a.dx*rect.width, y: cy+a.dy*rect.height, cx, cy };
+        }
+        function drawKmeans(st){
+            const rect=layout.rect;
+            ctx.clearRect(0,0,rect.width,rect.height);
+            ensureKmeansStart();
+
+            const INTRO=600, CONVERGE=3800;       // timings
+            // overall convergence progress
+            const conv = Math.max(0, Math.min(1, (st-INTRO)/CONVERGE));
+            const ce = easeInOut(conv);
+
+            // points appear (grey) during intro, sitting at target positions
+            const appear = Math.min(1, st/INTRO);
+
+            // current centroid positions: lerp random -> true (with a little staged wobble)
+            const cents = layout.cents.map((c,i)=>{
+                const s=layout.kmStart[i];
+                // stagger per centroid so they don't all arrive at once
+                const cp = Math.max(0,Math.min(1,(ce*1.25 - i*0.05)));
+                const e = easeInOut(cp);
+                return { x: s.x+(c.tx-s.x)*e, y: s.y+(c.ty-s.y)*e, cluster:c.cluster, prog:cp };
+            });
+
+            // draw points
+            for (let i=0;i<pts.length;i++){
+                const p=pts[i];
+                let x=p.tx, y=p.ty;
+                // breathing once converged
+                if (conv>=1){ x+=Math.sin(clock*p.sp+p.ph)*1.4; y+=Math.cos(clock*p.sp+p.ph)*1.4;
+                    if(mouse.active){const ddx=x-mouse.x,ddy=y-mouse.y,d2=ddx*ddx+ddy*ddy;
+                        if(d2<9000){const f=(1-d2/9000)*16,d=Math.sqrt(d2)||1;x+=ddx/d*f;y+=ddy/d*f;}}}
+                // colorize based on this point's cluster centroid progress
+                const cprog = cents[p.cluster].prog;
+                const col = mixGrey(p.r,p.g,p.b,cprog);
+                const a = 0.25+0.6*appear;
+                ctx.fillStyle='rgba('+col[0]+','+col[1]+','+col[2]+','+a+')';
+                ctx.fillRect(x-p.size/2,y-p.size/2,p.size,p.size);
+            }
+
+            // assignment lines (faint) from a few sample points to their centroid, mid-convergence
+            if (conv>0.05 && conv<0.96){
+                ctx.lineWidth=0.6;
+                for (let i=0;i<pts.length;i+=40){
+                    const p=pts[i]; const c=cents[p.cluster];
+                    ctx.strokeStyle='rgba('+clusterCols[p.cluster]+',0.10)';
+                    ctx.beginPath(); ctx.moveTo(p.tx,p.ty); ctx.lineTo(c.x,c.y); ctx.stroke();
+                }
+            }
+
+            // draw centroids as ringed markers
+            cents.forEach((c)=>{
+                ctx.beginPath(); ctx.arc(c.x,c.y,7,0,Math.PI*2);
+                ctx.fillStyle='rgba('+clusterCols[c.cluster]+',0.9)'; ctx.fill();
+                ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.stroke();
+                // crosshair
+                ctx.strokeStyle='rgba('+clusterCols[c.cluster]+',0.5)'; ctx.lineWidth=1;
+                ctx.beginPath(); ctx.moveTo(c.x-12,c.y); ctx.lineTo(c.x+12,c.y);
+                ctx.moveTo(c.x,c.y-12); ctx.lineTo(c.x,c.y+12); ctx.stroke();
+            });
+
+            // connector lines from each settled centroid to its label (fade in at the end)
+            if (conv > 0.8){
+                const la = Math.min(1,(conv-0.8)/0.2)*0.55;
+                ctx.lineWidth=1; ctx.setLineDash([2,3]);
+                cents.forEach((c)=>{
+                    const lp = labelPos(c.cluster);
+                    const dx=lp.x-c.x, dy=lp.y-c.y, len=Math.hypot(dx,dy)||1;
+                    // stop short of the pill
+                    const ex=lp.x-(dx/len)*14, ey=lp.y-(dy/len)*8;
+                    ctx.strokeStyle='rgba('+clusterCols[c.cluster]+','+la+')';
+                    ctx.beginPath(); ctx.moveTo(c.x,c.y); ctx.lineTo(ex,ey); ctx.stroke();
+                });
+                ctx.setLineDash([]);
+            }
+
+            // iteration counter HUD
+            const iter = Math.min(8, Math.floor(conv*8)+ (conv>0?1:0));
+            ctx.font='600 11px "JetBrains Mono", monospace';
+            ctx.fillStyle='rgba(120,125,135,0.8)'; ctx.textBaseline='top';
+            ctx.fillText('kmeans · k=5 · iter '+iter+'/8'+(conv>=1?' · converged':''), layout.geo.offX, layout.geo.offY-2);
+
+            // labels appear after convergence
+            showClusterLabels(conv>=1);
+        }
+        function mixGrey(r,g,b,t){
+            const G=185;
+            return [Math.round(G+(r-G)*t),Math.round(G+(g-G)*t),Math.round(G+(b-G)*t)];
+        }
+
+        // ---------- SCENE 2: TOKEN GENERATION (calligram) ----------
+        function drawGeneration(st){
+            const rect=layout.rect;
+            ctx.clearRect(0,0,rect.width,rect.height);
+            const cells = layout.cells || [];
+            if (!cells.length) return;
+
+            ctx.font = layout.cellFont;
+            ctx.textBaseline = 'alphabetic';
+            ctx.textAlign = 'left';
+
+            // characters stream in like generated tokens, in reading order.
+            // scale per-char delay to the cell count so the full portrait
+            // reveals in ~5.4s regardless of density, then holds.
+            const lead = 300;
+            const revealMs = 5400;
+            const perChar = Math.max(0.8, revealMs / cells.length);
+            const revealed = Math.max(0, Math.min(cells.length, Math.floor((st-lead)/perChar)));
+
+            for (let i=0; i<revealed; i++){
+                const c = cells[i];
+                // fade-in over the last chars for a soft generation edge
+                const age = revealed - i;
+                const a = age > 60 ? 1 : 0.3 + 0.7*(age/60);
+                ctx.fillStyle = 'rgba('+c.r+','+c.g+','+c.b+','+a+')';
+                ctx.fillText(c.ch, c.x, c.y);
+            }
+
+            // blinking cursor at the current generation head
+            if (revealed > 0 && revealed < cells.length){
+                const head = cells[revealed-1];
+                if (Math.floor(st/360)%2===0){
+                    ctx.fillStyle='rgba(57,252,155,0.9)';
+                    ctx.fillRect(head.x+3, head.y-5, 3, 6);
+                }
+            }
+
+            // HUD counter
+            ctx.font='600 11px "JetBrains Mono", monospace';
+            ctx.fillStyle='rgba(120,125,135,0.8)'; ctx.textBaseline='top';
+            const done = revealed >= cells.length;
+            ctx.fillText((done?'generated · ':'generating · ')+revealed+' tokens',
+                layout.geo.offX, layout.geo.offY-2);
+        }
+
+        // ---------- MASTER LOOP ----------
+        function frame(ts){
+            if (last==null) last=ts;
+            const dt = ts-last; last=ts;
+            if (!paused) clock += dt;
+
+            const st = clock - sceneStart;
+            if (scene===0) drawDetection(st);
+            else if (scene===1) drawKmeans(st);
+            else drawGeneration(st);
+
+            // auto-advance
+            if (!paused && st > DUR[scene]) {
+                goScene((scene+1)%3, true);
+            }
+            raf=requestAnimationFrame(frame);
+        }
+
+        function goScene(n, auto){
+            scene=n; sceneStart=clock;
+            if (scene!==1) clearStageLabels();
+            if (scene===1) { layout.kmStart=null; } // reseed centroids each time
+            if (sceneCapName) sceneCapName.textContent = sceneNames[n];
+            if (sceneCapNum)  sceneCapNum.textContent = '0'+(n+1);
+        }
+
+        function init(){
+            layout();
+            clearStageLabels();
+            if (PRM){
+                // reduced motion: just show colored portrait, no cycling
+                const rect=layout.rect; ctx.clearRect(0,0,rect.width,rect.height);
+                pts.forEach(p=>{ctx.fillStyle='rgb('+p.r+','+p.g+','+p.b+')';
+                    ctx.fillRect(p.tx-p.size/2,p.ty-p.size/2,p.size,p.size);});
+                showClusterLabels(true);
+                return;
+            }
+            if (raf) cancelAnimationFrame(raf);
+            last=null;
+            raf=requestAnimationFrame(frame);
+        }
+
+        // mouse
+        stage.addEventListener('mousemove',e=>{
+            const r=stage.getBoundingClientRect();
+            mouse.x=e.clientX-r.left; mouse.y=e.clientY-r.top; mouse.active=true;
+        });
+        stage.addEventListener('mouseleave',()=>{mouse.active=false;mouse.x=-999;mouse.y=-999;});
+
+        let rz;
+        window.addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>{
+            const keepScene=scene; layout(); sceneStart=clock; scene=keepScene;
+        },200);});
+
+        // pause cycling when hero off-screen (perf)
+        const io=new IntersectionObserver(es=>{paused=!es[0].isIntersecting;},{threshold:0.05});
+        io.observe(stage);
+
+        setTimeout(init,80);
+    })();
+
+
 
     // =========================================
     // 10. ABOUT — animated mini-wave SVG
