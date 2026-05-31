@@ -5,7 +5,30 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Anubhav Tiwari · Senior ML Engineer</title>
-    <meta name="description" content="Anubhav Tiwari — Senior Machine Learning Engineer. Computer vision, audio signal processing, NLP, MLOps.">
+    <meta name="description" content="Anubhav Tiwari — Senior Machine Learning Engineer with 5+ years shipping production ML across computer vision, audio signal processing, NLP and MLOps.">
+    <meta name="author" content="Anubhav Tiwari">
+    <meta name="theme-color" content="#f5f4f0">
+    <link rel="canonical" href="https://abtexp.github.io/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://abtexp.github.io/">
+    <meta property="og:title" content="Anubhav Tiwari · Senior ML Engineer">
+    <meta property="og:description" content="5+ years shipping production ML — computer vision, audio, NLP & MLOps. Explore live demos of real systems.">
+    <meta property="og:site_name" content="Anubhav Tiwari">
+    <meta property="og:image" content="https://abtexp.github.io/resources/images/og-cover.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@overfitowl">
+    <meta name="twitter:title" content="Anubhav Tiwari · Senior ML Engineer">
+    <meta name="twitter:description" content="5+ years shipping production ML — computer vision, audio, NLP & MLOps. Explore live demos of real systems.">
+    <meta name="twitter:image" content="https://abtexp.github.io/resources/images/og-cover.png">
+
+    <!-- Favicon (inline SVG neural node mark) -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230f1411'/%3E%3Cg stroke='%2339fc9b' stroke-width='3' fill='none' opacity='0.9'%3E%3Cline x1='28' y1='30' x2='60' y2='22'/%3E%3Cline x1='28' y1='30' x2='60' y2='50'/%3E%3Cline x1='28' y1='70' x2='60' y2='50'/%3E%3Cline x1='28' y1='70' x2='60' y2='78'/%3E%3Cline x1='60' y1='22' x2='80' y2='50'/%3E%3Cline x1='60' y1='50' x2='80' y2='50'/%3E%3Cline x1='60' y1='78' x2='80' y2='50'/%3E%3C/g%3E%3Cg fill='%2339fc9b'%3E%3Ccircle cx='28' cy='30' r='6'/%3E%3Ccircle cx='28' cy='70' r='6'/%3E%3Ccircle cx='60' cy='22' r='6'/%3E%3Ccircle cx='60' cy='50' r='6'/%3E%3Ccircle cx='60' cy='78' r='6'/%3E%3Ccircle cx='80' cy='50' r='7'/%3E%3C/g%3E%3C/svg%3E">
 
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/25c4625338.js" crossorigin="anonymous"></script>
@@ -20,10 +43,45 @@
     <noscript>
         <style>
             .reveal-on-scroll { opacity: 1 !important; transform: none !important; }
+            #container { opacity: 1 !important; transform: none !important; }
+            .loader { display: none !important; }
         </style>
     </noscript>
 </head>
 <body>
+    <!-- ============== LOADER — training loss curve ============== -->
+    <div id="loader" class="loader" role="status" aria-label="Loading">
+        <div class="loader-inner">
+            <div class="loader-head mono">
+                <span class="lh-title"><span class="lh-dot"></span>training&nbsp;<b>portfolio.model</b></span>
+                <span class="lh-epoch" id="lh-epoch">epoch 000/100</span>
+            </div>
+
+            <div class="loader-chart">
+                <canvas id="loss-canvas"></canvas>
+                <span class="lc-ylabel mono">loss</span>
+                <span class="lc-xlabel mono">epochs</span>
+            </div>
+
+            <div class="loader-foot mono">
+                <span class="lf-loss">loss <b id="lh-loss">2.4031</b></span>
+                <span class="lf-skip" id="lh-skip">click to skip →</span>
+            </div>
+
+            <!-- completion overlay -->
+            <div class="loader-done" id="loader-done">
+                <div class="ld-check"><i class="fa-solid fa-check"></i></div>
+                <div class="ld-title">learning complete</div>
+                <div class="ld-metrics mono">
+                    <span><i>accuracy</i><b data-to="0.982">0.000</b></span>
+                    <span><i>PR-AUC</i><b data-to="0.940">0.000</b></span>
+                    <span><i>F1</i><b data-to="0.913">0.000</b></span>
+                    <span><i>val_loss</i><b data-to="0.0234">0.0000</b></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Data ticker — ambient ML log strip at top -->
     <div id="data-ticker" aria-hidden="true">
         <div class="ticker-track" id="ticker-track"></div>
@@ -104,19 +162,25 @@
             <div class="blob blob-hero"></div>
 
             <div class="hero-portrait-wrap reveal-on-scroll">
-                <div class="hero-tag-top mono">
+                <p class="visually-hidden">
+                    Anubhav Tiwari — Senior Machine Learning Engineer based in Bangalore, India,
+                    with five years shipping production machine learning across computer vision,
+                    audio signal processing, natural language processing, and MLOps. Open to opportunities.
+                </p>
+
+                <div class="hero-tag-top mono" aria-hidden="true">
                     <span><i class="fa-solid fa-circle status-dot"></i>&nbsp;bangalore · india</span>
                     <span class="dim">·</span>
                     <span class="dim">open to opportunities</span>
                 </div>
 
-                <div class="hero-scene-caption" id="hero-scene-caption">
+                <div class="hero-scene-caption" id="hero-scene-caption" aria-hidden="true">
                     <span class="ssc-num mono">01</span>
                     <span class="ssc-name mono" id="ssc-name">object detection</span>
                 </div>
 
-                <div class="portrait-stage" id="portrait-stage">
-                    <canvas id="portrait-canvas"></canvas>
+                <div class="portrait-stage" id="portrait-stage" aria-hidden="true">
+                    <canvas id="portrait-canvas" role="img" aria-label="Animated portrait of Anubhav Tiwari reconstructed using machine learning techniques"></canvas>
                     <!-- skill labels positioned by JS at cluster centroids -->
                     <div class="skill-label sl-cv"    data-cluster="0"><span class="sl-dot"></span>computer vision</div>
                     <div class="skill-label sl-py"    data-cluster="1"><span class="sl-dot"></span>python</div>
@@ -905,5 +969,128 @@
 
     <script src="./src/js/portrait-data.js"></script>
     <script src="./src/js/app.js"></script>
+
+    <!-- Loader: training-loss curve animation -->
+    <script>
+    (function loader(){
+        var el = document.getElementById('loader');
+        if (!el) return;
+        var canvas = document.getElementById('loss-canvas');
+        var epochEl = document.getElementById('lh-epoch');
+        var lossEl  = document.getElementById('lh-loss');
+        var doneEl  = document.getElementById('loader-done');
+        var skipEl  = document.getElementById('lh-skip');
+        var ctx = canvas.getContext('2d');
+        var PRM = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        var START_LOSS = 2.40, PLATEAU = 0.0234, EPOCHS = 100;
+        // precompute a noisy-exponential decay loss curve
+        var curve = [];
+        for (var i=0;i<=EPOCHS;i++){
+            var t = i/EPOCHS;
+            var base = PLATEAU + (START_LOSS-PLATEAU)*Math.exp(-4.2*t);
+            var noise = (Math.sin(i*1.7)*0.5+Math.sin(i*0.6)*0.5) * 0.14*(1-t)*(START_LOSS-PLATEAU)*0.5;
+            curve.push(Math.max(PLATEAU*0.9, base + noise));
+        }
+
+        var dpr = window.devicePixelRatio||1, W=0, H=0;
+        function fit(){
+            var r = canvas.getBoundingClientRect();
+            W=r.width; H=r.height;
+            canvas.width=W*dpr; canvas.height=H*dpr;
+            ctx.setTransform(dpr,0,0,dpr,0,0);
+        }
+
+        var padL=14, padR=12, padT=14, padB=14;
+        function plotX(i){ return padL + (i/EPOCHS)*(W-padL-padR); }
+        function plotY(v){ return padT + (1 - (v-PLATEAU)/(START_LOSS-PLATEAU))*(H-padT-padB); }
+
+        function drawGrid(){
+            ctx.clearRect(0,0,W,H);
+            ctx.strokeStyle='rgba(255,255,255,0.05)'; ctx.lineWidth=1;
+            for (var g=0;g<=4;g++){
+                var y=padT+g/4*(H-padT-padB);
+                ctx.beginPath(); ctx.moveTo(padL,y); ctx.lineTo(W-padR,y); ctx.stroke();
+            }
+            for (var gx=0;gx<=4;gx++){
+                var x=padL+gx/4*(W-padL-padR);
+                ctx.beginPath(); ctx.moveTo(x,padT); ctx.lineTo(x,H-padB); ctx.stroke();
+            }
+        }
+        function drawCurve(upto){
+            drawGrid();
+            // area fill
+            ctx.beginPath();
+            ctx.moveTo(plotX(0), H-padB);
+            for (var i=0;i<=upto;i++) ctx.lineTo(plotX(i), plotY(curve[i]));
+            ctx.lineTo(plotX(upto), H-padB); ctx.closePath();
+            var grd=ctx.createLinearGradient(0,padT,0,H-padB);
+            grd.addColorStop(0,'rgba(57,252,155,0.28)'); grd.addColorStop(1,'rgba(57,252,155,0)');
+            ctx.fillStyle=grd; ctx.fill();
+            // line
+            ctx.beginPath();
+            for (var j=0;j<=upto;j++){ var px=plotX(j),py=plotY(curve[j]); j?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+            ctx.strokeStyle='#39fc9b'; ctx.lineWidth=2; ctx.lineJoin='round'; ctx.stroke();
+            // head dot
+            var hx=plotX(upto), hy=plotY(curve[upto]);
+            ctx.beginPath(); ctx.arc(hx,hy,3.5,0,Math.PI*2); ctx.fillStyle='#39fc9b'; ctx.fill();
+            ctx.beginPath(); ctx.arc(hx,hy,7,0,Math.PI*2); ctx.strokeStyle='rgba(57,252,155,0.4)'; ctx.lineWidth=1.5; ctx.stroke();
+        }
+
+        var pageReady=false, started=Date.now(), MIN_MS=2200, finished=false;
+        window.addEventListener('load', function(){ pageReady=true; });
+        // safety: don't wait forever
+        setTimeout(function(){ pageReady=true; }, 6000);
+
+        function reveal(){
+            if (finished) return; finished=true;
+            // count up metrics
+            var nums = doneEl.querySelectorAll('b[data-to]');
+            nums.forEach(function(b){
+                var to=parseFloat(b.getAttribute('data-to'));
+                var dec=(b.getAttribute('data-to').split('.')[1]||'').length;
+                var t0=null, dur=700;
+                function step(ts){ if(!t0)t0=ts; var p=Math.min(1,(ts-t0)/dur);
+                    b.textContent=(to*(1-Math.pow(1-p,3))).toFixed(dec);
+                    if(p<1) requestAnimationFrame(step); }
+                requestAnimationFrame(step);
+            });
+            doneEl.classList.add('show');
+            setTimeout(function(){
+                el.classList.add('done-fade');
+                document.body.classList.add('page-reveal');
+                setTimeout(function(){ el.style.display='none'; }, 650);
+            }, 1050);
+        }
+
+        if (PRM){ // reduced motion: skip straight to reveal
+            if(epochEl)epochEl.textContent='epoch 100/100';
+            reveal(); return;
+        }
+
+        fit(); window.addEventListener('resize', fit);
+        var animStart=null, ANIM_MS=2000;
+        function tick(ts){
+            if(!animStart)animStart=ts;
+            var p=Math.min(1,(ts-animStart)/ANIM_MS);
+            var idx=Math.floor(p*EPOCHS);
+            drawCurve(idx);
+            if(epochEl)epochEl.textContent='epoch '+String(idx).padStart(3,'0')+'/100';
+            if(lossEl)lossEl.textContent=curve[idx].toFixed(4);
+            if(p<1){ requestAnimationFrame(tick); }
+            else {
+                // curve done — wait until page ready + min time, then reveal
+                (function waitReady(){
+                    if(pageReady && Date.now()-started>=MIN_MS){ reveal(); }
+                    else setTimeout(waitReady, 120);
+                })();
+            }
+        }
+        requestAnimationFrame(tick);
+
+        // click to skip
+        if(skipEl) el.addEventListener('click', function(){ pageReady=true; reveal(); });
+    })();
+    </script>
 </body>
 </html>
