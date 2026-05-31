@@ -1107,12 +1107,12 @@ a { color: inherit; }
     perspective: 1400px;
     cursor: pointer;
     min-height: 240px;
-    height: 240px;
 }
 .etl-inner {
     position: relative;
     width: 100%;
     height: 100%;
+    display: grid;
     transition: transform 0.72s cubic-bezier(0.65, 0, 0.35, 1);
     transform-style: preserve-3d;
 }
@@ -1122,8 +1122,7 @@ a { color: inherit; }
 }
 .etl-front,
 .etl-back {
-    position: absolute;
-    inset: 0;
+    grid-area: 1 / 1;            /* stack both faces in one cell -> card fits taller face */
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     border-radius: 22px;
@@ -1187,7 +1186,7 @@ a { color: inherit; }
 }
 .dark-theme .etl-badge-origin { color: var(--amber); }
 
-.etl-front-body { flex: 1; min-width: 0; }
+.etl-front-body { min-width: 0; }
 .etl-tenure {
     font-size: 0.72em;
     color: var(--text-mute);
@@ -1220,7 +1219,6 @@ a { color: inherit; }
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
-    margin-top: auto;
 }
 .etl-tag {
     font-size: 0.68em;
@@ -1239,7 +1237,8 @@ a { color: inherit; }
     color: var(--text-dim);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    margin-top: 4px;
+    margin-top: auto;
+    padding-top: 8px;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -2455,10 +2454,10 @@ body.modal-open { overflow: hidden; }
         padding: 32px 28px 28px;
     }
     .pc-headline { font-size: 1.4em; }
-    .etl-card { height: auto; min-height: 0; }
-    .etl-inner { transition: none; transform: none !important; height: auto; position: relative; }
-    .etl-front { position: relative; inset: auto; -webkit-backface-visibility: visible; backface-visibility: visible; }
-    .etl-back  { position: relative; inset: auto; transform: none; -webkit-backface-visibility: visible; backface-visibility: visible; display: none; }
+    .etl-card { min-height: 0; }
+    .etl-inner { transition: none; transform: none !important; display: block; }
+    .etl-front { -webkit-backface-visibility: visible; backface-visibility: visible; }
+    .etl-back  { transform: none; -webkit-backface-visibility: visible; backface-visibility: visible; display: none; }
     .etl-card.flipped .etl-front { display: none; }
     .etl-card.flipped .etl-back  { display: flex; }
     .etl-flip-hint { display: block; font-size: 0.65em; }
